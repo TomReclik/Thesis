@@ -1,0 +1,68 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[bookmarks]{hyperref}
+\usepackage{enumitem}
+
+\restylefloat{table}
+\graphicspath{{./Images/}}
+\newcommand\tab[1][0.5cm]{\hspace*{#1}}
+\renewcommand{\baselinestretch}{1.25} 
+
+\title{Application of Deep Convolutional Neural Network for the Classification of Damage Sites in Dual-Phase Steels}
+\author{Tom Markus Reclik}
+
+\def\boxit#1{%
+  \smash{\fboxsep=0pt\llap{\rlap{\fbox{\strut\makebox[#1]{}}}~}}\ignorespaces
+}
+
+\begin{document}
+%\maketitle
+%\begin{abstract}
+%To this day, various methods are used in order to reveal the micromechanical mechanisms of damage in materials. Post-mortem analysis at different stages of stress reveals only snapshots of the material, while in-situ methods are spatially limited to observing the evolution of only a few damage events. A limiting factor in all those methods is the amount of work involved in controlling the microscope and the image analysis. \\
+%\tab[0.4cm] In this work, we implement different structures and architectures of neural networks for the localization and classification of damages. As a sample material dual-phase steels are chosen, due to the different responses of the ductile ferrite matrix and the brittle martensite islands to stress, resulting in the formation of damage sites belonging to distinct classes at early stages of deformation. \\
+%\tab[0.4cm] The developed algorithms can on the one hand be used in order to automate the statistical evaluation of post-mortem micrographs, while on the other hand enabling in-situ experiments to generate statistically relevant data. Due to the computational nature of this method, a high throughput of data is possible, enabling a more complete understanding of failure mechanisms in many materials.
+%
+%
+%
+%
+%
+%%In material science, failure mechanisms in metals are classically studied based on the evolution of damages in micrographs observed at different stages of stress. The collection of statistically meaningful data is therefore an important step in the understanding of these processes. A limiting factor is the amount of work involved in the control of the microscope and image analysis. 
+%%The aim of this master thesis is to automate the process of gathering data by employing machine learning algorithms. As a sample application, dual-phase steels are studied. Due to their light weight and high strength, they play an important role in the automotive industry. Consisting of a soft ferrite matrix with islands of hard martensite, different kinds of damages can emerge under stress, e.g. martensite islands can crack, damages between two ferrite grains can emerge, etc. 
+%%In a first step, convolutional neural networks, and derivatives thereof, are used in order to find and classify damages. Due to the limited amount of relevant data, two challenges arise. On the one hand, data has to be collected experimentally and afterwards labeled by hand. On the other hand, a network architecture has to be found capable of achieving proper accuracy on small data sets. 
+%%While the architecture to be used in the end has to be designed for the experimental data, a few preliminary studies will be performed on standard sets of images, namely the CIFAR-10 data set and the ImageNet data set.
+%
+%
+%%Collecting statistically meaningfull data is limited by the large amount of work involved in the image analysis and control of the microscope. 
+%%The aim of this master thesis is to automate this process and overcome those limitations by employing machine learning algorithms. Convolutional neural networks are used in order to classify different categories of damages. Specifically dual-phase steels will be studied in this thesis.
+%%Dual-phase steel plays a prominent role in advanced high strength steel. Due to its light weight and high strength they are often used in the automotive industry.
+%%Due to limited amount of relevant data, two challanges arise. On the one hand data has to be collected and labeled on the experimental side. On the other hand network architectures have to be found capable of achieving proper accuracy on small data sets. 
+%%While the architecture to be used for the classification problem has to be designed on the experimental data, a few preliminary studies will be peformed on standard set of images, namely the CIFAR-10 data set and the ImageNet data set.
+%
+%%Dual phase steel plays a prominent role in advanced high strength steel. Its light weight and high strength make it interesting for fields like the automotive industry. 
+%%On the mesoscopic scale different kinds of damages can emerge under uniaxial and biaxial tension. Gathering statisticly meaningful data is an important means for understanding (and optimizing?) its mechanical properties. Up to this point the process of collecting data is performed, either manually or additionally aided by computational means, by inspecting scanning electron microscope pictures. This poses a bottleneck for the collection of large volumes of data for later analysis. In this thesis we ask whether it is possible to automatize this process of locating and categorizing damages by means of artificial convolutional neural networks.
+%%Approaching this task multiple problems emerge. Firstly there is only a low volume of data for the training of the constructed convolutional neural network. In a first effort of tackling this problem, we investigate the influence of the size of the training data on a sample data set, namely the CIFAR-10 \cite{CIFAR-10} data set. This gives us a first idea of what to expect in the later process and what network architectures are most fit to work on small data sets. Secondly damages are defined by their surroundings rather than by themselves, making this an unique challange to tackle. (Here later more about different architectures)
+%
+%%Different kinds of damages can emerge in dual phase steel under uniaxial and biaxial tension. Gathering statisticly meaningful data is an important means for understanding its mechanical properties. The process of collecting data to this point is performed either manually or partly assisted by computational means. In this thesis we ask whether it is possible to automatize this process of locating and categorizating damages by means of artificial neural networks. Solving this problem we face to problems. On the one hand a low volume of training data compared to classical categorization problems. Secondly damages are objects mostly defined by their surroundings rather than by their own properties.
+%\end{abstract}
+\include{Chapters/Introduction}
+\include{Chapters/Dual-Phase-Steel}
+%\include{Chapters/Chapter1}
+%%%\include{Chapters/CNN}
+\include{Chapters/CNN_neu}
+%%\include{Chapters/Chapter3}
+%\include{Chapters/Architecture}
+%\include{Chapters/Performance}
+%\include{Chapters/Appendix}%
+%\include{Chapters/Chapter4}
+%
+\bibliography{Citations,ImageNetCitation}{}
+\bibliographystyle{plain}
+\end{document}

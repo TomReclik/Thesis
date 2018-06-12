@@ -1,0 +1,253 @@
+\documentclass[10pt,a4paper]{report}
+\usepackage[utf8]{inputenc}
+\usepackage[english]{babel}
+\usepackage{amsmath}
+\usepackage{amsfonts}
+\usepackage{amssymb}
+\usepackage{graphicx}
+\usepackage{subcaption}\usepackage{bm}
+\usepackage{booktabs}
+\usepackage{float}
+\usepackage[bookmarks]{hyperref}
+\restylefloat{table}
+\graphicspath{{../Images/}}
+\newcommand\tab[1][0.5cm]{\hspace*{#1}}
+\renewcommand{\baselinestretch}{1.25} 
+
+
+\def\boxit#1{%
+  \smash{\fboxsep=0pt\llap{\rlap{\fbox{\strut\makebox[#1]{}}}~}}\ignorespaces
+}
+
+\begin{document}
+\chapter{Introduction}
+\begin{itemize}
+\item CNNs powerful tool for the classification of objects in images (ImageNet challenge)
+\item Evaluation of damage sites in micrographs accompanied by a lot of damage analysis by hand $\rightarrow$ most of the time restriction to a few damage sites + errors performed by human evaluation
+\item Goal: automate evaluation of large panoramas, in order to get statistically relevant data for ex-situ experiments + automated tracking of interesting damage sites in in-situ experiments
+\end{itemize}
+
+\chapter{Dual-Phase Steel}
+\begin{itemize}
+\item What is dual phase steel
+\item What is it used for (automotive industry, steel sheets)
+\item Why is it a good sample material for this problem (damage sites right after emergence clearly assignable to a certain class)
+\item What kind of dual-phase steel was used: dual-phase steel 800
+\begin{figure}
+\centering
+  \includegraphics[width=\linewidth]{PanoramaSmall2X_1Y_2.png}
+  \caption{Dual-phase steel SEM micrograph}
+  \label{fig:ANN}
+\end{figure}
+
+\end{itemize}
+\section{Damage Mechanisms}
+\begin{itemize}
+\item Classes the network is trained to distinguish: inclusion, martensite cracking, interface decohesion, and notch effect
+\item Damages at the grain boundary between two adjacent ferrite grains not considered, due to the high proportion of martensite + experiments by conducted by Carl most damage sites looking like boundary damages are evolved notch effects
+\item Other types of damage categories, goal of finding the mechanisms behind evolved damage sites
+\end{itemize}
+\section{Experimental Setup}
+\begin{itemize}
+\item Experimental setup: uniaxial experiments, resolution etc
+\end{itemize}
+
+\chapter{Convolutional Neural Networks}
+\section{Artificial Neurons}
+\begin{itemize}
+\item Basic building block of an artificial neural network
+\item Inspired by the biological neuron
+\end{itemize}
+\begin{figure}
+\centering
+  \includegraphics[width=0.7\linewidth]{Perceptron_cropped.pdf}
+  \caption{Perceptron}
+  \label{fig:Neuron}
+\end{figure}
+\section{Artificial Neural Networks}
+\begin{itemize}
+\item Collection of neurons
+\item Topology, e.g. first approaches were to connect every neuron in each layer to every neuron in the next layer not applicable to image recognition
+\item Trainable weights
+\end{itemize}
+\begin{figure}
+\centering
+  \includegraphics[width=0.9\linewidth]{SimpleNeuron-crop.pdf}
+  \caption{Artificial Neural Network}
+  \label{fig:ANN}
+\end{figure}
+\section{Linear Image Filter}
+\begin{itemize}
+\item Assigning label to images possible for humans $\rightarrow$ some function mapping the image to its class should exist
+\item Neural networks as function approximators
+\item How to find the right topology for the network to perform well
+\item Motivation using the visual cortex of animals, based on the experiments performed by Wiesel and Hubel
+\item Discrete convolutions
+\item In image processing convolutions are used to transform images and find features like edges (Sobel filter)
+\end{itemize}
+
+\begin{figure}
+\centering
+  \includegraphics[width=0.9\linewidth]{vis_mnist_conv.png}
+  \caption{First level features learned for the recognition of digits}
+  \label{fig:ANN}
+\end{figure}
+
+\section{Convolutional Neural Network - Topology}
+\begin{itemize}
+\item Change topology appropriately to the inherent topology of images
+\item Introduce perceptive field for neurons
+\item Weight sharing among neurons
+\item Results in the action of a convolution
+\item Use multiple such convolutions in each layer, leading to multiple feature maps
+
+\end{itemize}
+\begin{figure}
+\centering
+  \includegraphics[width=0.9\linewidth]{tDogClassMapping.png}
+  \caption{Intuitive mapping between an image and its class}
+  \label{fig:ANN}
+\end{figure}
+
+\section{Additional Layers}
+\begin{itemize}
+\item Pooling
+\item Dropout
+\item Batch normalization
+\item Output layer (softmax)
+\end{itemize}
+
+\section{Training}
+\begin{itemize}
+\item Training using examples, train/validation/test splits
+\item Backpropagation
+\item Early stopping as a further method of preventing overfitting
+\end{itemize}
+
+\chapter{Localization}
+
+\begin{figure}
+\begin{subfigure}{.5\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{DBScan_firststep.png}
+  \caption{Gray scale cutoff}
+  \label{fig:Inclusion_scalebar}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{DBScan_secondstep.png}
+  \caption{Clusters found using DBSCAN}
+  \label{fig:Inclusion_scalebar}
+\end{subfigure}
+\caption{Localization of damage sites using DBSCAN. (Use smaller images)}
+\end{figure}
+
+\chapter{Architecture}
+\begin{itemize}
+\item Inherent size difference between different damage classes
+\item Use two CNNs which differ in the size of their perceptive fields
+\end{itemize}
+
+\begin{figure}
+\centering
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Inclusion_scalebar.png}
+  \caption{Inclusion}
+  \label{fig:Inclusion_scalebar}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Martensite_scalebar.png}
+  \caption{MC}
+  \label{fig:Martensite_scalebar}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Interface_scalebar.png}
+  \caption{ID}
+  \label{fig:Interface_scalebar}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Notch_scalebar.png}
+  \caption{NE}
+  \label{fig:Notch_scalebar}
+\end{subfigure}%
+\caption{The different categories of damage sites, that the classifiers are trained to distinguish from each other together with a scale bar.}
+\label{fig:SizeDifference}
+\end{figure}
+
+\begin{figure}
+\begin{center}
+  \includegraphics[width=\linewidth]{Architecture.pdf}
+\caption{Architecture}
+\label{fig:Architecture}
+\end{center}
+\end{figure}
+
+\chapter{Evaluation and Results}
+\section{Datasets}
+\begin{itemize}
+\item Amount of data per class split into ex-situ and in-situ data
+\item Training parameters and dataset splits used
+\end{itemize}
+\section{First Classifier}
+\subsection{Network Architecture}
+\begin{itemize}
+\item Tests on most popular implemented CNN architectures
+\end{itemize}
+\subsection{Generalization to new Datasets}
+\subsection{Choosing a Threshold}
+\subsection{Misclassified Damage Sites}
+\subsection{Robustness}
+
+\section{Second Classifier}
+\subsection{Network Architecture}
+\begin{itemize}
+\item Simpler architecture due to the smaller size of the damage sites
+\item Best performing network from previous studies on the CIFAR-10 dataset: EERACN
+\end{itemize}
+\subsection{Further Split of Hierarchy}
+\begin{itemize}
+\item Firstly distinguish between brittle (martensite cracking) and ductile mechanisms (interface decohesion and notch effects)
+\item Then distinguish the remaining two classes
+\item Experiment shows no improvement
+\end{itemize}
+\subsection{Generalization to new Datasets}
+\subsection{Choosing a Threshold}
+\subsection{Misclassified Damage Sites}
+\subsection{Robustness}
+
+\section{Combined Classifier}
+\subsection{Performance}
+\subsection{In-situ Analysis with Position Tracking}
+
+\chapter{Proposed Workflow}
+\begin{itemize}
+\item Train classifier
+\item Review purity efficiency
+\item Choose threshold high enough for the desired accuracy
+\item Label not classified damage sites by hand and reintroduce them to the training since they represent instances promising to increases the classifiers performance
+\end{itemize}
+
+\chapter{Conclusion}
+\begin{itemize}
+\item Classification of inclusions works fine
+\item Classification of Martensite crackings also fine
+\item Classification of interface decohesions and notch effects problematic
+\item Need more data
+\item Significant reduction of the amount of work required for the evaluation of damage sites in dual-phase steels
+\item Possible increase in accuracy by using additional information like phase information (Ferrite and Martensite marked) as in figure \ref{fig:Phases}
+\item On beam camera (reduce shadows)
+\end{itemize}
+
+\begin{figure}
+\centering
+  \includegraphics[width=0.9\linewidth]{AwesomeClassifier.png}
+  \caption{Classifier marking martensite grains and ferrite matrix}
+  \label{fig:Phases}
+\end{figure}
+
+
+\end{document}

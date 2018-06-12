@@ -1,0 +1,219 @@
+
+\chapter{Evaluation and Results} % Main chapter title
+
+\label{Performance} % For referencing the chapter elsewhere, use \ref{Chapter1} 
+
+In this chapter the performance of the different classifiers will be studied. In section \ref{sec:perfectconditions} the performance of the networks will be evaluated given that the localizer returns sites belonging to one of the classes that the classifier was trained on. In section \ref{sec:Robustness} the networks robustness will be tested given any possible site that the localizer can find. 
+
+\section{Datasets}
+The data is split into two categories. The first round of experiments was performed ex-situ with different grades of stress. The dual-phase steel was prepared before each recording with the SEM, therefore no artifacts can be seen on the surface of the sheet. The second round of experiments was performed in-situ. Due to the in-situ nature of those experiments at higher rates of deformation, recordings contain artifacts on the surface of the probe. The datasets with the number of damage sites in each category can be seen in table \ref{tab:Dataset}. \\ 
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{@{} *5l @{}} \toprule[2pt]
+Training set &  \multicolumn{4}{c}{Damage Mechanism}   \\\midrule
+ & Inc & MC & ID & NE   \\ 
+ex-situ  & 379 & 691 & 788 & 449\\ 
+in-situ  & 192 & 823 & 586 & 392 \\ \bottomrule
+all  & 571 & 1514 & 1374 & 841\\\bottomrule[2pt]
+
+\end{tabular}
+ \caption{The number of damage sites found in the ex-situ and in-situ experiments per class (inclusion (Inc), martensite cracking (MC), interface decohesion (ID), and notch effect (NE)).}
+ \label{tab:Dataset}
+\end{center}
+\end{table}
+
+For the training of each classifier the dataset an $80-20$ split is applied for training of each network and testing. In order to prevent overfitting, the training set is further split into $80\%$ actually used for the adjustments of the networks weights and $20\%$ for validation. \\
+Furthermore the pixel values are transformed from the interval $\{0,\dots,255\}$ to the interval $[-1,1]$.\\
+
+
+\newpage
+\section{First Classifier}
+As mentioned previously the first network distinguishes between inclusions and not-inclusions. Due to the inherent size difference between inclusions and other types of damage mechanisms the first network has a larger perceptive field, namely $250\times 250$ pixel. In order to prevent the network from learning a strong bias towards one class, the number of data points is evenly spread among both classes, inclusion and rest. Furthermore in order to have a more representative training set, the training samples are distributed equally among martensite cracking, interface decohesion, and notch effect sites. \\
+
+\subsection{Architecture}
+Due to the small amount of data, optimizing the architecture of the first classifier would be futile. As to find an appropriate network architecture, popular already implemented network architecture were tested against each other. The results can be seen in table \ref{tab:AccuracyComparisonNetworks}. The architecture finally chosen was the InceptionV3 network \cite{Inception}.
+\begin{table}[H]
+ \begin{center}
+  \begin{tabular}{@{} *5l @{}} \toprule[2pt]
+   Network &  \multicolumn{3}{c}{Accuracy}  \\\midrule
+    & ex-situ  & in-situ  & all   \\ 
+   Xception  & 0.868 & 0.878 & 0.866\\ 
+   InceptionResNetV2  & 0.854 & 0.849 & 0.888\\
+ \boxit{7.45cm}   InceptionV3 & 0.901 & 0.863 & 0.915 \\ \bottomrule[2pt]
+
+   \label{tab:AccuracyComparisonNetworks}
+  \end{tabular}
+ \end{center}
+ \caption{Accuracy of the networks trained on different training sets evaluated on the available datasets.}
+\end{table}
+
+\subsection{Generalization to new Datasets}
+While working only with the data recorded ex-situ, the network generalized well on this dataset. But applying it to newly recorded in-situ data, leads to drops in the networks accuracy, as can be seen in table \ref{tab:AccuracyComparisonInception}. By including the in-situ data into the training dataset, the networks performance was increased drastically. This behavior is also shown in figure \ref{fig:Inception_ex_vs_in}.
+
+\begin{table}[H]
+ \begin{center}
+  \begin{tabular}{@{} *5l @{}} \toprule[2pt]
+   Training set &  &Test set&  \\\midrule
+    & ex-situ  & in-situ  & all   \\ 
+   ex-situ  & 0.90 & 0.55 & 0.71\\ 
+   all  & 0.94 & 0.90 & 0.92\\\bottomrule[2pt]
+
+  \end{tabular}
+ \end{center}
+ \caption{Accuracy of the networks trained on different training sets evaluated on the available datasets.}
+ \label{tab:AccuracyComparisonInception}
+\end{table}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{Inception_ex_vs_in.pdf}
+\caption{Comparison of the precision between networks trained excluding in-situ data and including in-situ data. There is a visible drop of the accuracy once the classifier trained on the ex-situ data is applied to the in-situ data to just above a random classifier. Including in-situ data into the training leads to a performance just above the network trained on ex-situ data evaluated on ex-situ data.}
+\label{fig:Inception_ex_vs_in}
+\end{figure}
+
+\subsection{Choosing a Threshold}
+
+Due to the first classifier acting as a filter for the next classifier, it is necessary to minimize the number of falsely classified damage sites. By introducing a threshold for the network to only decide for a damage site to be of a category if the returned probability exceeds it, the number of falsely classified damage sites can be minimized, at the cost of a lower efficiency. By labeling the not classified damage sites by hand, those can be later introduced back into the system as new training data, representing points in the input space not learned by the network. The accuracy together with the efficiency against the threshold are shown in figure \ref{fig:InceptionACC_EFF_THETA}. A reasonable choice for this threshold is $\theta=0.7$, resulting in an accuracy of $95\%$ classifying $92\%$ of all damage sites. 
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{Inception_ACC_CLA_THETA.pdf}
+\caption{Accuracy of classified sites plotted together with the ratio of classified sites against the threshold. At $\theta=0.7$ of the $92\%$ classified damage sites $95\%$ were classified correctly.}
+\label{fig:InceptionACC_EFF_THETA}
+\end{figure}
+
+%Due to the first network acting as a filter for inclusions, it is necessary to minimize the number of damage sites falsely classified as inclusions or equivalently minimizing the number of false negatives. The relevant quantity for inspecting the performance under these conditions of a binary classifier, in this case the neural network, is its precision (positive predictive value) defined by
+%\begin{equation}
+%PPV = \frac{TP}{TP+FP}
+%\end{equation}
+%where $TP$ is the number of correctly classified inclusions and $FP$ is the number of other damage sites classified as inclusions. \\
+%On the other hand for the network to be useful, the number of correctly classified inclusions should be maximized, in order to reduce the amount of work necessary to relabel remaining damage sites by hand. 
+
+%\subsection{Ex-situ to in-situ}
+%While the first classifier, responsible for filtering out the inclusion sites, performed well on the ex-situ data sets, problems arose while trying to use it for the classification of in-situ damage sites. By using some of the in-situ data for the training of the network, its performance was substantially increased. The data sets for training and testing of the classifier are shown in the following table. \\
+%
+%\begin{tabular}{| l | c | c | c | c |}
+%\hline
+% & ex-situ train & ex-situ test & in-situ train & in-situ test \\ \hline
+%excluding in-situ & training & training & ignored & testing \\ \hline
+%including in-situ & training & training & training & testing \\ \hline
+%only ex-situ data & training & testing & ignored & ignored \\ \hline
+%\end{tabular}
+%
+%\subsubsection{Training excluding in-situ data}
+%Without including the in-situ data in the training set of the network, it characterized $52$ out of the $62$ inclusion sites correctly, while also classifying $164$ out $409$ sites that aren't inclusions as inclusions. Since the purpose of the first network is to filter out inclusions, this performance would make it inapplicable. While some of the inclusion sites not labeled as inclusions, can pass through the system and have to be labeled afterwards by hand, labeling sites that aren't inclusions with a high confidence as inclusions poses a huge problem for its usage as a filtering system. 
+
+%\subsubsection{Training including in-situ data}
+%By including some of the in-situ data into the training set, $44$ out of the $62$ inclusions sites were classified correctly as inclusions, performing slightly worse than the network trained on only the ex-situ data set. However none of the remaining $409$ sites were classified as inclusions.
+
+%\subsubsection{Training including all data}
+%Due to new data being created, one more test was included. The performance of the network trained on the final dataset is shown in figure \ref{fig:FirstClassifierFinal}. As can be seen the performance of the network 
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{FinalPerformanceInception.pdf}
+\caption{Purity plotted against efficiency of the network trained on the full dataset. As a comparison the performance of randomly assigning categories is shown as well.}
+\label{fig:FirstClassifierFinal}
+\end{figure}
+
+%\subsubsection{Comparison}
+%In figure \ref{fig:TPR_comparison} the precision of both differently trained networks are shown. As one can see the network performed well, while working only with ex-situ data. Transferring the network to be used on in-situ data the networks precision dropped immensely, rendering the network useless for classifying in-situ images. However, by including a small portion of in-situ data in the training of the network, the number of damage sites wrongly classified by the network as inclusions becomes negligible above a certain threshold. 
+
+\subsection{Confusion Matrix}
+In this section, the damage sites labeled incorrectly are studied. 
+
+\newpage
+\section{Second Stage}
+Due to the increased number of labeled damage sites, a more complex network, the InceptionV3 network, was tested in order to assess whether the accuracy can be increased by using a different architecture. The comparison between the two networks can be seen in figure \ref{fig:InVsEE}. Eventhough the amount of data was increased significantly, the simpler architecture still performs better than the complex one. 
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{InceptionVsEERACN_all.pdf}
+\caption{Performance comparison between the InceptionV3 network and the EERACN network distinguishing between brittle and ductile mechanisms}
+\label{fig:InVsEE}
+\end{figure}
+
+%\begin{figure}
+%  \includegraphics[width=\linewidth]{InceptionVsEERACN_nothing.pdf}
+%\caption{Accuracy on detected shadows found by the localization algorithm}
+%\label{fig:TPR_comparison}
+%\end{figure}
+
+\subsection{Brittle versus Ductile Damage Mechanisms}
+Furthermore a further split of the class hierarchy was considered. Instead of distinguishing between the three remaining classes, martensite cracking, interface decohesion, and notch effect, the second classifier should distinguish between brittle and ductile damage mechanisms. Therefore interface decohesions and notch effects are grouped into one class. In figure \ref{fig:2vs3Classes} the true positive rate can be seen 
+Furthermore we tested whether it is sensible to train a network capable of only distinguishing between brittle damage mechanisms (Martensite cracking) and ductile damage mechanisms (interface decohesion and notch effects) involved in the formation of voids. As can be seen in figure \ref{fig:2vs3Classes} a network trained to distinguish ductile damage mechanisms in interface decohesion and notch effects performs just as well if not better in distinguishing between brittle and ductile damage mechanisms as a network trained just for that task.
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{EERACN_2vs3Classes.pdf}
+\caption{True positive rates for the EERACN network distinguishing between two classes (Martensite and rest) and between three classes (Martensite, interface decohesion, and notch)}
+\label{fig:2vs3Classes}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{EERACN_differentTrainingSets.pdf}
+\caption{Accuracy plotted against the classification rate for the EERACN network trained on different training sets evaluated on all test sets}
+\label{fig:TPR_comparison}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{EERACN_differentTrainingSets_test_in_situ.pdf}
+\caption{Accuracy plotted against the classification rate for the EERACN network trained on different training sets evaluated on the original in-situ test set}
+\label{fig:TPR_comparison}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{EERACN_differentTrainingSets_test_Stufe0.pdf}
+\caption{Accuracy plotted against the classification rate for the EERACN network trained on different training sets evaluated on the stage zero test set}
+\label{fig:TPR_comparison}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{EERACN_differentTrainingSets_test_Deformed.pdf}
+\caption{Accuracy plotted against the classification rate for the EERACN network trained on different training sets evaluated on the deformed test set}
+\label{fig:TPR_comparison}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{PPV_different_classes_ex_situ.pdf}
+\caption{PPV for all classes trained on ex-situ data}
+\label{fig:TPR_comparison}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{PPV_different_classes_in_situ.pdf}
+\caption{PPV for all classes trained on in-situ data}
+\label{fig:TPR_comparison}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{PPV_different_classes_stage0.pdf}
+\caption{PPV for all classes trained on stage zero data}
+\label{fig:TPR_comparison}
+\end{figure}
+
+\begin{figure}
+  \includegraphics[width=\linewidth]{PPV_different_classes_deformed.pdf}
+\caption{PPV for all classes trained on deformed data }
+\label{fig:TPR_comparison}
+\end{figure}
+
+
+\section{Combined Classifier}
+
+\subsection{In-situ Analysis with Position Tracking}
+The combined classifier was used in order to investigate the time evolution of damage sites. This is done by firstly cropping the panoramas in such a way that at the borders of the images at different stages of stress the same physical features can be seen. For the first few stages the naive approach to just using the coordinates $x,y$ of a damage site in stage $i$ and rescaling them by the 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

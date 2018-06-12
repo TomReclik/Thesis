@@ -1,0 +1,188 @@
+
+\chapter{Machine Learning for Image Analysis} % Main chapter title
+
+\label{CNN} % For referencing the chapter elsewhere, use \ref{Chapter1} 
+
+\section{Introduction}
+
+Artificial neural networks (ANNs) are generally capable of approximating any smooth function, as proven by Hornik et al. in 1989 \cite{Hornik1989}. In many cases the underlying function of a problem is unknown and the function can only be probed at certain points. ANNs can be trained on those samples and are particularly capable of finding the underlying non-linearities. One crucial step in finding an ANN performing well for this task is the selection of an architecture and a representative training dataset. \\
+
+In the following, the basic building blocks of ANNs the neurons will be introduced in section \ref{sec:Neurons}. Then the basic structure of ANNs is explained in section \ref{sec:ANN}. In section \ref{sec:LinearImageFilter} a motivation for the choice of a particular topology of ANNs is given using linear image filter. Afterwards from the methods used in linear image filters, a topology 
+
+
+\section{Neurons}
+\label{sec:Neurons}
+The basic building block of every artificial neural network (ANN) is the neuron. For real valued inputs it maps $n: \mathbb{R}^n \rightarrow \mathbb{R}$ given internal parameters $w \in \mathbb{R}^d$ and $b \in \mathbb{R}$.
+\begin{equation}
+x \mapsto g(w \cdot x + b)
+\end{equation}
+with some non-linear activation function $g$. As can be seen from the its diagrammatic depiction in figure \ref{fig:Neuron} this closely resembles the action of its biological inspiration, which receives signals from adjacent neurons and fires if the internal potential exceeds its internal threshold. While this would be more accurately represented using a step function as the non-linear activation function, which was historically the first to be implemented by Rosenblatt \cite{Perceptron}, problems arise, e.g. the lacking of a training algorithm for neurons arranged in layers. Today in most deep architectures the most common choice for activation functions are rectifying linear units (ReLU) and derivatives thereof like the exponential linear unit (ELU).
+\begin{figure}
+\centering
+  \includegraphics[width=0.9\linewidth]{Neuron.pdf}
+  \caption{Perceptron}
+  \label{fig:Neuron}
+\end{figure}
+%The basic building block of each artificial neural network is the neuron. Given an input vector $x$ it performs a weighted sum and adds a bias
+%\begin{equation}
+%u_i = W_i \cdot x + b_i 
+%\end{equation}
+%afterwards applies a non-linear activation function
+%\begin{equation}
+%z_i = g(u_i)
+%\end{equation}
+%This closely resembles the inner workings of a biological neuron. It receives signals from adjacent neurons, the weights correspond to the dendrites connecting the neurons. If the potential inside the neuron exceeds a certain potential, here represented by a bias, the neuron fires. The firing of the neuron in the artificial case is performed by applying the activation function. While the closest analogy to a biological neuron would be by using a step function, this approach was discarded, mostly due to the lacking of an automated training algorithm for neurons arranged in a layered fashion. Today one of the most common activation function is the rectifying linear units and derivatives thereof.
+
+\section{Artificial Neural Networks}
+\label{sec:ANN}
+Most commonly ANNs arrange neurons in a layered fashion, where each layer processes the output of its preceding layer. Overall the network acts as a function $N: \mathbb{R}^n \rightarrow \mathbb{R}^m$ with internal parameters $\theta$, where the dimensionality of $\theta$ depends on the internal structure of the network.\\
+The action of a layer $l$ can best be described by using matrix notation. 
+\begin{equation}
+W_l = 
+\begin{pmatrix}
+w_{1,1}^l & w_{1,1}^l & \dots & w_{1,n_{l-1}}^l \\
+w_{2,1}^l & w_{2,1}^l & \dots & w_{2,n_{l-1}}^l \\
+\vdots & \vdots & \vdots & \vdots \\
+w_{n_l,1}^l & w_{n_l,1}^l & \dots & w_{n_l,n_{l-1}}^l \\
+\end{pmatrix}
+\end{equation}
+where $w_i^l$ is the weight vector of neuron $i$ in layer $l$, $n_l$ is the number of neurons in layer $l$ and $n_{l-1}$ is the number of neurons in its previous layer. $W_l$ is matrix of dimension $n_l \times n_{l-1}$. By now also collecting the biases of all neurons in layer $l$ in a bias vector $b_l$ and letting the layer dependent activation function act elementwise the action of a layer on its input can be defined as
+\begin{equation}
+x_{l-1} \mapsto g_l(W_l x_{l-1} + b_l)
+\end{equation}
+A rather simple ANN is depicted in figure \ref{fig:ANN}
+\begin{figure}
+\centering
+  \includegraphics[width=0.9\linewidth]{SimpleNeuron-crop.pdf}
+  \caption{Perceptron}
+  \label{fig:ANN}
+\end{figure}
+
+%While artificial neural networks are in general capable of approximating any continuous function, finding the right architecture is crucial. In general each neuron can be connected to every neuron in its preceding layer, a so called fully connected network, this leads to problems when trying to apply such a network to the task of object classification in images. One major problem is that the number of trainable parameters grows with the number of input pixels for each neuron, e.g. classifying an image of size $256\times 256$ with $100$ neurons in the networks first layer would already lead to $6553600$ trainable parameters.\\
+
+\section{Discrete Convolutions}\label{sec:DiscreteConvolutions}
+An object that is depicted in an image is a representation of the image. For humans it is possible to decide to which object class it belongs. Therefore it is safe to assume that there exists an underlying function, mapping from the input space to the class space. By now adjusting the architecture of our network we hope that the constructed network will be more effective at approximating this function. 
+
+For the task of object classification in images the best performing sub-class of ANNs are convolutional neural networks (CNNs). While inspiration was originally taken from the inner workings of the visual cortex of mammals, based on the pioneering work D. Hubel and T. Wiesel \cite{Hubel}, in this work CNNs will be motivated by techniques used in image processing, specifically discrete convolutions. \\
+An image is represented as an array with shape $M\times N\times C$ with $M$, height $N$ and channels $C$. In an RGB image the number of channels equals $3$ representing the different colours, while in a black and white only one channel is present. Each element takes a value between $0$ and $255$ representing the intensity at its position inside the image. \\
+A convolution acting $I(i_1,i_2,i_3) \in \mathbb{R}$ with indices in 
+\begin{equation}\label{eq:convolutionDiscrete}
+(I*k)(i_1,\dots ,i_n) = \sum_{j_1} \cdots \sum_{j_n} f(i_1,\dots ,i_n) g(i_1-j_1,\dots ,i_n-j_n)
+\end{equation}
+%A convolution is a linear operation acting on two functions $f$ and $g$, resulting in a new function. Commonly one of the functions is the convolution kernel, say $g$, and the resulting function is a modification of the original function $f$. The operation is given by
+%\begin{equation} \label{eq:convolutionContinuous}
+%(f*g)(x) = \int_{\mathbb{R}^n} f(x)g(x-y)dy
+%\end{equation}
+%where $f$ and $g$ act on $\mathbb{R}^n$. It finds applications in different fields of science, engineering, and pure mathematics. E.g. given a differential equation, $g$ can be the Green's function corresponding to the differential operator, $f$ are the initial conditions, then the convolved function is the solution of the differential equation at arbitrary coordinates. \\
+While working with digitalized data, equation \ref{eq:convolutionContinuous} needs to be generalized for functions acting on the discrete space $\mathbb{Z}^n$, resulting in
+\begin{equation}\label{eq:convolutionDiscrete}
+(f*g)(i_1,\dots ,i_n) = \sum_{j_1} \cdots \sum_{j_n} f(i_1,\dots ,i_n) g(i_1-j_1,\dots ,i_n-j_n)
+\end{equation}
+$g$ is often times restricted to have non-zero values only in a window of a certain size. For a two-dimensional object this is shown in figure \ref{fig:Convolution}. \\
+One approach to detecting edges in images is to convolve the image with the Sobel operator. It approximates the gradient of the pixel values of an image. Assuming there is an underlying continuous function and an image $I$ is its discretization, the gradient in horizontal direction can be approximated by $G_x$ corresponding to edges in vertical direction and the derivative in vertical direction by $G_y$ corresponding to edges in horizontal direction. $G_x$ and $G_y$ are given by
+\begin{equation}
+G_x =
+\begin{pmatrix}
++1 & 0 & -1 \\
++2 & 0 & -2 \\
++1 & 0 & -1 
+\end{pmatrix}
+\end{equation}
+and
+\begin{equation}
+G_y = 
+\begin{pmatrix}
++1 & +2 & +1 \\
+0 & 0 & 0 \\
+-1 & -2 & -1
+\end{pmatrix}
+\end{equation}
+The overall gradient can then be calculated by
+\begin{equation}
+G = \sqrt{G_x^2+G_y^2}
+\end{equation}
+in the sense that $G_x$ and $G_y$ are used to convolve the original image, the resulting elements are squared, added, and the square root is applied elementwise. A sample application can be seen in figure \ref{fig:Sobel}. By doing so the relevant feature, the position of the edges, is extracted from the original image. \\
+In the next section adjustments to ANNs will be described in order to get a topology, that reflects the extraction of features in images using convolutions.
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Bike.png}
+  \caption{Original image}
+  \label{fig:sub1}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{Bike_Sobel.png}
+  \caption{Edge amplified image}
+  \label{fig:sub2}
+\end{subfigure}
+\caption{Edge amplification}
+\label{fig:Sobel}
+\end{figure}
+
+\section{Convolutional Neural Networks - Architecture}
+
+Reflecting the topology of the input the neurons are now arranged in rectangular grid. 
+
+
+
+
+While at first each neuron is still connected to each input neuron, those connections are now restricted to a smaller window of size $m\times n$, in such a manner that the entire input is covered in a regular way. This can be seen in figure \ref{fig:CNN_topology}.
+Due to the special topology of images the neurons have to be rearranged as can be seen in figure \ref{fig:CNN_topology_notrestricted}. By restricting the connections of each neuron to a specific window of size $m\times n$, such that each neuron sees a different part of the original image and heavy weight sharing between all neurons, this layer of neurons performs a convolution on the original image. The result then is a feature map. In a CNN multiple such feature extractors are used in each layer. Additionally to the convolution operation, each to each output a bias is added and a non-linear activation function is applied.\\
+\begin{figure}
+\centering
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{CNN_topology.pdf}
+  \caption{Original image}
+  \label{fig:CNN_topology_notrestricted}
+\end{subfigure}%
+\begin{subfigure}{.5\textwidth}
+  \centering
+  \includegraphics[width=\linewidth]{CNN_topology_restricted.pdf}
+  \caption{Edge amplified image}
+  \label{fig:sub2}
+\end{subfigure}
+\caption{Edge amplification}
+\label{fig:Sobel}
+\end{figure}
+
+
+\begin{figure}
+\includegraphics[width=\linewidth]{CNN_topology_multiple_feature_maps.pdf}
+  \caption{Original image}
+  \label{fig:CNN_topology_notrestricted}
+\caption{Edge amplification}
+\label{fig:Sobel}
+\end{figure}
+
+\section{Different Layers Used In CNNs}
+While the convolutional layer is the most essential part of a network to be defined as a CNN, other layers are used in them that will be described in this section.
+
+\subsection{Pooling Layer}
+Usually a pooling layer follows a convolutional layer. A pooling layer takes, similarly to the convolutional layer, a rectangular as its input. It performs a predefined operation on this window, e.g. it returns the average or the maximum value inside the window. This results in a network that is shift invariant to minor local changes
+
+\subsection{Normalization Layer}
+Batch Normalization
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

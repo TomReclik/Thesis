@@ -1,0 +1,67 @@
+\chapter{Architecture}
+
+\label{cha:Architecture}
+
+\section{Hierarchical Classifier}
+Due to the inherent size difference between the different damage categories, as can be seen in figure \ref{fig:SizeDifference}, using a single CNN for an ad-hoc classification, comes with one major drawback. Choosing a receptive field large enough to encase an entire inclusion, would lead to the void of other damage categories being underrepresented in the image. While choosing a receptive field of the typical size of a void of a category different than inclusion would be too small in order to show the relevant features of an inclusion.\\
+
+Therefore, instead of using a single CNN for the classification task, a hierarchical structure was chosen. Taking advantage of the size difference between inclusions and the remaining damage categories, the first classifier receives an input of a size of a typical inclusion site. It then classifies inclusion sites and passes the remaining sites to the next classifier. The second classifier has a smaller receptive field receiving only the relevant features to distinguish the remaining three classes, martensite cracking, interface decohesion, and notch effect. A diagrammatic depiction if this is shown in figure \ref{fig:Architecture}.\\
+\begin{figure}
+\centering
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Inclusion_scalebar.png}
+  \caption{Inclusion}
+  \label{fig:Inclusion_scalebar}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Martensite_scalebar.png}
+  \caption{MC}
+  \label{fig:Martensite_scalebar}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Interface_scalebar.png}
+  \caption{ID}
+  \label{fig:Interface_scalebar}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Notch_scalebar.png}
+  \caption{NE}
+  \label{fig:Notch_scalebar}
+\end{subfigure}%
+\caption{The different categories of damage sites, that the classifiers are trained to distinguish from each other together with a scale bar.}
+\label{fig:SizeDifference}
+\end{figure}
+\begin{figure}
+\begin{center}
+  \includegraphics[width=\linewidth]{Architecture.pdf}
+\caption{Comparison of the precision between networks trained excluding in-situ data and including in-situ data. There is a visible drop of the accuracy once the classifier trained on the ex-situ data is applied to the in-situ data to just above a random classifier.}
+\label{fig:Architecture}
+\end{center}
+\end{figure}
+
+%\begin{enumerate}
+%\item Inclusions larger than rest of damage categories
+%\item $\rightarrow$ use two networks first deciding whether the image contains an inclusion, second one decides whether it belongs to martensite cracking, interface decohesion or notch effect
+%\item small amount of data
+%\item $\rightarrow$ use a priori knowledge
+%\item aq
+%\end{enumerate}
+
+
+
+
+%A network directly distinguishing between all classes, performed very poorly in earlier tests. This is mainly due to the small amount of data and the inherent size difference between inclusions and other types of damage sites. While taking a perceptive field large enough such that features of inclusions can typically be seen leads to a very small part of the perceptive field being relevant for the classification of other damage sites. \\
+%By keeping the resolution of the microscope constant across different experiments this size difference can be taken advantage of, by using multiple CNNs working sequentially. Such an architecture can be seen in figure \ref{fig:Architecture}. The first network distinguishes whether the input shows an inclusion. If the network returns a value larger than some predetermined threshold $\theta_1$, for either belonging to the inclusion class or other damage mechanisms, the input is labeled as an inclusion or processed further respectively. If neither output exceeds $\theta_1$ the input is labeled as not classified and has to be labeled by hand. \\
+%Before the second network processes th
+
+
+
+
+
+
+%Inclusions are typically larger than other types of damage mechanisms. By keeping the resolution of the microscope constant, this can be taken advantage of by training two different CNNs with a different architecture and a different perceptive field. The first classifier then distinguishes between whether the damage site is an inclusion and passes it on to the next classifier it is not. This architecture together with internal confidence levels is shown in figure \ref{fig:Architecture}
+%Due to the inherent size difference between inclusions and other types of damage mechanisms, the overall architecture consists of a first classifier deciding between inclusion sites with a larger perceptive field and a second classifier distinguishing between all other damage categories. 

@@ -16,7 +16,7 @@ The basic building block of every artificial neural network (ANN) is the neuron.
 \begin{equation}
 x \mapsto g(w \cdot x + b)
 \end{equation}
-with some non-linear activation function $g$. As can be seen from the its diagrammatic depiction in figure \ref{fig:Neuron} this closely resembles the action of its biological inspiration, which receives signals from adjacent neurons and fires if the internal potential exceeds its internal threshold. While this would be more accurately represented using a step function as the non-linear activation function, which was historically the first to be implemented by Rosenblatt \cite{Perceptron}, problems arise, e.g. the lacking of a training algorithm for neurons arranged in layers. Today in most deep architectures the most common choice for activation functions are rectifying linear units (ReLU) and derivatives thereof like the exponential linear unit (ELU).
+with some non-linear activation function $g$. As can be seen from the its diagrammatic depiction in figure \ref{fig:Neuron} this closely resembles the action of its biological inspiration, which receives signals from adjacent neurons and fires if the internal potential exceeds its internal threshold. While this would be more accurately represented using a step function as the non-linear activation function, which was historically the first to be implemented by Rosenblatt \cite{Perceptron}, problems arise, e.g. the lacking of a training algorithm for neurons arranged in layers. Today in most deep architectures the most common choice for activation functions are rectifying linear units (ReLU) and derivatives thereof like the exponential linear unit (ELU) or the leaky rectified linear unit (leakyReLU).
 \begin{figure}
 \centering
   \includegraphics[width=0.9\linewidth]{Neuron.pdf}
@@ -50,7 +50,7 @@ where $w_i^l$ is the weight vector of neuron $i$ in layer $l$, $n_l$ is the numb
 \begin{equation}
 x_{l-1} \mapsto g_l(W_l x_{l-1} + b_l)
 \end{equation}
-A rather simple ANN is depicted in figure \ref{fig:ANN}
+A rather simple ANN is depicted in figure \ref{fig:ANN}.
 \begin{figure}
 \centering
   \includegraphics[width=0.9\linewidth]{SimpleNeuron-crop.pdf}

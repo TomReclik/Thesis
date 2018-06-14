@@ -1,0 +1,45 @@
+\chapter{Datasets}
+
+The datasets were obtained in two ways. At first LabelImg \cite{labelimg} was used. With this tool it is possible to mark damage sites in SEM panoramas, requiring the user to search for them by zooming into the micrograph. Later once the localization algorithm was implemented as explained in chapter \ref{cha:Localization}, significantly reducing the required time for the creation of a dataset by negating the need to localize damage sites by hand. The two methods are shown in figure \ref{fig:labeling}. \\
+
+\section{Reliability of Training Data}
+
+Due to the need of consistently labeled datasets, for the training process of the classifier, a study was performed internally beforehand. Six experts were asked to classify $25$ damage sites given the following descriptions. 
+\begin{itemize}[label={}]
+\item \textbf{Inclusion}: Inclusions, either holes left from preparation or actual inclusions.
+\item \textbf{Martensite Cracking}: Brittle cracked martensite islands.
+\item \textbf{Interface Decohesion}: Damage to the martensite/ferrite boundary.
+\item \textbf{Boundary Decohesion}: Damage to ferrite grain boundaries.
+\item \textbf{Evolved Damage}: More than one active damage mechanism, e.g. martensite cracking evolved into ductile damage in ferrite.
+\end{itemize}
+The agreement with the damage classes determined beforehand can be seen in figure \ref{fig:Reliability}. Major problems arose with boundary decohesions and evolved damage sites. Due to the high concentration of martensite in the dual-phase steel used in this work boundary decohesions occur very rarely. Furthermore another internal in-situ study revealed that damage sites that appear to be boundary decohesions, are actually evolved notch effect sites. Problems with evolved damage sites come from the lack of a clear threshold after which a damage site actually falls into the class of evolved damage sites. Due to this, boundary decohesions and evolved damages were not used for the classification algorithm to distinguish between. \\
+
+\begin{figure}
+\centering
+  \includegraphics[width=\linewidth]{Reliability_cropped.pdf}
+  \caption{Dual-phase steel SEM micrograph}
+  \label{fig:Reliability}
+\end{figure}
+
+\section{Datasets}
+During deformation artifacts can form on the surface of the micrograph. A few examples of such artifacts are shown in figure \ref{fig:artifacts}. Due to the preparation of the sample these do not show in ex-situ experiments and very rarely in early stages of in-situ experiments. The dataset is therefore split into two categories. The first one consists of surface micrographs not containing artifacts on the probes set, while the second one consists of surface micrographs containing said artifacts. \\
+
+The available data for each damage mechanism and category after labeling is shown in table \ref{tab:Dataset}.
+
+%The data is split into two categories. The first category are surface micrographs that were taken right after preparing the sample. Due to the preparation these do not contain artifacts from the deformation of the sample. This first category consists of ex-situ experiments and the first stage of in-situ experiments. Later stages of in-situ experiments fall into the second category, 
+%The data is split into three parts. Firstly data from ex-situ experiments, with different grades of stress. The dual-phase steel was prepared before each recording with the SEM, therefore no artifacts can be seen on the surface of the sheet. Secondly data from the first stage of in-situ experiments, this data is  The second round of experiments was performed in-situ. Due to the in-situ nature of those experiments at higher rates of deformation, recordings contain artifacts on the surface of the probe. The datasets with the number of damage sites in each category can be seen in table \ref{tab:Dataset}. \\ 
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{@{} *5l @{}} \toprule[2pt]
+Training set &  \multicolumn{4}{c}{Damage Mechanism}   \\\midrule
+ & Inc & MC & ID & NE   \\ 
+ex-situ  & 379 & 691 & 788 & 449\\ 
+in-situ  & 192 & 823 & 586 & 392 \\ \bottomrule
+all  & 571 & 1514 & 1374 & 841\\\bottomrule[2pt]
+
+\end{tabular}
+ \caption{The number of damage sites found in the ex-situ and in-situ experiments per class (inclusion (Inc), martensite cracking (MC), interface decohesion (ID), and notch effect (NE)).}
+ \label{tab:Dataset}
+\end{center}
+\end{table}

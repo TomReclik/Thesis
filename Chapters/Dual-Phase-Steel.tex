@@ -25,38 +25,72 @@ Additionally influencing the materials behavior are
 \begin{itemize}[label={}]
 \item \textbf{Inclusions}: A foreign particle remaining from the processing of the material. 
 \end{itemize}
+The different possible damage mechanisms are shown in figure \ref{fig:DamageCategories_abstraction}. \\
 Due to the high concentration of martensite in the dual-phase steel used in this study, boundary decohesions occur rarely or not at all. In in-situ experiments, most of the sites classified at a certain stage, without knowledge of the previous state, as boundary decohesions turned out to be evolved notch effect sites. Examples for each damage category can be seen in figure \ref{fig:DamageCategories}.\\
 
 \begin{figure}
+\begin{subfigure}{.2\textwidth}
 \centering
-\begin{subfigure}{.25\textwidth}
-\centering
-  \includegraphics[width=.8\linewidth]{Inclusion_scalebar.png}
-  \caption{Inclusion}
-  \label{fig:Inclusion_scalebar}
-\end{subfigure}%
-\begin{subfigure}{.25\textwidth}
-\centering
-  \includegraphics[width=.8\linewidth]{Martensite_scalebar.png}
+  \includegraphics[width=.8\linewidth]{MartensiteCracking_abstraction.pdf}
   \caption{MC}
-  \label{fig:Martensite_scalebar}
+  \label{fig:MC}
 \end{subfigure}%
-\begin{subfigure}{.25\textwidth}
+\begin{subfigure}{.2\textwidth}
 \centering
-  \includegraphics[width=.8\linewidth]{Interface_scalebar.png}
+  \includegraphics[width=.8\linewidth]{InterfaceDecohesion_abstraction.pdf}
   \caption{ID}
   \label{fig:Interface_scalebar}
 \end{subfigure}%
-\begin{subfigure}{.25\textwidth}
 \centering
-  \includegraphics[width=.8\linewidth]{Notch_scalebar.png}
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{BoundaryDecohesion_abstraction.pdf}
+  \caption{BD}
+  \label{fig:Inclusion_scalebar}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{NotchEffect_abstraction.pdf}
   \caption{NE}
   \label{fig:Notch_scalebar}
 \end{subfigure}%
-\caption{Examples of damage sites.}
-\label{fig:DamageCategories}
+\centering
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Inclusion_abstraction.pdf}
+  \caption{Inclusion}
+  \label{fig:Inclusion_scalebar}
+\end{subfigure}%
+\caption{Abstracted damage mechanism for martensite cracking (MC) in subfigure (a), interface decohesion (ID) in subfigure (b), boundary decohesion (BD) in subfigure (c), notch effect (NE) in subfigure (d), and inclusions in subfigure (e). The martensite islands, the ferrite matrix, and the foreign body are labeled as M, F, and I respectively.}
+\label{fig:DamageCategories_abstraction}
 \end{figure}
 
 \section{Experimental Setup}
 
-Before the tensile tests were performed, the samples were polished and its surface was etched in order to be able to distinct martensite and ferrite in the recorded micrographs. The probe geometry can be seen in figure \ref{fig:ProbeGeometry}. Stress was applied uniaxial. For the recording of the micrographs a scanning electron microscope (SEM) was used. The parameter settings can be seen in table \ref{tab:SEMSettings}.
+\textbf{Preparation} \\
+Before the experiments were performed, the surface of the dual-phase steel was prepared in order to be able to distinguish the martensite islands from the ferrite matrix, in surface micrographs. The preparation process consists of grinding the surface with up to $4000$ grit sandpaper, polishing it with oxide polishing suspension in steps of $6\mu m$, $3\mu m$, and $1\mu m$, and finally etching it with $1 \%$ nital. \\
+
+\noindent \textbf{Probe Geometry} \\
+The probe geometry was chosen in such a way that the center of the probe experiences almost homogeneous stress. It can be seen in figure \ref{fig:ProbeGeometry}. \\
+
+\noindent \textbf{Tensile Tests}\\
+Tensile tests were performed with engineering stresses ranging from $4$ to $8$. \\
+
+\noindent \textbf{SEM Specifications} \\
+The specifications and settings of the SEM can be seen in table \ref{tab:SEM}.\\
+
+\begin{table}[H]
+ \begin{center}
+  \begin{tabular}{@{} *2l @{}} \toprule[2pt]
+   Model & Zeiss LEO 1530 \\\midrule
+   Horizontal Field Width & $100\mu m$   \\ 
+   Vertical Field Width  & $75\mu m$ \\ 
+   Resolution  & $3072\times 2304$ \\
+   Detector Type & Secondary Electrons \\
+   Electron Source & Field-Emitter Cathode \\ \bottomrule[2pt]
+
+   \label{tab:SEM}
+  \end{tabular}
+ \end{center}
+ \caption{Details of the SEM used for the surface micrographs.}
+\end{table}

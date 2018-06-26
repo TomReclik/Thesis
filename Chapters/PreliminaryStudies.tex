@@ -1,0 +1,30 @@
+\chapter{Preliminary Studies}
+
+Before the necessary data for the training of a classifier, distinguishing between different damage mechanisms, was available, preliminary studies on different datasets were performed. The aim was to find an architecture performing well on a relatively small dataset distinguishing between up to five classes. Therefore the influence of the size of the training dataset, different network architectures, and architectural details were investigated. \\
+
+\noindent The datasets were chosen from the most popular available datasets. \\
+\noindent \textbf{CIFAR-10} \cite{Krizhevsky2009}: (Canadian Institute for Advanced Research 10) consisting of $60,000$ $32\times 32$ colour images distributed among 10 classes. \\
+\noindent \textbf{ILSVRC} \cite{imagenet_cvpr09}: (ImageNet Large Scale Visual Recognition Challenge) consisting of over $14,000,000$ colour images of varying sizes distributed among over $20,000$ classes.
+
+\section{CIFAR-10}
+
+\subsection{Architectures}
+Due to the small window size of the images in the CIFAR-10 datasets, some rather simple architectures were tested. The networks decided upon are \\
+\noindent\textbf{Classical CNN}: A CNN with a few convolutional layers with a fully connected layer at the end. \\
+\noindent\textbf{Graham simplified}: A CNN modeled after the winning CNN in the 2015 CIFAR-10 competition. Two convolutional layers alternate with a pooling layer, where the number of starts with $320$ and increases in each layer by $320$. In order to avoid excessive padding the number of layers was reduced. \\
+\noindent\textbf{EERACN}: A CNN that uses convolutional layers followed by bottleneck layers, inspired by \cite{Xu2015}. \\
+The details of each architecture can be seen in \ref{cha:Appendix_architectures}
+
+\subsection{Influence of the Size of the Dataset}
+Expecting to collect datasets with up to $1000$ examples per damage mechanism, $5$ categories of the CIFAR-10 dataset were chosen randomly and the networks performance was evaluated with up to $5000$ samples overall. The resulting accuracies can be seen in figure \ref{fig:Accuracy_Comparison_CIFAR10}. \\
+\begin{figure}
+  \includegraphics[width=\linewidth]{Accuracy_CIFAR10.pdf}
+\caption{Accuracy on training sets of different sizes.}
+\label{fig:Accuracy_Comparison_CIFAR10}
+\end{figure}
+
+While the classical CNN, performs comparably well for small datasets, its accuracy does not seem to improve much with an increasing amount of data. This is possibly caused by the rather small number of trainable parameters, with most trainable parameters in the fully connected last layer. The Graham simplified network, oscillates and has a rather low accuracy, probably caused by the large number of trainable parameters. The EERACN network has a smaller standard deviation from its mean and achieves an appropriate accuracy with an increasing trend for larger training sizes. With a similar amount of trainable parameters as the classical CNN, but located in its convolutional layers instead of the fully connected layer. \\
+
+\section{ILSVRC}
+
+

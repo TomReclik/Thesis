@@ -5,104 +5,152 @@
 
 \section{Introduction}
 
-Artificial neural networks (ANNs) are generally capable of approximating any smooth function, as proven by Hornik et al. in 1989 \cite{Hornik1989}. In many cases the underlying function of a problem is unknown and the function can only be probed at certain points. ANNs can be trained on those samples and are particularly capable of finding the underlying non-linearities. One crucial step in finding an ANN performing well for this task is the selection of an architecture and a representative training dataset. \\
+Artificial neural networks (ANNs) are generally able to approximate any smooth function, as proven by Hornik et al. in 1989 \cite{Hornik1989}. In many cases the underlying function of a problem is unknown and the function can only be probed at certain points. ANNs can be trained on those samples and are particularly capable of finding the underlying non-linearities. Crucial for the performance of an ANN is firstly the collection of a representative training dataset. Once a sufficiently large dataset is available the selection of an appropriate architecture becomes more and more important. \\
+%One crucial step in finding an ANN performing well for this task is the selection of an architecture and a representative training dataset. \\
 
 In the following, the basic building blocks of ANNs the neurons will be introduced in section \ref{sec:Neurons}. Then the basic structure of ANNs is explained in section \ref{sec:ANN}. In section \ref{sec:LinearImageFilter} a motivation for the choice of a particular topology of ANNs is given using linear image filter. Afterwards from the methods used in linear image filters, a topology 
 
 
 \section{Neurons}
 \label{sec:Neurons}
-The basic building block of every artificial neural network (ANN) is the neuron. For real valued inputs it maps $n: \mathbb{R}^n \rightarrow \mathbb{R}$ given internal parameters $w \in \mathbb{R}^d$ and $b \in \mathbb{R}$.
+The basic building block of every ANN is the neuron. For real valued inputs it maps $n: \mathbb{R}^n \rightarrow \mathbb{R}$ given internal parameters $w \in \mathbb{R}^d$ and $b \in \mathbb{R}$.
 \begin{equation}
 x \mapsto g(w \cdot x + b)
 \end{equation}
-with some non-linear activation function $g$. As can be seen from the its diagrammatic depiction in figure \ref{fig:Neuron} this closely resembles the action of its biological inspiration, which receives signals from adjacent neurons and fires if the internal potential exceeds its internal threshold. While this would be more accurately represented using a step function as the non-linear activation function, which was historically the first to be implemented by Rosenblatt \cite{Perceptron}, problems arise, e.g. the lacking of a training algorithm for neurons arranged in layers. Today in most deep architectures the most common choice for activation functions are rectifying linear units (ReLU) and derivatives thereof like the exponential linear unit (ELU) or the leaky rectified linear unit (leakyReLU).
+with some non-linear activation function $g$. As can be seen from the its diagrammatic depiction in figure \ref{fig:Neuron} this closely resembles the action of its biological inspiration, which receives signals from adjacent neurons and fires if the internal potential exceeds its threshold. While this would be more accurately represented using a step function as the non-linear activation function, which was historically the first to be implemented by Rosenblatt \cite{Perceptron}, problems arise, e.g. the lacking of a training algorithm for neurons arranged in layers. Today in most deep architectures the most common choice for activation functions are rectifying linear units (ReLU) and derivatives thereof like the exponential linear unit (ELU) \cite{Clevert2015} or the leaky rectified linear unit (leakyReLU) \cite{Maas2013}.
 \begin{figure}
 \centering
   \includegraphics[width=0.9\linewidth]{Neuron.pdf}
   \caption{Perceptron}
   \label{fig:Neuron}
 \end{figure}
-%The basic building block of each artificial neural network is the neuron. Given an input vector $x$ it performs a weighted sum and adds a bias
-%\begin{equation}
-%u_i = W_i \cdot x + b_i 
-%\end{equation}
-%afterwards applies a non-linear activation function
-%\begin{equation}
-%z_i = g(u_i)
-%\end{equation}
-%This closely resembles the inner workings of a biological neuron. It receives signals from adjacent neurons, the weights correspond to the dendrites connecting the neurons. If the potential inside the neuron exceeds a certain potential, here represented by a bias, the neuron fires. The firing of the neuron in the artificial case is performed by applying the activation function. While the closest analogy to a biological neuron would be by using a step function, this approach was discarded, mostly due to the lacking of an automated training algorithm for neurons arranged in a layered fashion. Today one of the most common activation function is the rectifying linear units and derivatives thereof.
+%%The basic building block of each artificial neural network is the neuron. Given an input vector $x$ it performs a weighted sum and adds a bias
+%%\begin{equation}
+%%u_i = W_i \cdot x + b_i 
+%%\end{equation}
+%%afterwards applies a non-linear activation function
+%%\begin{equation}
+%%z_i = g(u_i)
+%%\end{equation}
+%%This closely resembles the inner workings of a biological neuron. It receives signals from adjacent neurons, the weights correspond to the dendrites connecting the neurons. If the potential inside the neuron exceeds a certain potential, here represented by a bias, the neuron fires. The firing of the neuron in the artificial case is performed by applying the activation function. While the closest analogy to a biological neuron would be by using a step function, this approach was discarded, mostly due to the lacking of an automated training algorithm for neurons arranged in a layered fashion. Today one of the most common activation function is the rectifying linear units and derivatives thereof.
 
-\section{Artificial Neural Networks}
+\section{Feedforward Neural Networks}
 \label{sec:ANN}
-Most commonly ANNs arrange neurons in a layered fashion, where each layer processes the output of its preceding layer. Overall the network acts as a function $N: \mathbb{R}^n \rightarrow \mathbb{R}^m$ with internal parameters $\theta$, where the dimensionality of $\theta$ depends on the internal structure of the network.\\
+In feedforward neural networks neurons are arranged in a layered fashion. Each layer processes the output of its preceding layer, where the first layer constitutes the input to the network. Overall the network acts as a function $N: \mathbb{R}^n \rightarrow \mathbb{R}^m$ with internal parameters $\theta$, where the dimensionality of $\theta$ depends on the internal structure of the network.\\
+
 The action of a layer $l$ can best be described by using matrix notation. 
 \begin{equation}
 W_l = 
 \begin{pmatrix}
-w_{1,1}^l & w_{1,1}^l & \dots & w_{1,n_{l-1}}^l \\
-w_{2,1}^l & w_{2,1}^l & \dots & w_{2,n_{l-1}}^l \\
+w_{1,1}^l & w_{1,2}^l & \dots & w_{1,n_{l-1}}^l \\
+w_{2,1}^l & w_{2,2}^l & \dots & w_{2,n_{l-1}}^l \\
 \vdots & \vdots & \vdots & \vdots \\
-w_{n_l,1}^l & w_{n_l,1}^l & \dots & w_{n_l,n_{l-1}}^l \\
+w_{n_l,1}^l & w_{n_l,2}^l & \dots & w_{n_l,n_{l-1}}^l \\
 \end{pmatrix}
 \end{equation}
-where $w_i^l$ is the weight vector of neuron $i$ in layer $l$, $n_l$ is the number of neurons in layer $l$ and $n_{l-1}$ is the number of neurons in its previous layer. $W_l$ is matrix of dimension $n_l \times n_{l-1}$. By now also collecting the biases of all neurons in layer $l$ in a bias vector $b_l$ and letting the layer dependent activation function act elementwise the action of a layer on its input can be defined as
+where $w_i^l$ is the weight vector of neuron $i$ in layer $l$, $n_l$ is the number of neurons in layer $l$ and $n_{l-1}$ is the number of neurons in its previous layer. $W_l$ is matrix of real valued numbers of dimension $n_l \times n_{l-1}$. Furthermore the biases of all neurons in layer $l$ are collected in a bias vector. The mapping of layer $l$ can then be expressed as 
+%By now also collecting the biases of all neurons in layer $l$ in a bias vector $b_l$.  and letting the layer dependent activation function act elementwise the action of a layer on its input can be defined as
 \begin{equation}
 x_{l-1} \mapsto g_l(W_l x_{l-1} + b_l)
 \end{equation}
-A rather simple ANN is depicted in figure \ref{fig:ANN}.
+where $g_l$ is the layer dependent activation function that is applied elementwise to the input vector. A rather simple ANN is depicted in figure \ref{fig:ANN}. \\
 \begin{figure}
 \centering
-  \includegraphics[width=0.9\linewidth]{SimpleNeuron-crop.pdf}
-  \caption{Perceptron}
+  \includegraphics[width=0.8\linewidth]{SimpleNeuron-crop.pdf}
+  \caption{An ANN with an input vector of $5$ elements, $3$ hidden layers, containing $6$ neurons each, outputting a single real number. Each edge corresponds to the weight connection between the connected neurons. }
   \label{fig:ANN}
 \end{figure}
 
-%While artificial neural networks are in general capable of approximating any continuous function, finding the right architecture is crucial. In general each neuron can be connected to every neuron in its preceding layer, a so called fully connected network, this leads to problems when trying to apply such a network to the task of object classification in images. One major problem is that the number of trainable parameters grows with the number of input pixels for each neuron, e.g. classifying an image of size $256\times 256$ with $100$ neurons in the networks first layer would already lead to $6553600$ trainable parameters.\\
+Feedforward networks are commonly used to approximate the mapping from some object represented in an input space to its corresponding class. Assuming such a mapping exists these networks are generally capable of approximating the mapping, as mentioned before. While this mapping can be realized using only one hidden layer with a large number of neurons, this approach is infeasible since each possible object in the input space has to be used in order to train the network. Choosing a topology for a neural network becomes crucial if the input space itself has in intrinsic topology. E.g. the information of an object represented in an image is not only represented by the pixel values but also their position inside the image.\\
+
+\subsection{Weight Initialization}
+The weights inside the network are usually initialized randomly. Choosing the right distribution and parameters is crucial for rate at which the network learns. For deep neural networks using sigmoid activation functions Xavier initialization is the most efficient while for ReLUs He initialization has proven to be the most efficient. The distribution from which the weights are chosen are the uniform distribution or the normal distribution. The details for the parameter initialization can be seen in table \ref{tab:initialization}
+
+\begin{table}[H]
+ \begin{center}
+  \begin{tabular}{@{} *2l @{}} \toprule[2pt]
+   Xavier Initialization\\\midrule
+   Weights & Accuracy \\
+   Bias & $85 \%$   \\ 
+   Xavier Initialization\\\midrule
+   Weights & Accuracy \\
+   Bias & $85 \%$   \\ 
+  \end{tabular}
+ \end{center}
+ \caption{Agreement for the classification of damage sites by hand. }
+ \label{tab:Reliability}
+\end{table}
+
+\subsection{Training}
+At first an error function $C$ has to be defined, that satisfies $C>0$ and is minimal only when the network returns the desired output. By doing so a measure is introduced for how far the prediction is from the truth. $C$ depends on all weights and biases in the network. By using backpropagation it is possible to calculate the contribution of each weight and bias to the prediction. 
+%\section{Cost Functions}
+%\begin{itemize}
+%\item How a human learns - punishment?
+%\item Define what is right and what is wrong
+%\item Mathematical foundation to find optimal weights
+%\item Properties of cost functions:
+%\subitem $C>0$
+%\subitem Output of network close to desired output then cost function close to minimum
+%\end{itemize}
+%\subsection{Squared Error}
+%\begin{itemize}
+%\item Linear regression
+%\item Classical error function
+%\end{itemize}
+%\subsection{Categorical Cross Entropy}
+%% http://neuralnetworksanddeeplearning.com/chap3.html#the_cross-entropy_cost_function
+%\begin{itemize}
+%\item Problems with squared error: small gradient
+%\item Definition of cross entropy
+%\item Using definition of sigmoid function shows that the system learns faster the further it is away from the true solution
+%\end{itemize}
+
+A naive approach to constructing a topology in a network would be for example to connect each neuron in one layer with every neuron in its preceding layer, a so called fully connected neural network. Applying this network to the classification of images comes with two major downsides. Firstly the number of trainable parameters grows quickly as the size of the image and the size of the network grows, e.g. classifying an image of size $256\times 256$ with $100$ neurons in the networks first layer would already lead to $6553600$ trainable parameters. Secondly this network is not inherently shift invariant and does not regard the topology of the input space. In the next section a motivation for a special kind of topology, a convolutional neural network, will be motivated using practices for image processing using discrete convolutions.
 
 \section{Discrete Convolutions}\label{sec:DiscreteConvolutions}
-An object that is depicted in an image is a representation of the image. For humans it is possible to decide to which object class it belongs. Therefore it is safe to assume that there exists an underlying function, mapping from the input space to the class space. By now adjusting the architecture of our network we hope that the constructed network will be more effective at approximating this function. 
+For humans it is possible to decide to which object class it belongs. Therefore it is safe to assume that there exists an underlying function, mapping from the input space to the class space. By now adjusting the architecture of our network we hope that the constructed network will be more effective at approximating this function. 
 
-For the task of object classification in images the best performing sub-class of ANNs are convolutional neural networks (CNNs). While inspiration was originally taken from the inner workings of the visual cortex of mammals, based on the pioneering work D. Hubel and T. Wiesel \cite{Hubel}, in this work CNNs will be motivated by techniques used in image processing, specifically discrete convolutions. \\
-An image is represented as an array with shape $M\times N\times C$ with $M$, height $N$ and channels $C$. In an RGB image the number of channels equals $3$ representing the different colours, while in a black and white only one channel is present. Each element takes a value between $0$ and $255$ representing the intensity at its position inside the image. \\
-A convolution acting $I(i_1,i_2,i_3) \in \mathbb{R}$ with indices in 
-\begin{equation}\label{eq:convolutionDiscrete}
-(I*k)(i_1,\dots ,i_n) = \sum_{j_1} \cdots \sum_{j_n} f(i_1,\dots ,i_n) g(i_1-j_1,\dots ,i_n-j_n)
+While inspiration was originally taken from the inner workings of the visual cortex of mammals, based on the pioneering work D. Hubel and T. Wiesel \cite{Hubel1959}, in this work CNNs will be motivated by techniques used in image processing, specifically discrete convolutions. \\
+%An image is represented as an array with shape $M\times N\times C$ with $M$, height $N$ and channels $C$. In an RGB image the number of channels equals $3$ representing the different colours, while in a black and white only one channel is present. Each element takes a value between $0$ and $255$ representing the intensity at its position inside the image. \\
+
+
+A convolution is a linear operation acting on two functions $f$ and $g$, resulting in a new function. Commonly one of the functions is the convolution kernel, say $g$, and the resulting function is a modification of the original function $f$. The operation is given by
+\begin{equation} \label{eq:convolutionContinuous}
+(f*g)(x) = \int_{\mathbb{R}^n} f(x)g(x-y)dy
 \end{equation}
-%A convolution is a linear operation acting on two functions $f$ and $g$, resulting in a new function. Commonly one of the functions is the convolution kernel, say $g$, and the resulting function is a modification of the original function $f$. The operation is given by
-%\begin{equation} \label{eq:convolutionContinuous}
-%(f*g)(x) = \int_{\mathbb{R}^n} f(x)g(x-y)dy
-%\end{equation}
-%where $f$ and $g$ act on $\mathbb{R}^n$. It finds applications in different fields of science, engineering, and pure mathematics. E.g. given a differential equation, $g$ can be the Green's function corresponding to the differential operator, $f$ are the initial conditions, then the convolved function is the solution of the differential equation at arbitrary coordinates. \\
-While working with digitalized data, equation \ref{eq:convolutionContinuous} needs to be generalized for functions acting on the discrete space $\mathbb{Z}^n$, resulting in
+where $f$ and $g$ act on $\mathbb{R}^n$. It finds applications in different fields of science, engineering, and pure mathematics. E.g. given a differential equation, $g$ can be the Green's function corresponding to the differential operator, $f$ are the initial conditions, then the convolved function is the solution of the differential equation at arbitrary coordinates. \\
+
+While working with digitalized data, equation \ref{eq:convolutionContinuous} needs to be adjusted for functions acting on the discrete space $\mathbb{Z}^n$, resulting in
 \begin{equation}\label{eq:convolutionDiscrete}
 (f*g)(i_1,\dots ,i_n) = \sum_{j_1} \cdots \sum_{j_n} f(i_1,\dots ,i_n) g(i_1-j_1,\dots ,i_n-j_n)
 \end{equation}
 $g$ is often times restricted to have non-zero values only in a window of a certain size. For a two-dimensional object this is shown in figure \ref{fig:Convolution}. \\
-One approach to detecting edges in images is to convolve the image with the Sobel operator. It approximates the gradient of the pixel values of an image. Assuming there is an underlying continuous function and an image $I$ is its discretization, the gradient in horizontal direction can be approximated by $G_x$ corresponding to edges in vertical direction and the derivative in vertical direction by $G_y$ corresponding to edges in horizontal direction. $G_x$ and $G_y$ are given by
-\begin{equation}
+
+In image processing discrete convolutions are used in order to find or amplify features in images. One example is the Sobel operator, which is used for the detection of edges in images. It approximates the gradient of the pixel values of an image. Assuming there is an underlying continuous function and an image $I$ is its discretization, the gradient in horizontal direction can be approximated by $G_x$ corresponding to edges in vertical direction and the derivative in vertical direction by $G_y$ corresponding to edges in horizontal direction. $G_x$ and $G_y$ are given by
+\begin{align}
+  \begin{split}
 G_x =
 \begin{pmatrix}
 +1 & 0 & -1 \\
 +2 & 0 & -2 \\
-+1 & 0 & -1 
++1 & 0 & -1 \\
 \end{pmatrix}
-\end{equation}
-and
-\begin{equation}
+\end{split}
+\begin{split}
 G_y = 
 \begin{pmatrix}
 +1 & +2 & +1 \\
 0 & 0 & 0 \\
 -1 & -2 & -1
 \end{pmatrix}
-\end{equation}
+\end{split}
+\end{align}
 The overall gradient can then be calculated by
 \begin{equation}
 G = \sqrt{G_x^2+G_y^2}
 \end{equation}
 in the sense that $G_x$ and $G_y$ are used to convolve the original image, the resulting elements are squared, added, and the square root is applied elementwise. A sample application can be seen in figure \ref{fig:Sobel}. By doing so the relevant feature, the position of the edges, is extracted from the original image. \\
-In the next section adjustments to ANNs will be described in order to get a topology, that reflects the extraction of features in images using convolutions.
+%In the next section adjustments to ANNs will be described in order to get a topology, that reflects the extraction of features in images using convolutions.
 \begin{figure}
 \centering
 \begin{subfigure}{.5\textwidth}
@@ -121,50 +169,215 @@ In the next section adjustments to ANNs will be described in order to get a topo
 \label{fig:Sobel}
 \end{figure}
 
-\section{Convolutional Neural Networks - Architecture}
+\section{Convolutional Neural Networks}
 
-Reflecting the topology of the input the neurons are now arranged in rectangular grid. 
+Starting from a fully connected neural network the action of a discrete convolution can be replicated by rearranging the connections inside the neural network. At first this transformation will be described for the first layer of the network extracting only one feature for an image with only spatial dimensions. The generalization to an image with multiple channels and a layer extracting more than one feature then becomes straightforward. Having the action of one such convolutional layer a convolutional neural network can constructed. \\
 
+In order to preserve the topology of the image the input now is an tensor $I_{m,n}$ with $m=0,\dots ,M-1$ and $n=0,\dots ,N-1$. The connections of a neuron therefore also becomes tensor $W_{m,n}^i$ with $m=0,\dots ,M-1$, $n=0,\dots ,N-1$, and $i$ being the index of the neuron. The bias of neuron $i$ is $b^i$. The output of neuron $i$ then is
 
+\begin{equation}
+v^i = g\left( \sum_{m=0}^{M-1} \sum_{n=0}^{N-1} I_{m,n} W_{m,n}^i + b^i \right)
+\end{equation} \\
+By then restricting the perceptive field of neuron $i=0$ to a window of size $M'\times N'$ anchored at $i'=0,j'=0$ its weight matrix takes the form
 
+\begin{align}
+\begin{split}
+W^0 = 
+\begin{pmatrix}
+\tilde{W}^0 & \boldsymbol{0} \\
+\boldsymbol{0} & \boldsymbol{0} \\
+\end{pmatrix}
+\end{split}
+\begin{split}
+\tilde{W}^0 = 
+\begin{pmatrix}
+\tilde{W}_{0,0}^0 & \tilde{W}_{0,1}^0 & \dots & \tilde{W}_{0,N'-1}^0 \\
+\tilde{W}_{1,0}^0 & \tilde{W}_{1,1}^0 & \dots & \tilde{W}_{1,N'-1}^0 \\
+\vdots & \vdots & \ddots & \vdots \\
+\tilde{W}_{M'-1,0}^0 & \tilde{W}_{M'-1,1}^0 & \dots & \tilde{W}_{M'-1,N'-1}^0 \\
+\end{pmatrix}
+\end{split}
+\end{align}
+Creating copies of this neuron having the same weights but anchored at different positions, such that the entire image is covered, the action of a discrete convolution is recreated. Generalizing the input to have color channels or multiple features, the input takes the form of a tensor of rank $3$ $I_{m,n,c}$ and the weights of have to be adjusted as well to be tensors of rank $3$. The output of this layer now takes the form of equation \ref{eq:convolutionDiscrete}. Such a layer is then capable to learn, by adjusting its weights, what features to extract from its input. Furthermore multiple features can be extracted in each feature, by using multiple convolutions, which are independent from each other. \\
 
-While at first each neuron is still connected to each input neuron, those connections are now restricted to a smaller window of size $m\times n$, in such a manner that the entire input is covered in a regular way. This can be seen in figure \ref{fig:CNN_topology}.
-Due to the special topology of images the neurons have to be rearranged as can be seen in figure \ref{fig:CNN_topology_notrestricted}. By restricting the connections of each neuron to a specific window of size $m\times n$, such that each neuron sees a different part of the original image and heavy weight sharing between all neurons, this layer of neurons performs a convolution on the original image. The result then is a feature map. In a CNN multiple such feature extractors are used in each layer. Additionally to the convolution operation, each to each output a bias is added and a non-linear activation function is applied.\\
-\begin{figure}
+Using discrete convolutions comes with new hyperparameters to choose. These are listed in the following.
+
+\subsubsection{Window Size}
+One of the most important hyperparameters is the size of the convolution window $M' \times N'$. Usually $M' = N'$ is chosen. In a CNN layers can have different values of $N'$. Commonly these have the values of $1$ for bottleneck layers reducing the dimensionality inside the CNN \cite{Bottleneck}, $2,3,5,7$ where it has been argued that kernel sizes larger than $3$ should be replaced by subsequent kernels of size $3$ \cite{InceptionV3}. 
+ 
+\subsubsection{Number of Convolutional Kernels}
+The number of features $c$ to be extracted in each layer. For rather straightforward networks as the image size decreases during processing this fact is compensated by increasing the number of feature maps. 
+
+\subsubsection{Padding}
+Furthermore the treatment of the boundary of the input is of particular interest. The main ways are to either ignore the boundary, leading to an output smaller in size $M\times N \mapsto M-M' \times N-N'$, to expand the input with zeros (zero padding), with the outermost values (same padding), or to introduce periodic boundary conditions at the border (reflect padding).
+
+\subsubsection{Stride}
+The image can be covered by moving the convolution kernel by increments of $1$ in each direction or to move it in larger increments $s_1,s_2$ called the strides. Most commonly $s_1 = s_2 = s$ is chosen. Furthermore the stride is restricted by the size of the convolution kernel $s<N'$ such that the entire input is still covered. $s=1$ and $s=2$ are popular choices for the stride.
+
+\subsection{Additional Layer}
+Besides convolutional layers CNNs also consist of other layers. These will be described in the following.
+
+\subsubsection{Pooling}
+In between convolutional layers pooling layers are often used. These work similar to a convolutional layer except that the action of this layer is predetermined. Just like the convolutional layer pooling layers also have the hyperparameters window size $N^P_1 \times N^P_2$, and stride $s_1^P,s_2^P$, where again $N^P_1 = N^P_2 = N^P$ and $s_1^P=s_2^P=s^P$ are most commonly chosen. An input with the  dimensions $M \times N \times c$ is then mapped to  $M \mapsto \ceil{(M-N^P)/s^P} $ and $N \mapsto \ceil{(N-N^P)/s^P}$ while the channel dimension remains unchanged $c \mapsto c$.\\
+
+The most popular choices for the pooling function are either to take the maximum value inside the window (max pooling) or to take the average. An example of max pooling for an input of size $6\times 4$ and $N^P = 2, s^P = 2$  can be seen in figure \ref{fig:MaxPooling}.\\
+
+\begin{figure}[H]
 \centering
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{CNN_topology.pdf}
-  \caption{Original image}
-  \label{fig:CNN_topology_notrestricted}
-\end{subfigure}%
-\begin{subfigure}{.5\textwidth}
-  \centering
-  \includegraphics[width=\linewidth]{CNN_topology_restricted.pdf}
-  \caption{Edge amplified image}
-  \label{fig:sub2}
-\end{subfigure}
-\caption{Edge amplification}
-\label{fig:Sobel}
+\includegraphics[width=0.8\linewidth]{MaxPooling.pdf}
+\caption{Max pooling}
+\label{fig:MaxPooling}
 \end{figure}
 
+Pooling layers are used for multiple reasons, the main one being to downsample the input and save memory on the GPU. Furthermore by using pooling layers the network becomes increasingly invariant to spatial translations.
+
+\subsubsection{Dropout}
+Multiple approaches exist to prevent overfitting, e.g. introducing additional penalties in the error function, requiring the weights in the network not to grow indefinitely. The most popular approach nowadays is to use dropout during training. First introduced by Srivastava et. al. \cite{DropoutOriginal}, this approach selects a portion of neurons in each layer during training at random and removes them from the network temporarily. Dropping out units from a neural network corresponds to creating a new neural network that shares the existing weights from the original network. After units have been dropped out the network is trained on the training data. This process is repeated and neurons are selected again by random. For a neural network consisting of $n$ neurons there are $2^n$ such possible thinned networks, of which each realization will rarely if at all be trained. The trained weights will then be averaged resulting in a network of the original size. \\
+
+\begin{figure}[H]
+	\centering
+	\includegraphics[width=0.8\linewidth]{dropout.jpeg}
+	 \caption{Dropout Neural Net Model.}
+	 %taken from:http://blog.christianperone.com/2015/08/convolutional-neural-networks-and-feature-extraction-with-python/
+	 %ueberlegen andere grafik zu benutzen
+ \label{DropoutDiagram}
+\end{figure}
+
+In a standard neural network using backpropagation the error function is minimized by using the influence of each parameter, leading to neurons adapting to one another and possibly compensating errors made by those neurons. This co-adaption leads to overfitting since it does not generalize to to unseen data. By randomly dropping out units this effect is suppressed. 
+
+%In their original paper Srivastava et. al. showed this by looking at the first level features of a neural network trained on the MNIST \cite{MNIST} with and without dropout.
+
+
+\subsubsection{Normalization}
+
+
+\subsubsection{Softmax Layer}
+
+
+
+\subsection{Training}
+Having an networks architecture, its weights have to be initialized and adjusted. Initialization is performed usually by choosing the weights at random. For deep neural networks using ReLU's activation functions, this is done by using either a normal or uniform distribution with standard deviation $\sigma = \sqrt{2/n_in}$ where $n_in$ is the number of input units
+
+
+Having a network architecture, its weights have to initialized. These is usually done by initializing them by random. For deep networks using ReLU's He initialization is an appropriate choice. 
+
+%\subsection{He Initialization}
+%Paper:
+%\begin{itemize}
+%\item On weight initialization in deep neural networks
+%\item Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification
+%\end{itemize}
+%\begin{itemize}
+%\item https://arxiv.org/pdf/1502.01852.pdf
+%\item Introduced in order to improve the performance of neural networks with rectified linear units
+%\end{itemize}
+
+\subsubsection{Cost Function}
+In order to penalize a wrong prediction of the netwo
+%\section{Cost Functions}
+%\begin{itemize}
+%\item How a human learns - punishment?
+%\item Define what is right and what is wrong
+%\item Mathematical foundation to find optimal weights
+%\item Properties of cost functions:
+%\subitem $C>0$
+%\subitem Output of network close to desired output then cost function close to minimum
+%\end{itemize}
+%\subsection{Squared Error}
+%\begin{itemize}
+%\item Linear regression
+%\item Classical error function
+%\end{itemize}
+%\subsection{Categorical Cross Entropy}
+%% http://neuralnetworksanddeeplearning.com/chap3.html#the_cross-entropy_cost_function
+%\begin{itemize}
+%\item Problems with squared error: small gradient
+%\item Definition of cross entropy
+%\item Using definition of sigmoid function shows that the system learns faster the further it is away from the true solution
+%\end{itemize}
+
+%\subsection{Gradient Descent}
+%\begin{equation}
+%\Delta w_{ji}(n) = -\eta \frac{\partial E(n)}{\partial w_{ji}(n)}
+%\end{equation}
+%\begin{itemize}
+%\item First order optimization technique
+%\item Calculate local gradient of loss hyper surface
+%\item Follow path of steepest descent
+%\item Adjustable parameter: Learning rate $\eta$
+%\end{itemize}
+
+
+%
+%\section{Convolutional Neural Networks - Architecture}
+%
+%Reflecting the topology of the input the neurons are now arranged in rectangular grid. 
+%
+%
+%
+%
+%While at first each neuron is still connected to each input neuron, those connections are now restricted to a smaller window of size $m\times n$, in such a manner that the entire input is covered in a regular way. This can be seen in figure \ref{fig:CNN_topology}.
+%Due to the special topology of images the neurons have to be rearranged as can be seen in figure \ref{fig:CNN_topology_notrestricted}. By restricting the connections of each neuron to a specific window of size $m\times n$, such that each neuron sees a different part of the original image and heavy weight sharing between all neurons, this layer of neurons performs a convolution on the original image. The result then is a feature map. In a CNN multiple such feature extractors are used in each layer. Additionally to the convolution operation, each to each output a bias is added and a non-linear activation function is applied.\\
+%\begin{figure}
+%\centering
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  \includegraphics[width=\linewidth]{CNN_topology.pdf}
+%  \caption{Original image}
+%  \label{fig:CNN_topology_notrestricted}
+%\end{subfigure}%
+%\begin{subfigure}{.5\textwidth}
+%  \centering
+%  \includegraphics[width=\linewidth]{CNN_topology_restricted.pdf}
+%  \caption{Edge amplified image}
+%  \label{fig:sub2}
+%\end{subfigure}
+%\caption{Edge amplification}
+%\label{fig:Sobel}
+%\end{figure}
+%
+%
+%\begin{figure}
+%\includegraphics[width=\linewidth]{CNN_topology_multiple_feature_maps.pdf}
+%  \caption{Original image}
+%  \label{fig:CNN_topology_notrestricted}
+%\caption{Edge amplification}
+%\label{fig:Sobel}
+%\end{figure}
+%
+%\section{Different Layers Used In CNNs}
+%While the convolutional layer is the most essential part of a network to be defined as a CNN, other layers are used in them that will be described in this section.
+%
+%\subsection{Pooling Layer}
+%Usually a pooling layer follows a convolutional layer. A pooling layer takes, similarly to the convolutional layer, a rectangular as its input. It performs a predefined operation on this window, e.g. it returns the average or the maximum value inside the window. This results in a network that is shift invariant to minor local changes
+%
+%\subsection{Normalization Layer}
+%Batch Normalization
+
+\section{Performance Analysis}
+
+The performance of a classifier can be assessed in multiple ways. In the following confusion matrices and 
+
+\subsection{Confusion Matrix}
+A confusion matrix is a matrix $c$ of shape $k\times k$ where $k$ is the number of possible classes. The elements of this matrix are the number of cases in which an object belonging to class $i$ was classified as class $j$. The diagonal $i=j$ are then objects correctly classified while the remainders are objects that have been misclassified. \\
+
+From the confusion matrix the accuracy results from $ACC = \sum_i c_{i,i} / \sum_{i,j} c_{i,j}$.
+
+
+\subsection{Purity vs Efficiency}
+
+When using a classifier whose accuracy is not sufficient it is possible to increase the number of correctly classified objects at the cost that the classifier will not classify all instances. This is performed by introducing a threshold $\theta$ and only classify if the confidence of the network, the outputted probability like value, exceeds it. Purity is the achieved accuracy on the instances that were classified while efficiency is the ratio of actually classified objects. In figure \ref{fig:PURvsEFF} purity efficiency curves for a classifier working optimally, a classifier assigning classes at random, and a realistic classifier are shown. 
 
 \begin{figure}
-\includegraphics[width=\linewidth]{CNN_topology_multiple_feature_maps.pdf}
-  \caption{Original image}
-  \label{fig:CNN_topology_notrestricted}
-\caption{Edge amplification}
-\label{fig:Sobel}
+\begin{center}
+\includegraphics[width=\linewidth]{ACCvsEFF_example.pdf}
+
+\end{center}
+\caption{PurityEfficiency}
+\label{fig:PURvsEFF}
 \end{figure}
 
-\section{Different Layers Used In CNNs}
-While the convolutional layer is the most essential part of a network to be defined as a CNN, other layers are used in them that will be described in this section.
-
-\subsection{Pooling Layer}
-Usually a pooling layer follows a convolutional layer. A pooling layer takes, similarly to the convolutional layer, a rectangular as its input. It performs a predefined operation on this window, e.g. it returns the average or the maximum value inside the window. This results in a network that is shift invariant to minor local changes
-
-\subsection{Normalization Layer}
-Batch Normalization
+\subsection{LIME}
 
 
 

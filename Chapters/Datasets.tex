@@ -1,10 +1,10 @@
 \chapter{Datasets}
 
-The datasets were obtained in two ways. At first LabelImg \cite{labelimg} was used. With this tool it is possible to mark damage sites in SEM panoramas, requiring the user to search for them by zooming into the micrograph. Later once the localization algorithm was implemented as explained in chapter \ref{cha:Localization}, significantly reducing the required time for the creation of a dataset by negating the need to localize damage sites by hand. The two methods are shown in figure \ref{fig:labeling}. \\
+The datasets were obtained in two ways. At first labelImg \cite{labelImg} was used. With this tool it is possible to mark damage sites in SEM panoramas, requiring the user to search for them by zooming into the micrograph. Later once the localization algorithm was implemented as explained in chapter \ref{cha:Localization}, significantly reducing the required time for the creation of a dataset by negating the need to localize damage sites by hand. The two methods are shown in figure \ref{fig:labeling}. \\
 
 \section{Reliability of Training Data}
 
-Due to the need of consistently labeled datasets, for the training process of the classifier, a study was performed internally beforehand. Six experts were asked to classify $25$ damage sites given the following descriptions. 
+Due to the need of consistently labeled datasets, for the training process of the classifier, a study was performed internally beforehand. Five experts were asked to classify $25$ damage sites given the following descriptions. 
 \begin{itemize}[label={}]
 \item \textbf{Inclusion}: Inclusions, either holes left from preparation or actual inclusions.
 \item \textbf{Martensite Cracking}: Brittle cracked martensite islands.
@@ -12,14 +12,24 @@ Due to the need of consistently labeled datasets, for the training process of th
 \item \textbf{Boundary Decohesion}: Damage to ferrite grain boundaries.
 \item \textbf{Evolved Damage}: More than one active damage mechanism, e.g. martensite cracking evolved into ductile damage in ferrite.
 \end{itemize}
-The agreement with the damage classes determined beforehand can be seen in figure \ref{fig:Reliability}. Major problems arose with boundary decohesions and evolved damage sites. Due to the high concentration of martensite in the dual-phase steel used in this work boundary decohesions occur very rarely. Furthermore another internal in-situ study revealed that damage sites that appear to be boundary decohesions, are actually evolved notch effect sites. Problems with evolved damage sites come from the lack of a clear threshold after which a damage site actually falls into the class of evolved damage sites. Due to this, boundary decohesions and evolved damages were not used for the classification algorithm to distinguish between. \\
+The agreement with the damage classes determined beforehand can be seen in table \ref{tab:Reliability}. Major problems arose with boundary decohesions and evolved damage sites. Due to the high concentration of martensite in the dual-phase steel used in this work boundary decohesions occur very rarely. Furthermore another internal in-situ study revealed that damage sites that appear to be boundary decohesions, are actually evolved notch effect sites. Problems with evolved damage sites come from the lack of a clear threshold after which a damage site falls into the class of evolved damage sites. Due to this, boundary decohesions and evolved damages were not used for the classification algorithm to distinguish between. Furthermore the class notch effect was introduced. \\
 
-\begin{figure}
-\centering
-  \includegraphics[width=\linewidth]{Reliability_cropped.pdf}
-  \caption{Dual-phase steel SEM micrograph}
-  \label{fig:Reliability}
-\end{figure}
+\begin{table}[H]
+ \begin{center}
+  \begin{tabular}{@{} *2l @{}} \toprule[2pt]
+   Damage Category & Accuracy \\\midrule
+   Martensite Cracking & $85 \%$   \\ 
+   Inclusion  & $84 \%$ \\ 
+   Interface Decohesion  & $76 \% $ \\
+   Evolved & $56\%$ \\
+   Boundary Decohesion & $44 \%$ \\ \bottomrule[2pt]
+
+  \end{tabular}
+ \end{center}
+ \caption{Agreement for the classification of damage sites by hand. }
+ \label{tab:Reliability}
+\end{table}
+
 
 \section{Datasets}
 During deformation artifacts can form on the surface of the micrograph. A few examples of such artifacts are shown in figure \ref{fig:artifacts}. Due to the preparation of the sample these do not show in ex-situ experiments and very rarely in early stages of in-situ experiments. The dataset is therefore split into two categories. The first one consists of surface micrographs not containing artifacts on the probes set, while the second one consists of surface micrographs containing said artifacts. \\

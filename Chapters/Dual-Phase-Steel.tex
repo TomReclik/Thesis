@@ -1,63 +1,69 @@
 \chapter{Dual-Phase Steel}
 
-Dual-phase steels are a class of advanced high-strength steels. On a microstructural level dual-phase steels consist of a ductile ferrite matrix with islands of brittle martensite. It furthermore can contain austenite, pearlite, bainite, carbides and acicular ferrites. From an engineering point of view it exhibits multiple advantageous properties besides its rather straightforward thermodynamical processing. Dual-phase steels combine a high ultimate tensile strength, caused by the brittle martensite, a low initial yielding stress, enabled by the ductile ferrite, high fracture strain, and a high hardening ratio. Combined with their low weight they are of particular interest in the automotive industry, where they are used for steel sheets. \\
+Dual-phase steels are a class of advanced high-strength steels. They combine a high ultimate tensile strength, caused by the brittle martensite, a low initial yielding stress, enabled by the ductile ferrite, high fracture strain, and a high hardening ratio. These advantageous properties together with their rather straightforward thermodynamical processing and light weight make them particularly interesting for the automotive industry, where they are mostly used for steel sheets. \\
+
+%They exhibit multiple advantageous properties besides its rather straightforward thermodynamical processing.Combined with their low weight they are of particular interest in the automotive industry, where they are used for steel sheets. \\
 %Dual-phase steels are a class of advanced high-strength steels. On a microstructural level they consist of a ductile ferrite matrix with islands of brittle martensite. Furthermore they can contain, austenite remaining from the processing of the material, pearlite, bainite carbides, and acicular ferrite. The hard martensite is responsible for the materials high ultimate strength, while the ductile ferrite results in a low initial yield strength. Those advantageous properties together with a high fracture strain, high hardening ratio, and their light weight makes them interesting from a engineering point of view, especially in the automotive industry, where dual-phase steels are used for steel sheets. \\
 
-While the microstructure of dual-phase steels is seemingly simple, its influence on the mechanical properties of dual-phase steels is only partially understood and research is ongoing. This is due to the fact that multiple microstructural parameters, like the martensite volume ratio, the size of martensite islands, the morphology, etc. play an important role for the macroscopic behavior. The microstructure at the surface of a sample is shown in figure \ref{fig:DPMicrostructure}. \\
+On a microstructural level dual-phase steels consist of a ductile ferrite matrix, responsible for the materials low initial yielding stress, with islands of brittle martensite, which lead to the high ultimate tensile strength. They furthermore can contain austenite, pearlite, bainite, carbides and acicular ferrites. While the microstructure of dual-phase steels is seemingly simple, its influence on the mechanical properties of dual-phase steels is only partially understood and research is ongoing. This is due to the fact that multiple microstructural parameters, like the martensite volume ratio, the size of martensite islands, the morphology, etc. play an important role in the macroscopic behavior. The microstructure at the surface of a sample is shown in figure \ref{fig:DPMicrostructure}. \\
 
 \begin{figure}
 \centering
   \includegraphics[width=\linewidth]{DPSteelMicrostructure.png}
-  \caption{Dual-phase steel SEM micrograph}
+  \caption{Dual-phase steel SEM micrograph.}
   \label{fig:DPMicrostructure}
 \end{figure}
 
 \section{Damage Mechanisms}
+During deformation dual-phase steels firstly deform strictly elastically. If the applied stress is released the sample returns to its original state. Increasing the stress further up to the yield stress the material will be deformed permanently but upon releasing the applied stress it will return elastically to a different geometry. Beyond the yield stress damages nucleate inside the material permanently damaging the material. The yield stress together with the tensile strength and ultimate elongation are marked in the stress strain that can be seen in the appendix \ref{fig:DPStressStrain}.
 
-While under tensile stress, the material exhibits irreversible deformation at stresses above the yield point. A stress-strain curve is shown in figure \ref{fig:DPStressStrain}. Beyond this point voids can nucleate in the microstructure. These voids are classified based on their relative position to the constituents of the dual-phase steel. The classes are as follows
+The emerging voids in the materials microstructure are classified based on their relative position to the constituents of the dual-phase steel. The classes are as follows
+%While under tensile stress, the material exhibits irreversible deformation at stresses above the yield point. A stress-strain curve is shown in figure \ref{fig:DPStressStrain}. Beyond this point voids can nucleate in the microstructure. These voids are classified based on their relative position to the constituents of the dual-phase steel. The classes are as follows
 \begin{itemize}[label={}]
 \item \textbf{Martensite Cracking}: A crack nucleating inside a martensite island.
 \item \textbf{Interface Decohesion}: Nucleation of a void at the interface between a martensite island and a ferrite grain.
 \item \textbf{Boundary Decohesion}: Nucleation of a void at the interface between two adjacent ferrite grains.
 \item \textbf{Notch Effect}: A void nucleating between the tips of two martensite islands. 
 \end{itemize}
-Additionally influencing the materials behavior are
+Furthermore important for the materials behavior are foreign particles. These do not nucleate under stress but are introduced to the material during its processing.
 \begin{itemize}[label={}]
 \item \textbf{Inclusions}: A foreign particle remaining from the processing of the material. 
 \end{itemize}
-The different possible damage mechanisms are shown in figure \ref{fig:DamageCategories_abstraction}. \\
-Due to the high concentration of martensite in the dual-phase steel used in this study, boundary decohesions occur rarely or not at all. In in-situ experiments, most of the sites classified at a certain stage, without knowledge of the previous state, as boundary decohesions turned out to be evolved notch effect sites. Examples for each damage category can be seen in figure \ref{fig:DamageCategories}.\\
+Abstracted examples of the possible damage mechanisms are shown in figure \ref{fig:DamageCategories_abstraction}. \\
+
+
+%Due to the high concentration of martensite in the dual-phase steel used in this study, boundary decohesions occur rarely or not at all. In in-situ experiments, most of the sites classified at a certain stage, without knowledge of the previous state, as boundary decohesions turned out to be evolved notch effect sites. Examples for each damage category can be seen in figure \ref{fig:DamageCategories}.\\
 
 \begin{figure}
 \begin{subfigure}{.2\textwidth}
 \centering
-  \includegraphics[width=.8\linewidth]{MartensiteCracking_abstraction.pdf}
+  \includegraphics[width=.8\linewidth]{MartensiteCracking_abstraction_scalebar.pdf}
   \caption{MC}
   \label{fig:MC}
 \end{subfigure}%
 \begin{subfigure}{.2\textwidth}
 \centering
-  \includegraphics[width=.8\linewidth]{InterfaceDecohesion_abstraction.pdf}
+  \includegraphics[width=.8\linewidth]{InterfaceDecohesion_abstraction_scalebar.pdf}
   \caption{ID}
   \label{fig:Interface_scalebar}
 \end{subfigure}%
 \centering
 \begin{subfigure}{.2\textwidth}
 \centering
-  \includegraphics[width=.8\linewidth]{BoundaryDecohesion_abstraction.pdf}
+  \includegraphics[width=.8\linewidth]{BoundaryDecohesion_abstraction_scalebar.pdf}
   \caption{BD}
   \label{fig:Inclusion_scalebar}
 \end{subfigure}%
 \begin{subfigure}{.2\textwidth}
 \centering
-  \includegraphics[width=.8\linewidth]{NotchEffect_abstraction.pdf}
+  \includegraphics[width=.8\linewidth]{NotchEffect_abstraction_scalebar.pdf}
   \caption{NE}
   \label{fig:Notch_scalebar}
 \end{subfigure}%
 \centering
 \begin{subfigure}{.2\textwidth}
 \centering
-  \includegraphics[width=.8\linewidth]{Inclusion_abstraction.pdf}
+  \includegraphics[width=.8\linewidth]{Inclusion_abstraction_scalebar.pdf}
   \caption{Inclusion}
   \label{fig:Inclusion_scalebar}
 \end{subfigure}%
@@ -74,10 +80,10 @@ Before the experiments were performed, the surface of the dual-phase steel was p
 The probe geometry was chosen in such a way that the center of the probe experiences almost homogeneous stress. It can be seen in figure \ref{fig:ProbeGeometry}. \\
 
 \noindent \textbf{Tensile Tests}\\
-Tensile tests were performed with engineering stresses ranging from $4$ to $8$. \\
+In order to study the damage mechanisms inside the materials microstructure, stresses were applied beyond its yield stress. \\
 
 \noindent \textbf{SEM Specifications} \\
-The specifications and settings of the SEM can be seen in table \ref{tab:SEM}.\\
+The surface of the material after deformation was recorded using an SEM. Its specifications and settings can be seen in table \ref{tab:SEM}. \\
 
 \begin{table}[H]
  \begin{center}
@@ -89,8 +95,8 @@ The specifications and settings of the SEM can be seen in table \ref{tab:SEM}.\\
    Detector Type & Secondary Electrons \\
    Electron Source & Field-Emitter Cathode \\ \bottomrule[2pt]
 
-   \label{tab:SEM}
   \end{tabular}
  \end{center}
  \caption{Details of the SEM used for the surface micrographs.}
+   \label{tab:SEM}
 \end{table}

@@ -1,4 +1,4 @@
-\documentclass[10pt,a4paper]{report}
+\documentclass[12pt,a4paper]{report}
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{amsmath}
@@ -10,11 +10,16 @@
 \usepackage{float}
 \usepackage[bookmarks]{hyperref}
 \usepackage{enumitem}
+\usepackage{multicol}
+\usepackage{relsize}
+\usepackage{mathtools}
+\DeclarePairedDelimiter\ceil{\lceil}{\rceil}
+\DeclarePairedDelimiter\floor{\lfloor}{\rfloor}
 
 \restylefloat{table}
 \graphicspath{{./Images/}}
 \newcommand\tab[1][0.5cm]{\hspace*{#1}}
-\renewcommand{\baselinestretch}{1.25} 
+\renewcommand{\baselinestretch}{1.5} 
 
 \title{Application of Deep Convolutional Neural Network for the Classification of Damage Sites in Dual-Phase Steels}
 \author{Tom Markus Reclik}
@@ -52,16 +57,18 @@
 %
 %%Different kinds of damages can emerge in dual phase steel under uniaxial and biaxial tension. Gathering statisticly meaningful data is an important means for understanding its mechanical properties. The process of collecting data to this point is performed either manually or partly assisted by computational means. In this thesis we ask whether it is possible to automatize this process of locating and categorizating damages by means of artificial neural networks. Solving this problem we face to problems. On the one hand a low volume of training data compared to classical categorization problems. Secondly damages are objects mostly defined by their surroundings rather than by their own properties.
 %\end{abstract}
-\include{Chapters/Introduction}
-\include{Chapters/Dual-Phase-Steel}
-\include{Chapters/Datasets}
+%\include{Chapters/Introduction}
+%\include{Chapters/Dual-Phase-Steel}
+%\include{Chapters/Datasets}
 %\include{Chapters/Chapter1}
 %%%\include{Chapters/CNN}
 \include{Chapters/CNN_neu}
-%%\include{Chapters/Chapter3}
+%\include{Chapters/PreliminaryStudies}
+%%%\include{Chapters/Chapter3}
 %\include{Chapters/Architecture}
 %\include{Chapters/Performance}
-%\include{Chapters/Appendix}%
+%\include{Chapters/Workflow}
+%\include{Chapters/Appendix}
 %\include{Chapters/Chapter4}
 %
 \bibliography{Citations,ImageNetCitation}{}

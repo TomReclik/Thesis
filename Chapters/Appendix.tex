@@ -1,0 +1,271 @@
+% Chapter 2
+
+\chapter{Appendix} % Main chapter title
+
+\label{Appendix} % For referencing the chapter elsewhere, use \ref{Chapter1} 
+
+\section{Stress-Strain Curve of Dual-Phase Steel 800}
+
+\begin{figure}[H]
+\centering
+  \includegraphics[width=\linewidth]{StressStrain.pdf}
+  \caption{Dual-phase steel SEM micrograph}
+  \label{fig:DPStressStrain}
+\end{figure}
+
+%
+%\section{Cost Functions}
+%\begin{itemize}
+%\item How a human learns - punishment?
+%\item Define what is right and what is wrong
+%\item Mathematical foundation to find optimal weights
+%\item Properties of cost functions:
+%\subitem $C>0$
+%\subitem Output of network close to desired output then cost function close to minimum
+%\end{itemize}
+%\subsection{Squared Error}
+%\begin{itemize}
+%\item Linear regression
+%\item Classical error function
+%\end{itemize}
+%\subsection{Categorical Cross Entropy}
+%% http://neuralnetworksanddeeplearning.com/chap3.html#the_cross-entropy_cost_function
+%\begin{itemize}
+%\item Problems with squared error: small gradient
+%\item Definition of cross entropy
+%\item Using definition of sigmoid function shows that the system learns faster the further it is away from the true solution
+%\end{itemize}
+%
+%\section{Activation Functions}
+%Some interesting facts check where to put them later
+%\begin{itemize}
+%\item gap between computational neuroscience models and machine learining models
+%\subitem brain: neurons encode information in a sparse and distributed way check http://journals.sagepub.com/doi/pdf/10.1097/00004647-200110000-00001
+%\subitem non-linear activation functions: leaky integrate and fire, sigmoid and tanh similar
+%\subitem firing rate of sigmoid about $1/2$ 
+%\subitem firing rate of tanh about $0$ but antisymmetry absent in biological neurons
+%\end{itemize}
+%\subsection{Binary Activation Function}
+%\begin{itemize}
+%\item Inspired from biological neurons
+%\item Historically first used
+%\item Rosenblatt perceptron
+%\end{itemize}
+%\subsection{Sigmoid}
+%\begin{equation}
+%\phi(v) = \frac{1}{1+\exp(-\alpha v)}
+%\end{equation}
+%\begin{figure}
+%%sigmoid plot
+%\end{figure}
+%\begin{itemize}
+%\item Small changes in input should result in small changes in the output
+%\item Continuous activation functions
+%\item Problems:
+%\subitem Saturation for small and large input (gradient very small)
+%\subitem Always positive (use functions like arctangent)
+%\end{itemize}
+%\subsection{Hyperbolic Tangent}
+%\begin{equation}
+%\phi(v) = \tanh(\alpha x)
+%\end{equation}
+%\begin{itemize}
+%\item Biologically less plausible than sigmoid activation function
+%\item Positive and negative
+%\item Better suited for the training of multilayer neural networks
+%\end{itemize}
+%
+%\subsection{ReLu}
+%\begin{equation}
+%\phi(v) = \max(0,x)
+%\end{equation}
+%\begin{itemize}
+%\item Useful paper \cite{DeepSparceRectifierNN}
+%\item Inspired by sparsity of activation
+%\item Rectifying non-linearity gives rise to real zeros
+%\end{itemize}
+%
+%\subsection{Advanced ReLu}
+%\begin{itemize}
+%\item PReLu with trainable parameter $a_i$
+%\item Leaky ReLu ...
+%\end{itemize}
+%
+%\subsection{Softmax}
+%\begin{equation}
+%\phi_j^L = \frac{e^{z_j^L}}{\sum_k e^{z_k^L}}
+%\end{equation}
+%\begin{itemize}
+%\item Sumation over output neurons equals $1$
+%\item All activations sum up to 1
+%\item Can be interpreted as probability distribution
+%\end{itemize}
+%
+%\section{Comparison}
+%Paper:
+%\begin{itemize}
+%\item Empirical Evaluation of Rectified Activations in Convolution Network
+%\end{itemize}
+%
+%
+%\subsection{Gradient Descent}
+%\begin{equation}
+%\Delta w_{ji}(n) = -\eta \frac{\partial E(n)}{\partial w_{ji}(n)}
+%\end{equation}
+%\begin{itemize}
+%\item First order optimization technique
+%\item Calculate local gradient of loss hyper surface
+%\item Follow path of steepest descent
+%\item Adjustable parameter: Learning rate $\eta$
+%\end{itemize}
+%\begin{figure}
+%\caption{Show trajectory of gradient descent with different learning rates}
+%\end{figure}
+%
+%\subsection{Momentum Gradient Descent}
+%\begin{itemize}
+%\item Gradient descent: taking step always in direction of instantaneous steepest descent
+%\item Momentum gradient descent: add momentum (compare to ball rolling down hill
+%\item Inertia: smoother, accelerator, dampening oscillations, helps navigate past local minima (Hier aufpassen noch sehr nah an https://distill.pub/2017/momentum/)
+%\item Adding momentum corresponds to giving short term memory
+%\end{itemize}
+%\begin{figure}
+%\caption{Show trajectory of gradient descent with momentum with different parameters}
+%\end{figure}
+%
+%\subsection{Stochastic Gradient Descent}
+%Paper:
+%\begin{itemize}
+%\item Efficient Mini-batch Training for Stochastic Optimization
+%\end{itemize}
+%\begin{itemize}
+%\item Instead of using the informationi of the entire training data use only single elements or batch of elements (batch stochastic gradient descent) from the training data
+%\end{itemize}
+%
+%\subsection{Adam}
+%\begin{itemize}
+%\item Only uses first order gradients
+%\item Computes individual adaptive learning rates for different parameters from estimates of first and second moments of gradients
+%\item Adaptive moment estimation $\rightarrow$ Adam
+%\end{itemize}
+%
+%\subsection{L-BFGS}
+%
+%
+%\section{Weight Initialization}
+%\begin{itemize}
+%\item How to initialize Network properly in order to quickly find the optimal configuration
+%\item Naive: Set everything to zero $\rightarrow$ bad, have to introduce symmetry breaking
+%\item `` Biases can generally be initialized to zero but weights need to be initialized carefully to break the symmetry between hidden units of the same layer. Because different output units receive different gradient signals, this symmetry breaking issue does not concern the output weights (into the output units), which can therefore also be set to zero.''
+%\item Standard gradient descent performing poorly on deep neural networks with random initialization
+%\end{itemize}
+%
+%\subsection{Xavier Initialization}
+%Paper:
+%\begin{itemize}
+%\item Understanding the difficulty of training deep feedforward neural networks
+%\end{itemize}
+%\begin{itemize}
+%\item Introduced to train deep neural networks with sigmoids, tanh or softsign
+%\item Ensure error signal reaches all layers
+%\end{itemize}
+%
+%\subsection{He Initialization}
+%Paper:
+%\begin{itemize}
+%\item On weight initialization in deep neural networks
+%\item Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification
+%\end{itemize}
+%\begin{itemize}
+%\item https://arxiv.org/pdf/1502.01852.pdf
+%\item Introduced in order to improve the performance of neural networks with rectified linear units
+%\end{itemize}
+%
+%\subsection{Comparison}
+%\begin{itemize}
+%\item Show training of deep network with the two different initialization techniques
+%\end{itemize}
+%
+%
+%
+%\section{Regularization}
+%\begin{itemize}
+%\item Training set not representative of problem
+%\item Overfitting a problem, detects features not relevant for the classification task
+%\item How to train the network such that it generalizes well
+%\item Generalization of network: performance on data not part of training data
+%\end{itemize}
+%
+%\subsection{Early Stopping}
+%\begin{itemize}
+%\item Split data into training, validation and test
+%\item Performance of network on validation set indicator for how well the network generalizes
+%\item Once the performance on the validation set stagnates or decreases stop training, from this point irrelevant features will be detected
+%\end{itemize}
+%\begin{figure}
+%\caption{Show plot of accuracy/loss on training and validation set over epochs}
+%\end{figure}
+%
+%\subsection{Regularization Theory}
+%
+%\subsection{Dropout}
+%Paper:
+%\begin{itemize}
+%\item Improving neural networks by preventing co-adaptation of feature detectors
+%\item Dropout as data augmentation
+%\item Dropout: A Simple Way to Prevent Neural Networks from Overfitting
+%\end{itemize}
+%A different approach, Dropout, to regularization was first introduced by Srivastava et. al. \cite{DropoutOriginal}. Instead of introducing an additional term to the error function keeping the weights between neurons \"small\" or stopping the training early, once the accuracy on the validation set stagnates, neurons are chosen by random and \"droped out\", hence the name. This can be seen in \ref{DropoutDiagram} \\
+%Dropping out units from a neural network corresponds to creating a new neural network that shares the existing weights from the original network. After units have been dropped out the network is trained on the training data. This process is repeated and neurons are selected again by random. For a neural network consisting of $n$ neurons there are $2^n$ such possible thinned networks, of which each realization will rarely if at all be trained. The trained weigths will then be averaged resulting in a network of the original size.
+%
+%\begin{figure}
+%	\centering
+%	\includegraphics[width=6cm]{dropout.jpeg}
+%	 \caption{Dropout Neural Net Model.}
+%	 %taken from:http://blog.christianperone.com/2015/08/convolutional-neural-networks-and-feature-extraction-with-python/
+%	 %ueberlegen andere grafik zu benutzen
+% \label{DropoutDiagram}
+%\end{figure}
+%
+%In a standard neural network using backpropagation the error function is minimized by using the influence of each parameter, leading to neurons adapting to one another and possibly compensating errors made by those neurons. This co-adaption leads to overfitting since it does not generalize to to unseen data. By randomly dropping out units this effect is suppressed. In their original paper Srivastava et. al. showed this by looking at the first level features of a neural network trained on the MNIST \cite{MNIST} with and without dropout. As can be seen in \ref{Dropout_coadption} features learned without dropout co-adapt to one another while the features learned with dropout are seperated more clearly.
+%
+%\begin{figure}
+%	\centering
+%	\includegraphics[width=\textwidth]{dropout-coadaption.png}
+%	 \caption{Features learned on the MNIST data set with one hidden layer autoencoders having 256 rectified linear units. \cite{DropoutOriginal}}
+%	 %taken from:http://blog.christianperone.com/2015/08/convolutional-neural-networks-and-feature-extraction-with-python/
+%	 %ueberlegen andere grafik zu benutzen
+% \label{Dropout_coadption}
+%\end{figure}
+%
+%\subsection{Dropconnect}
+%Paper:
+%\begin{itemize}
+%\item Regularization of neural networks using dropconnect
+%\end{itemize}
+%\begin{itemize}
+%\item Further development of Dropout
+%\item Instead of dropping neurons drop connections
+%\item Slight improvement over dropout
+%\end{itemize}
+%
+%\subsection{Batch Normalization}
+%Paper:
+%\begin{itemize}
+%\item Batch Normalization: Accelerating Deep Network Training
+%\end{itemize}
+%
+%
+%\section{Optimization of Hyperparameters}
+%Paper:
+%\begin{itemize}
+%\item Practical recommendations for gradient-based training of deep architectures
+%\end{itemize}
+%\begin{itemize}
+%\item Two kinds of parameters:
+%\subitem Parameters intrinsic to the model (model selection)
+%\subitem Hyperparameters used for the training of the model
+%\item Grid search of hyperparameters
+%\subitem Logarithmic search
+%\subitem Random search (curse of dimensionality)
+%\end{itemize}

@@ -21,7 +21,7 @@ with some non-linear activation function $g$. As can be seen from the its diagra
 \begin{figure}
 \centering
   \includegraphics[width=0.9\linewidth]{Neuron.pdf}
-  \caption{Perceptron}
+  \caption{A single artificial neuron with $6$ inputs.}
   \label{fig:Neuron}
 \end{figure}
 %%The basic building block of each artificial neural network is the neuron. Given an input vector $x$ it performs a weighted sum and adds a bias
@@ -40,49 +40,52 @@ In feedforward neural networks neurons are arranged in a layered fashion. Each l
 
 The action of a layer $l$ can best be described by using matrix notation. 
 \begin{equation}
-W_l = 
+W^l = 
 \begin{pmatrix}
-w_{1,1}^l & w_{1,2}^l & \dots & w_{1,n_{l-1}}^l \\
-w_{2,1}^l & w_{2,2}^l & \dots & w_{2,n_{l-1}}^l \\
+w_{0,0}^l & w_{0,1}^l & \dots & w_{0,n_{l-1}-1}^l \\
+w_{1,0}^l & w_{1,1}^l & \dots & w_{1,n_{l-1}-1}^l \\
 \vdots & \vdots & \vdots & \vdots \\
-w_{n_l,1}^l & w_{n_l,2}^l & \dots & w_{n_l,n_{l-1}}^l \\
+w_{n_l-1,0}^l & w_{n_l-1,1}^l & \dots & w_{n_l-1,n_{l-1}-1}^l \\
 \end{pmatrix}
 \end{equation}
-where $w_i^l$ is the weight vector of neuron $i$ in layer $l$, $n_l$ is the number of neurons in layer $l$ and $n_{l-1}$ is the number of neurons in its previous layer. $W_l$ is matrix of real valued numbers of dimension $n_l \times n_{l-1}$. Furthermore the biases of all neurons in layer $l$ are collected in a bias vector. The mapping of layer $l$ can then be expressed as 
+where $w_i^l$ is the weight vector of neuron $i$ in layer $l$, $n_l$ is the number of neurons in layer $l$ and $n_{l-1}$ is the number of neurons in its previous layer. $W^l$ is matrix of real valued numbers of dimension $n_l \times n_{l-1}$. Furthermore the biases of all neurons in layer $l$ are collected in a bias vector $b^l$. The mapping of layer $l$ can then be expressed as 
 %By now also collecting the biases of all neurons in layer $l$ in a bias vector $b_l$.  and letting the layer dependent activation function act elementwise the action of a layer on its input can be defined as
 \begin{equation}
-x_{l-1} \mapsto g_l(W_l x_{l-1} + b_l)
+x_{l-1} \mapsto g_l(W^l x_{l-1} + b^l)
 \end{equation}
 where $g_l$ is the layer dependent activation function that is applied elementwise to the input vector. A rather simple ANN is depicted in figure \ref{fig:ANN}. \\
-\begin{figure}
+\begin{figure}[H]
 \centering
   \includegraphics[width=0.8\linewidth]{SimpleNeuron-crop.pdf}
   \caption{An ANN with an input vector of $5$ elements, $3$ hidden layers, containing $6$ neurons each, outputting a single real number. Each edge corresponds to the weight connection between the connected neurons. }
   \label{fig:ANN}
 \end{figure}
 
-Feedforward networks are commonly used to approximate the mapping from some object represented in an input space to its corresponding class. Assuming such a mapping exists these networks are generally capable of approximating the mapping, as mentioned before. While this mapping can be realized using only one hidden layer with a large number of neurons, this approach is infeasible since each possible object in the input space has to be used in order to train the network. Choosing a topology for a neural network becomes crucial if the input space itself has in intrinsic topology. E.g. the information of an object represented in an image is not only represented by the pixel values but also their position inside the image.\\
+The weights and biases of the network are initialized randomly, using distributions with different variances depending on the activation function used in the network, e.g. He initialization \cite{HeInitialization} for ReLU functions and Xavier initialization \cite{XavierInitialization} for sigmoid functions. After the weights have been initialized the training is performed using the backpropagation algorithm \cite{Backpropagation}. Having defined an appropriate cost function $C$ the backpropagation algorithm calculates the contribution of each weight and bias to the cost function and adjusts the weights by employing a numerical optimizer, i.e. the algorithm searches for the global minimum of the cost function. The simplest optimizer is the gradient descent algorithm adjusting the weights by correcting them in the direction of the steepest descend of the cost function hypersurface. Todays optimizers use more advanced concepts that still rely on the gradient descent method but adjust it for example for the momentum. 
 
-\subsection{Weight Initialization}
-The weights inside the network are usually initialized randomly. Choosing the right distribution and parameters is crucial for rate at which the network learns. For deep neural networks using sigmoid activation functions Xavier initialization is the most efficient while for ReLUs He initialization has proven to be the most efficient. The distribution from which the weights are chosen are the uniform distribution or the normal distribution. The details for the parameter initialization can be seen in table \ref{tab:initialization}
+Feedforward networks are commonly used to approximate the mapping from some object represented in an input space to its corresponding class. Assuming such a mapping exists these networks are generally capable of approximating the mapping, as mentioned before. %While this mapping can be realized using only one hidden layer with a large number of neurons, this approach is infeasible since each possible object in the input space has to be used in order to train the network.
+ Choosing a topology for a neural network becomes crucial if the input space itself has in intrinsic topology. E.g. the information of an object represented in an image is not only represented by the pixel values but also their position inside the image.\\
 
-\begin{table}[H]
- \begin{center}
-  \begin{tabular}{@{} *2l @{}} \toprule[2pt]
-   Xavier Initialization\\\midrule
-   Weights & Accuracy \\
-   Bias & $85 \%$   \\ 
-   Xavier Initialization\\\midrule
-   Weights & Accuracy \\
-   Bias & $85 \%$   \\ 
-  \end{tabular}
- \end{center}
- \caption{Agreement for the classification of damage sites by hand. }
- \label{tab:Reliability}
-\end{table}
+%\subsection{Weight Initialization}
+%The weights inside the network are usually initialized randomly. Choosing the right distribution and parameters is crucial for rate at which the network learns. For deep neural networks using sigmoid activation functions Xavier initialization is the most efficient while for ReLUs He initialization has proven to be the most efficient. The distribution from which the weights are chosen are the uniform distribution or the normal distribution. The details for the parameter initialization can be seen in table \ref{tab:initialization}
+%
+%\begin{table}[H]
+% \begin{center}
+%  \begin{tabular}{@{} *2l @{}} \toprule[2pt]
+%   Xavier Initialization\\\midrule
+%   Weights & Accuracy \\
+%   Bias & $85 \%$   \\ 
+%   Xavier Initialization\\\midrule
+%   Weights & Accuracy \\
+%   Bias & $85 \%$   \\ 
+%  \end{tabular}
+% \end{center}
+% \caption{Agreement for the classification of damage sites by hand. }
+% \label{tab:Reliability}
+%\end{table}
 
-\subsection{Training}
-At first an error function $C$ has to be defined, that satisfies $C>0$ and is minimal only when the network returns the desired output. By doing so a measure is introduced for how far the prediction is from the truth. $C$ depends on all weights and biases in the network. By using backpropagation it is possible to calculate the contribution of each weight and bias to the prediction. 
+%\subsection{Training}
+%At first an error function $C$ has to be defined, that satisfies $C>0$ and is minimal only when the network returns the desired output. By doing so a measure is introduced for how far the prediction is from the truth. $C$ depends on all weights and biases in the network. By using backpropagation it is possible to calculate the contribution of each weight and bias to the prediction. 
 %\section{Cost Functions}
 %\begin{itemize}
 %\item How a human learns - punishment?
@@ -105,7 +108,7 @@ At first an error function $C$ has to be defined, that satisfies $C>0$ and is mi
 %\item Using definition of sigmoid function shows that the system learns faster the further it is away from the true solution
 %\end{itemize}
 
-A naive approach to constructing a topology in a network would be for example to connect each neuron in one layer with every neuron in its preceding layer, a so called fully connected neural network. Applying this network to the classification of images comes with two major downsides. Firstly the number of trainable parameters grows quickly as the size of the image and the size of the network grows, e.g. classifying an image of size $256\times 256$ with $100$ neurons in the networks first layer would already lead to $6553600$ trainable parameters. Secondly this network is not inherently shift invariant and does not regard the topology of the input space. In the next section a motivation for a special kind of topology, a convolutional neural network, will be motivated using practices for image processing using discrete convolutions.
+One approach to construct a topology in a network would be for example to connect each neuron in one layer with every neuron in its preceding layer, a so called fully connected neural network. Applying this network to the classification of images comes with two major downsides. Firstly the number of trainable parameters grows quickly as the size of the image and the size of the network grows, e.g. classifying an image of size $256\times 256$ with $100$ neurons in the networks first layer would already lead to $6553600$ trainable parameters. Secondly such a network is not inherently shift invariant and does not regard the topology of the input space. In the next section a motivation for a special kind of topology, a convolutional neural network, will be motivated using practices for image processing using discrete convolutions.
 
 \section{Discrete Convolutions}\label{sec:DiscreteConvolutions}
 For humans it is possible to decide to which object class it belongs. Therefore it is safe to assume that there exists an underlying function, mapping from the input space to the class space. By now adjusting the architecture of our network we hope that the constructed network will be more effective at approximating this function. 
@@ -114,7 +117,7 @@ While inspiration was originally taken from the inner workings of the visual cor
 %An image is represented as an array with shape $M\times N\times C$ with $M$, height $N$ and channels $C$. In an RGB image the number of channels equals $3$ representing the different colours, while in a black and white only one channel is present. Each element takes a value between $0$ and $255$ representing the intensity at its position inside the image. \\
 
 
-A convolution is a linear operation acting on two functions $f$ and $g$, resulting in a new function. Commonly one of the functions is the convolution kernel, say $g$, and the resulting function is a modification of the original function $f$. The operation is given by
+A convolution is a linear operation acting on two functions $f$ and $g$, resulting in a new function. Commonly one of the functions is called the convolution kernel, say $g$, and the resulting function is a modification of the original function $f$. The operation is given by
 \begin{equation} \label{eq:convolutionContinuous}
 (f*g)(x) = \int_{\mathbb{R}^n} f(x)g(x-y)dy
 \end{equation}
@@ -125,6 +128,13 @@ While working with digitalized data, equation \ref{eq:convolutionContinuous} nee
 (f*g)(i_1,\dots ,i_n) = \sum_{j_1} \cdots \sum_{j_n} f(i_1,\dots ,i_n) g(i_1-j_1,\dots ,i_n-j_n)
 \end{equation}
 $g$ is often times restricted to have non-zero values only in a window of a certain size. For a two-dimensional object this is shown in figure \ref{fig:Convolution}. \\
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\linewidth]{DiscreteConvolution.pdf}
+\caption{Discrete convolution for a kernel of size $3\times 3$ (gray) and an input of size $5\times 5$ (blue), with stride $s=1$ and no padding. The output is shown in green. Taken from \cite{Padding}}
+\label{fig:Convolution}
+\end{figure}
 
 In image processing discrete convolutions are used in order to find or amplify features in images. One example is the Sobel operator, which is used for the detection of edges in images. It approximates the gradient of the pixel values of an image. Assuming there is an underlying continuous function and an image $I$ is its discretization, the gradient in horizontal direction can be approximated by $G_x$ corresponding to edges in vertical direction and the derivative in vertical direction by $G_y$ corresponding to edges in horizontal direction. $G_x$ and $G_y$ are given by
 \begin{align}
@@ -171,7 +181,7 @@ in the sense that $G_x$ and $G_y$ are used to convolve the original image, the r
 
 \section{Convolutional Neural Networks}
 
-Starting from a fully connected neural network the action of a discrete convolution can be replicated by rearranging the connections inside the neural network. At first this transformation will be described for the first layer of the network extracting only one feature for an image with only spatial dimensions. The generalization to an image with multiple channels and a layer extracting more than one feature then becomes straightforward. Having the action of one such convolutional layer a convolutional neural network can constructed. \\
+Starting from a fully connected neural network the action of a discrete convolution can be replicated by rearranging the connections inside the neural network. At first this transformation will be described for one layer of the network extracting only one feature for an image with only spatial dimensions. The generalization to an image with multiple channels and a layer extracting more than one feature then becomes straightforward. Having the action of one such convolutional layer a convolutional neural network can constructed. \\
 
 In order to preserve the topology of the image the input now is an tensor $I_{m,n}$ with $m=0,\dots ,M-1$ and $n=0,\dots ,N-1$. The connections of a neuron therefore also becomes tensor $W_{m,n}^i$ with $m=0,\dots ,M-1$, $n=0,\dots ,N-1$, and $i$ being the index of the neuron. The bias of neuron $i$ is $b^i$. The output of neuron $i$ then is
 
@@ -212,7 +222,7 @@ The number of features $c$ to be extracted in each layer. For rather straightfor
 Furthermore the treatment of the boundary of the input is of particular interest. The main ways are to either ignore the boundary, leading to an output smaller in size $M\times N \mapsto M-M' \times N-N'$, to expand the input with zeros (zero padding), with the outermost values (same padding), or to introduce periodic boundary conditions at the border (reflect padding).
 
 \subsubsection{Stride}
-The image can be covered by moving the convolution kernel by increments of $1$ in each direction or to move it in larger increments $s_1,s_2$ called the strides. Most commonly $s_1 = s_2 = s$ is chosen. Furthermore the stride is restricted by the size of the convolution kernel $s<N'$ such that the entire input is still covered. $s=1$ and $s=2$ are popular choices for the stride.
+The image can be covered by moving the convolution kernel by increments of $1$ in each direction or to move it in larger increments $s_1,s_2$ called the strides. Most commonly $s_1 = s_2 = s$ is chosen. Furthermore the stride is restricted by the size of the convolution kernel $s\leq N'$ such that the entire input is still covered. $s=1$ and $s=2$ are popular choices for the stride.
 
 \subsection{Additional Layer}
 Besides convolutional layers CNNs also consist of other layers. These will be described in the following.
@@ -253,60 +263,10 @@ In a standard neural network using backpropagation the error function is minimiz
 
 \subsubsection{Softmax Layer}
 
-
-
-\subsection{Training}
-Having an networks architecture, its weights have to be initialized and adjusted. Initialization is performed usually by choosing the weights at random. For deep neural networks using ReLU's activation functions, this is done by using either a normal or uniform distribution with standard deviation $\sigma = \sqrt{2/n_in}$ where $n_in$ is the number of input units
-
-
-Having a network architecture, its weights have to initialized. These is usually done by initializing them by random. For deep networks using ReLU's He initialization is an appropriate choice. 
-
-%\subsection{He Initialization}
-%Paper:
-%\begin{itemize}
-%\item On weight initialization in deep neural networks
-%\item Delving Deep into Rectifiers: Surpassing Human-Level Performance on ImageNet Classification
-%\end{itemize}
-%\begin{itemize}
-%\item https://arxiv.org/pdf/1502.01852.pdf
-%\item Introduced in order to improve the performance of neural networks with rectified linear units
-%\end{itemize}
-
-\subsubsection{Cost Function}
-In order to penalize a wrong prediction of the netwo
-%\section{Cost Functions}
-%\begin{itemize}
-%\item How a human learns - punishment?
-%\item Define what is right and what is wrong
-%\item Mathematical foundation to find optimal weights
-%\item Properties of cost functions:
-%\subitem $C>0$
-%\subitem Output of network close to desired output then cost function close to minimum
-%\end{itemize}
-%\subsection{Squared Error}
-%\begin{itemize}
-%\item Linear regression
-%\item Classical error function
-%\end{itemize}
-%\subsection{Categorical Cross Entropy}
-%% http://neuralnetworksanddeeplearning.com/chap3.html#the_cross-entropy_cost_function
-%\begin{itemize}
-%\item Problems with squared error: small gradient
-%\item Definition of cross entropy
-%\item Using definition of sigmoid function shows that the system learns faster the further it is away from the true solution
-%\end{itemize}
-
-%\subsection{Gradient Descent}
-%\begin{equation}
-%\Delta w_{ji}(n) = -\eta \frac{\partial E(n)}{\partial w_{ji}(n)}
-%\end{equation}
-%\begin{itemize}
-%\item First order optimization technique
-%\item Calculate local gradient of loss hyper surface
-%\item Follow path of steepest descent
-%\item Adjustable parameter: Learning rate $\eta$
-%\end{itemize}
-
+The subsequent convolution and pooling operations result in an image much smaller than the input with only abstracted features remaining. The last layer then decides from the learned features upon which class the object belongs to. Desired properties of the output of the network are that if the object belongs to class $j$ the output at node $j$ should be close to one in order to have some form of probability or confidence of the network in its decision. Therefore the output should be in the interval $[0,1]$. One popular function exhibiting these properties is the softmax function defined by
+\begin{equation}
+softmax
+\end{equation}
 
 %
 %\section{Convolutional Neural Networks - Architecture}
@@ -361,7 +321,6 @@ The performance of a classifier can be assessed in multiple ways. In the followi
 \subsection{Confusion Matrix}
 A confusion matrix is a matrix $c$ of shape $k\times k$ where $k$ is the number of possible classes. The elements of this matrix are the number of cases in which an object belonging to class $i$ was classified as class $j$. The diagonal $i=j$ are then objects correctly classified while the remainders are objects that have been misclassified. \\
 
-From the confusion matrix the accuracy results from $ACC = \sum_i c_{i,i} / \sum_{i,j} c_{i,j}$.
 
 
 \subsection{Purity vs Efficiency}

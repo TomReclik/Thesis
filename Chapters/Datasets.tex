@@ -1,6 +1,9 @@
 \chapter{Datasets}
 
-The datasets were obtained in two ways. At first labelImg \cite{labelImg} was used. With this tool it is possible to mark damage sites in SEM panoramas, requiring the user to search for them by zooming into the micrograph. Later once the localization algorithm was implemented as explained in chapter \ref{cha:Localization}, significantly reducing the required time for the creation of a dataset by negating the need to localize damage sites by hand. The two methods are shown in figure \ref{fig:labeling}. \\
+A consistently labeled dataset is crucial for the performance of a classifier. Damage sites resulting from the same mechanism but classified differently will result in the network incorrectly adjusting its weights and rendering it useless. 
+
+
+The datasets were obtained in two ways. At first labelImg \cite{labelImg} was used. With this tool it is possible to mark damage sites in SEM panoramas, requiring the user to search for them by zooming into the micrograph. Later once the localization algorithm was implemented as explained in chapter \ref{cha:Localization}, significantly reducing the required time for the creation of a dataset by negating the need to localize damage sites by hand. The two methods are shown in figure \ref{fig:labelimg}. \\
 
 \section{Reliability of Training Data}
 

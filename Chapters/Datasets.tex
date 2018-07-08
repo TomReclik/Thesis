@@ -1,9 +1,33 @@
 \chapter{Datasets}
 
-A consistently labeled dataset is crucial for the performance of a classifier. Damage sites resulting from the same mechanism but classified differently will result in the network incorrectly adjusting its weights and rendering it useless. 
+A consistently labeled dataset is crucial for the performance of a classifier. Due to the required time 
 
 
-The datasets were obtained in two ways. At first labelImg \cite{labelImg} was used. With this tool it is possible to mark damage sites in SEM panoramas, requiring the user to search for them by zooming into the micrograph. Later once the localization algorithm was implemented as explained in chapter \ref{cha:Localization}, significantly reducing the required time for the creation of a dataset by negating the need to localize damage sites by hand. The two methods are shown in figure \ref{fig:labelimg}. \\
+Inconsistencies will lead to the network adapting its weights
+
+
+ Inconsistencies will lead to the network adapting 
+
+
+Inconsistencies will lead to the network changing its weights and parameters 
+
+
+
+Since the dataset is labeled by multiple persons, clear class definitions are necessary in order to arrive at the same conclusion for similar damage sites. 
+
+
+
+A consistently labeled dataset is crucial for the performance of a classifier, requiring clear class definitions. If a network is trained on a dataset
+
+A consistently labeled dataset is crucial for the performance of a classifier. 
+
+
+ If the class definitions are not clear enough, different researchers will classify damage sites depending on their personal opinion and not inconsistencies will arise. Since the CNN adjust its weights depending on the images shown together with correct label, if the given label is faulty, the networks weights and features that are being extracted will be corrected in the wrong way. This behavior will render the classifier useless. \\
+
+In order to gather a consistently labeled dataset, internal preliminary studies were performed in order to assess whether, based on the class definitions given in chapter \ref{cha:DualPhaseSteels}, lead to different researchers arriving at the same class, for the same damage site. \\
+
+
+
 
 \section{Reliability of Training Data}
 
@@ -15,7 +39,7 @@ Due to the need of consistently labeled datasets, for the training process of th
 \item \textbf{Boundary Decohesion}: Damage to ferrite grain boundaries.
 \item \textbf{Evolved Damage}: More than one active damage mechanism, e.g. martensite cracking evolved into ductile damage in ferrite.
 \end{itemize}
-The agreement with the damage classes determined beforehand can be seen in table \ref{tab:Reliability}. Major problems arose with boundary decohesions and evolved damage sites. Due to the high concentration of martensite in the dual-phase steel used in this work boundary decohesions occur very rarely. Furthermore another internal in-situ study revealed that damage sites that appear to be boundary decohesions, are actually evolved notch effect sites. Problems with evolved damage sites come from the lack of a clear threshold after which a damage site falls into the class of evolved damage sites. Due to this, boundary decohesions and evolved damages were not used for the classification algorithm to distinguish between. Furthermore the class notch effect was introduced. \\
+The agreement with the damage classes determined beforehand can be seen in table \ref{tab:Reliability}. Major problems arose with boundary decohesions and evolved damage sites. Due to the high concentration of martensite in the dual-phase steel used in this work boundary decohesions occur very rarely. Problems with evolved damage sites come from the lack of a clear threshold after which a damage site falls into the class of evolved damage sites. Due to this, boundary decohesions and evolved damages were not used for the classification algorithm to distinguish between. Furthermore the class notch effect was introduced. This class is defined by a damage site between tips of two martensite islands. It is possible that the two martensite islands were connected before the nucleation of a void or that there was a ferrite bridge between the two islands. The defining characteristic for this class is a stress concentration, enabled through the hard martensite, at this point in the microstructure.
 
 \begin{table}[H]
  \begin{center}
@@ -33,8 +57,14 @@ The agreement with the damage classes determined beforehand can be seen in table
  \label{tab:Reliability}
 \end{table}
 
+\section{Influence of an Incorrectly Labeled Dataset}
+
+The influence of an incorrectly labeled dataset was studied using the Canadian Institute for Advanced Research 10 (CIFAR-10) \cite{Krizhevsky2009} dataset, with a CNN, whose architecture is shown in \ref{acc:EERACN}. The network was trained for $30$ epochs with an Adam optimizer \cite{Sharma2017} with a learning rate of $0.0005$ and other parameters set to default. The network was once trained with a correctly labeled dataset and then with a dataset with $30\%$ of the datapoints mislabeled, corresponding to the average mislabeling rate from \ref{tab:Reliability}. The baseline accuracy for a correctly labeled dataset with constant seeds among experiments and fluctuations resulting from the use of GPU is $0.73\pm 0.01$. Training the network with mislabeled data and evaluating the trained network on a dataset labeled correctly the accuracy drops to $0.66\pm 0.01$. Because the data used for the training of a network distinguishing between damage mechanisms is completely labeled by hand the test dataset would also be labeled incorrectly. The accuracy of a network evaluated on a test dataset with inconstistent labeling leads to a further drop in the accuracy to $0.43\pm 0.01$, due to correct predictions being labeled as wrong.\\
+
 
 \section{Datasets}
+The datasets were obtained in two ways. At first labelImg \cite{labelImg} was used. With this tool it is possible to mark damage sites in SEM panoramas, requiring the user to search for them by zooming into the micrograph. Later once the localization algorithm was implemented as explained in chapter \ref{cha:Localization}, significantly reducing the required time for the creation of a dataset by negating the need to localize damage sites by hand. The two methods are shown in figure \ref{fig:labelimg}. \\
+
 During deformation artifacts can form on the surface of the micrograph. A few examples of such artifacts are shown in figure \ref{fig:artifacts}. Due to the preparation of the sample these do not show in ex-situ experiments and very rarely in early stages of in-situ experiments. The dataset is therefore split into two categories. The first one consists of surface micrographs not containing artifacts on the probes set, while the second one consists of surface micrographs containing said artifacts. \\
 
 The available data for each damage mechanism and category after labeling is shown in table \ref{tab:Dataset}.

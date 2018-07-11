@@ -1,5 +1,126 @@
 \chapter{Datasets}
 
+\section{Data Collection - First Stage}
+At first damage sites in the recorded SEM micrographs were classified using the conventional class definitions for damage mechanisms in dual phase steels, as explained in \ref{cha:DualPhaseSteels}. Additionally one class was added, namely evolved damage sites. These sites have evolved into the surrounding ferrite, and the information of the underlying mechanism is not unique. \\
+
+Two researchers were involved in the creation of a dataset using labelImg \cite{labelImg}. This tool enables its user to zoom into images and create rectangular bounding boxes around objects in the image that need to be classified. Then a label was added to the marked object. Additionally the tool gives its user the option to mark objects as "difficult". This option was additionally used for damage sites, that did not evolve into the surrounding ferrite but were not clearly assignable to a certain class. These objects can be emmitted from the training of a network, as the need for represantative samples were needed for the training of a classifier. A labeled micrograph using labelImg can be seen in figure \ref{fig:labelImg}. \\
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{labelImg.png}
+\caption{Damage site classification using labelImg.}
+\label{fig:labelImg}
+\end{figure}
+
+In order to have a consistently labeled dataset, the researcher further more would correspond if instances appeared that were difficult to assign a class. If a consensus was reached the class agreed upon was chosen as the class for this particular instance, otherwise the "difficult" label was added. During labeling difficulties arose for the assignment of boundary decohesions and evolved damage sites. Therefore an internal study was performed assessing whether the class definitions were clear enough. 
+
+\section{Consistency of Class Definitions}
+
+The participants of the study received the following class definitions together with $25$ instances belong to either of the classes.\\
+\begin{itemize}[label={}]
+\item "\textbf{Inclusion}: Inclusions, either holes left from preparation or actual inclusions."
+\item "\textbf{Martensite Cracking}: Brittle cracked martensite islands."
+\item "\textbf{Interface Decohesion}: Damage to the martensite/ferrite boundary."
+\item "\textbf{Boundary Decohesion}: Damage to ferrite grain boundaries."
+\item "\textbf{Evolved Damage}: More than one active damage mechanism, e.g. martensite cracking evolved into ductile damage in" ferrite.
+\end{itemize}
+
+\subsection{Martensite Cracking}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{/Classification/Martensite.pdf}
+\end{figure}
+
+\begin{figure}[H]
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Martensite0.pdf}
+  \caption{MC}
+  \label{fig:MC}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Martensite1.pdf}
+  \caption{ID}
+  \label{fig:Interface_scalebar}
+\end{subfigure}%
+\centering
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Martensite2.pdf}
+  \caption{NE}
+  \label{fig:Notch_scalebar}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Martensite3.pdf}
+  \caption{Inclusion}
+  \label{fig:Inclusion_scalebar}
+\end{subfigure}%
+\caption{Abstracted damage mechanism for martensite cracking (MC) in subfigure (a), interface decohesion (ID) in subfigure (b), notch effect (NE) in subfigure (c),  and inclusions in subfigure (d). The martensite islands, the ferrite matrix, and the foreign body are labeled as M, F, and I respectively.}
+\label{fig:classes}
+\end{figure}
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{/Classification/Inclusion.pdf}
+
+\end{figure}
+
+Investigating the agreement with the predetermined classes for each sample is shown in table \ref{tab:Reliability}. As can be seen similar difficulties were found for the classes boundary decohesion and evolved damages. Furthermore it was found that due to the high martensite concentration, ferrite grains rarely if at all were directly adjacent to each other. Rather ferrite grains were seperated by martensite grains. Indicating that damage sites marked as boundary decohesions result from different mechanisms. \\
+
+Additionally it was found that damage sites appeared often between the tips of two martensite islands. Therefore a new class was introduced, termed notch effect. This category is classified by its location in the microstructure exhibiting a special geometry. Due to the hardness of the martensite at this point in the geometry a stress concentration is present, resulting the formation of a damage site. In contrast to the other classes the underlying physical process, leading to the formation of a void, is not determined. It is possible that the two martensite islands were connected, prior to the crack occuring, or that a ferrite bridge existed between two separate martensite islands and an interface decohesion took place. \\
+
+The new classes agreed upon are shown diagrammatically in figure \ref{fig:classes}. Some of the already labeled damage sites were therefore relabeled using the new class definitions. 
+
+\begin{table}[H]
+ \begin{center}
+  \begin{tabular}{@{} *2l @{}} \toprule[2pt]
+   Damage Category & Accuracy \\\midrule
+   Martensite Cracking & $85 \%$   \\ 
+   Inclusion  & $84 \%$ \\ 
+   Interface Decohesion  & $76 \% $ \\
+   Evolved & $56\%$ \\
+   Boundary Decohesion & $44 \%$ \\ \bottomrule[2pt]
+
+  \end{tabular}
+ \end{center}
+ \caption{Agreement for the classification of damage sites by hand. }
+ \label{tab:Reliability}
+\end{table}
+
+%
+%During labeling, some difficulties arose. Mainly the classes boundary decohesion and evolved damage site posed particularly difficult. An internal study was therefore performed in order to assert whether the class definitions were narrow enough. The study showed that other researchers also had difficulties in classifying damage sites predetermined to belong to these classes. 
+%The agreement with the damage classes determined beforehand can be seen in table \ref{tab:Reliability}. Major problems arose with boundary decohesions and evolved damage sites. Due to the high concentration of martensite in the dual-phase steel used, few ferrite grains are adjacent to each other. Therefore boundary decohesions will occur rarely, and sites resembling boundary decohesions probably result from other mechanisms. Problems with evolved damage sites come from the lack of a clear threshold after which a damage site falls into this class. Due to this, boundary decohesions and evolved damages were not used for the classification algorithm to distinguish between.\\
+%
+%\begin{table}[H]
+% \begin{center}
+%  \begin{tabular}{@{} *2l @{}} \toprule[2pt]
+%   Damage Category & Accuracy \\\midrule
+%   Martensite Cracking & $85 \%$   \\ 
+%   Inclusion  & $84 \%$ \\ 
+%   Interface Decohesion  & $76 \% $ \\
+%   Evolved & $56\%$ \\
+%   Boundary Decohesion & $44 \%$ \\ \bottomrule[2pt]
+%
+%  \end{tabular}
+% \end{center}
+% \caption{Agreement for the classification of damage sites by hand. }
+% \label{tab:Reliability}
+%\end{table}
+
+\section{Data Collection - Second Stage}
+
+Since the information of the location of the damage site inside of the micrograph is not necessary for the training of a classifier, a new method was used for the classification of damage sites. The goal is to eliminate the need to search for damage sites by hand. This was performed by using DBSCAN, as explained in chapter \ref{cha:CNN}. 
+
+
+
+
+undersampling, oversampling, additional weights
+
+
+
 A consistently labeled dataset is crucial for the training of a classifier. When elements in the training set are classified using different class definitions or are mislabeled, the convergence and the performance of a network used for classification is hindered. \\
 
 In a first approximation the effect of using different class definitions for labeling or misclassification can be explained as follows. Assuming the network has already been trained to some extent on a correctly labeled dataset, two similar samples, both belonging to class $c_0$ but one of them incorrectly labeled as class $c_1$, will be mapped by the feature extraction to close proximity of each other in the feature space. The fully connected layer in the end of the CNN will then have to learn to map these close points in the feature space to the maximal distance in the output space, requiring large weight corrections, therefore slowing down training. Furthermore, if the two points in the feature space are arbitrarily small to each other the effect of a mislabeled training sample will then nullify the adaptation of the network to a correctly labeled sample. This mapping problem can be seen in figure \ref{fig:featuremapping}.
@@ -84,6 +205,10 @@ The influence of an incorrectly labeled dataset was studied using the CIFAR-10 d
 
 
 \section{Datasets}
+The datasets were obtained from SEM micrographs by two researchers. 
+
+
+
 The datasets were obtained in two ways. At first labelImg \cite{labelImg} was used. With this tool it is possible to mark damage sites in SEM panoramas, requiring the user to search for them by zooming into the micrograph. Later once the localization algorithm was implemented as explained in chapter \ref{cha:Localization}, significantly reducing the required time for the creation of a dataset by negating the need to localize damage sites by hand. \\
 
 \begin{figure}[H]

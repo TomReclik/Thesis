@@ -1,78 +1,262 @@
 \chapter{Datasets}
 
+
+\section{Actual Introduction}
+
+The collection of a dataset is a crucial step in the construction of a machine learning based classification algorithm. Since a neural network learns from labeled samples, any bias from a researcher involved in the annotation of the data will be transfered to the network. It is therefore necessary to create clear class definitions, suppressing any possible bias through the interpretation involved in the labeling. 
+
+
+The collection of a dataset is a crucial step in the construction of a machine learning based classification algorithm. Since a neural network learns given the examples shown to it, any bias from a researcher involved in the labeling of the data will be learned by the network. It is therefore necessary to find class definitions clear enough for different researchers to arrive at the same conclusion for different similar sites. This is due to two reasons. Firstly when multiple people are involved in the creation of a labeled dataset conflicting interpretations of the given classes will lead the neural network to perform poorly since similar sites might be labeled differently. \\
+
+
 \section{Data Collection - First Stage}
-At first damage sites in the recorded SEM micrographs were classified using the conventional class definitions for damage mechanisms in dual phase steels, as explained in \ref{cha:DualPhaseSteels}. Additionally one class was added, namely evolved damage sites. These sites have evolved into the surrounding ferrite, and the information of the underlying mechanism is not unique. \\
+In the first stage of data collection, damage sites in SEM micrographs were classified using the conventional class definitions for damage sites in dual-phase steels. These consist of martensite cracking, interface decohesion, boundary decohesion and inclusions, as explained in chapter \ref{cha:dual-phasesteels}. Additionally a the class of evolved damage sites was introduced. These sites are damage sites in a later stage of their evolution, where it is not possible to clearly establish what mechanism lead to the formation of the void in the microstructure. \\
 
-Two researchers were involved in the creation of a dataset using labelImg \cite{labelImg}. This tool enables its user to zoom into images and create rectangular bounding boxes around objects in the image that need to be classified. Then a label was added to the marked object. Additionally the tool gives its user the option to mark objects as "difficult". This option was additionally used for damage sites, that did not evolve into the surrounding ferrite but were not clearly assignable to a certain class. These objects can be emmitted from the training of a network, as the need for represantative samples were needed for the training of a classifier. A labeled micrograph using labelImg can be seen in figure \ref{fig:labelImg}. \\
 
-\begin{figure}
+
+Due to the time intensity involved in the evaluation of SEM micrographs, two researchers were involved in the labeling of damage sites, using the labeling tool labelImg \cite{labelImg}. This tool enables its user to zoom into images, find objects of interest, create a rectangle around the object and annotate it. Additionally it is possible to mark objects as difficult, which was used when damage sites could not be clearly identified by one researcher and further discussion was necessary. If both researchers would not arrive at the same conclusion the "difficult" mark would remain, and these sites could be neglected from training later on. A labeled micrograph using labelImg can be seen in figure \ref{fig:labelImg}. 
+
+\begin{figure}[H]
 \centering
 \includegraphics[width=\textwidth]{labelImg.png}
 \caption{Damage site classification using labelImg.}
 \label{fig:labelImg}
 \end{figure}
 
-In order to have a consistently labeled dataset, the researcher further more would correspond if instances appeared that were difficult to assign a class. If a consensus was reached the class agreed upon was chosen as the class for this particular instance, otherwise the "difficult" label was added. During labeling difficulties arose for the assignment of boundary decohesions and evolved damage sites. Therefore an internal study was performed assessing whether the class definitions were clear enough. 
+%In order to have a consistently labeled dataset, the researcher further more would correspond if instances appeared that were difficult to assign a class. If a consensus was reached the class agreed upon was chosen as the class for this particular instance, otherwise the "difficult" label was added. During labeling difficulties arose for the assignment of boundary decohesions and evolved damage sites. Therefore an internal study was performed assessing whether the class definitions were clear enough. 
 
 \section{Consistency of Class Definitions}
 
-The participants of the study received the following class definitions together with $25$ instances belong to either of the classes.\\
+In order to test whether the used class definitions unique enough and different researchers would arrive at the same conclusions given the class definitions and the same images an internal study was performed. In this study five experts, researching in the field of material science, were asked to label $25$ different images given the following class definitions.\\
+
 \begin{itemize}[label={}]
-\item "\textbf{Inclusion}: Inclusions, either holes left from preparation or actual inclusions."
-\item "\textbf{Martensite Cracking}: Brittle cracked martensite islands."
-\item "\textbf{Interface Decohesion}: Damage to the martensite/ferrite boundary."
-\item "\textbf{Boundary Decohesion}: Damage to ferrite grain boundaries."
-\item "\textbf{Evolved Damage}: More than one active damage mechanism, e.g. martensite cracking evolved into ductile damage in" ferrite.
+\item \textbf{Inclusion}: "Inclusions, either holes left from preparation or actual inclusions."
+\item \textbf{Martensite Cracking}: "Brittle cracked martensite islands."
+\item \textbf{Interface Decohesion}: "Damage to the martensite/ferrite boundary."
+\item \textbf{Boundary Decohesion}: "Damage to ferrite grain boundaries."
+\item \textbf{Evolved Damage}: "More than one active damage mechanism, e.g. martensite cracking evolved into ductile damage in ferrite."
 \end{itemize}
 
-\subsection{Martensite Cracking}
+The resulting consensus on all classes can be seen in the following sections. 
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{/Classification/Martensite.pdf}
-\end{figure}
+\subsection{Martensite Cracking}
 
 \begin{figure}[H]
 \begin{subfigure}{.25\textwidth}
 \centering
   \includegraphics[width=.8\linewidth]{/Classification/Martensite0.pdf}
-  \caption{MC}
-  \label{fig:MC}
+  \caption{}
+  \label{fig:MC1}
 \end{subfigure}%
 \begin{subfigure}{.25\textwidth}
 \centering
   \includegraphics[width=.8\linewidth]{/Classification/Martensite1.pdf}
-  \caption{ID}
-  \label{fig:Interface_scalebar}
+  \caption{}
+  \label{fig:MC2}
 \end{subfigure}%
 \centering
 \begin{subfigure}{.25\textwidth}
 \centering
   \includegraphics[width=.8\linewidth]{/Classification/Martensite2.pdf}
-  \caption{NE}
-  \label{fig:Notch_scalebar}
+  \caption{}
+  \label{fig:MC3}
 \end{subfigure}%
 \begin{subfigure}{.25\textwidth}
 \centering
   \includegraphics[width=.8\linewidth]{/Classification/Martensite3.pdf}
-  \caption{Inclusion}
-  \label{fig:Inclusion_scalebar}
+  \caption{}
+  \label{fig:MC4}
 \end{subfigure}%
-\caption{Abstracted damage mechanism for martensite cracking (MC) in subfigure (a), interface decohesion (ID) in subfigure (b), notch effect (NE) in subfigure (c),  and inclusions in subfigure (d). The martensite islands, the ferrite matrix, and the foreign body are labeled as M, F, and I respectively.}
+\caption{Classes preclassified as martensite cracking. The assigned classes in the study are shown below the damage site.}
 \label{fig:classes}
 \end{figure}
 
-\begin{figure}
-\centering
-\includegraphics[width=\textwidth]{/Classification/Inclusion.pdf}
+For damage sites shown in figures \ref{fig:MC1} and \ref{fig:MC2} all researchers concluded that these sites result from martensite cracking. For the damage site shown in \ref{fig:MC3} one researcher concluded that this site resulted from interface decohesion. Upon closer inspection one can see that some ferrite remains between the two martensite islands and that they do not have a matching shape, therefore the underlying mechanism actually is interface decohesion. The last damage site shown in figure \ref{fig:MC4} lead to larger disagreement. Due to the wider shape of the damage site and the fact that it grew into the surrounding ferrite one of the researchers classified this site as an evolved damage site, while another categorized it as interface decohesion, similarly to damage site \ref{fig:MC3}. 
 
+\subsection{Inclusion}
+
+\begin{figure}[H]
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Inclusion_0.pdf}
+  \caption{}
+  \label{fig:Inc1}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Inclusion_1.pdf}
+  \caption{}
+  \label{fig:Inc2}
+\end{subfigure}%
+\centering
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Inclusion_2.pdf}
+  \caption{}
+  \label{fig:Inc3}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Inclusion_3.pdf}
+  \caption{}
+  \label{fig:Inc4}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Inclusion_4.pdf}
+  \caption{}
+  \label{fig:Inc5}
+\end{subfigure}%
+\caption{Damage sites classified beforehand as inclusions. Shown underneath are the classes arrived at in the study.}
+\label{fig:classes}
 \end{figure}
 
-Investigating the agreement with the predetermined classes for each sample is shown in table \ref{tab:Reliability}. As can be seen similar difficulties were found for the classes boundary decohesion and evolved damages. Furthermore it was found that due to the high martensite concentration, ferrite grains rarely if at all were directly adjacent to each other. Rather ferrite grains were seperated by martensite grains. Indicating that damage sites marked as boundary decohesions result from different mechanisms. \\
+For inclusion sites the majority of researchers arrive at the correct conclusion. The site shown in figure \ref{fig:Inc3} was classified as interface decohesion by one researcher, even though the foreign particle is still remaining in the micrograph, this is a case of a clearly misclassified damage site. For both damage sites shown in figures \ref{fig:Inc4} and \ref{fig:Inc5} disagreement exists whether these sites are evolved damage sites or inclusions. Additionally the damage site shown in figure \ref{fig:Inc5} was not classifiable for one researcher.
 
-Additionally it was found that damage sites appeared often between the tips of two martensite islands. Therefore a new class was introduced, termed notch effect. This category is classified by its location in the microstructure exhibiting a special geometry. Due to the hardness of the martensite at this point in the geometry a stress concentration is present, resulting the formation of a damage site. In contrast to the other classes the underlying physical process, leading to the formation of a void, is not determined. It is possible that the two martensite islands were connected, prior to the crack occuring, or that a ferrite bridge existed between two separate martensite islands and an interface decohesion took place. \\
 
-The new classes agreed upon are shown diagrammatically in figure \ref{fig:classes}. Some of the already labeled damage sites were therefore relabeled using the new class definitions. 
+
+\subsection{Evolved}
+
+\begin{figure}[H]
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Evolved_0.pdf}
+  \caption{}
+  \label{fig:Ev1}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Evolved_1.pdf}
+  \caption{}
+  \label{fig:Ev2}
+\end{subfigure}%
+\centering
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Evolved_2.pdf}
+  \caption{}
+  \label{fig:Ev3}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Evolved_3.pdf}
+  \caption{}
+  \label{fig:Ev4}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Evolved_4.pdf}
+  \caption{}
+  \label{fig:Ev5}
+\end{subfigure}%
+\caption{}
+\label{fig:classes}
+\end{figure}
+
+For evolved damage sites only for the site shown in figure \ref{fig:Ev1} the majority of researchers arrived at the same conclusion. For all other damage sites different underlying damage mechanism were found.
+
+\subsection{Boundary Decohesion}
+
+\begin{figure}[H]
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Boundary0.pdf}
+  \caption{}
+  \label{fig:BD1}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Boundary1.pdf}
+  \caption{}
+  \label{fig:BD2}
+\end{subfigure}%
+\centering
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Boundary3.pdf}
+  \caption{}
+  \label{fig:BD3}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Boundary2.pdf}
+  \caption{}
+  \label{fig:BD4}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Boundary4.pdf}
+  \caption{}
+  \label{fig:BD5}
+\end{subfigure}%
+\caption{}
+\label{fig:classes}
+\end{figure}
+
+While for the damage sites shown in figures \ref{fig:BD1}, \ref{fig:BD2}, and \ref{fig:BD3} the majority of researchers arrived at the conclusion that these sites show boundary decohesions, the confusion among the researchers is similarly large to the case of evolved damage sites. This indicates that this class is either ill defined or that the sites shown are not representative of boundary decohesions. Due to the high martensite concentration in the material used, ferrite-ferrite grain boundaries occur very rarely or not at all. \huge check \normalsize . Furthermore one can see that each damage site is cornered by ferrite grains. It was therefore concluded that most of the sites initially classified as boundary decohesions stem from a different underlying mechanism. Two possible mechanisms exists leading to damage sites resembling boundary decohesions. Firstly, it is possible that a single martensite grain cracked and the resulting damage site evolved into the lengthy shape characteristic for a boundary decohesion. Secondly, an initial constellation of two martensite islands separated by a ferrite bridge might lead to the decohesion of the ferrite-martensite interface. This damage sites can then also evolve into the lengthy shape resembling boundary decohesions. The two possible mechanisms are shown in figure \ref{fig:BDExplanation}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.2\textwidth]{/Classification/Interface_0.pdf}
+\end{figure}
+
+
+\subsection{Interface Decohesion}
+
+
+\begin{figure}[H]
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Interface_0.pdf}
+  \caption{}
+  \label{fig:ID1}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Interface_1.pdf}
+  \caption{}
+  \label{fig:ID2}
+\end{subfigure}%
+\centering
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Interface_2.pdf}
+  \caption{}
+  \label{fig:ID3}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Interface_3.pdf}
+  \caption{}
+  \label{fig:ID4}
+\end{subfigure}%
+\begin{subfigure}{.2\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{/Classification/Interface_4.pdf}
+  \caption{}
+  \label{fig:ID5}
+\end{subfigure}%
+\caption{}
+\label{fig:classes}
+\end{figure}
+
+For small damage sites predetermined to be interface decohesions, agreement between researchers was reached, \ref{fig:ID1} \ref{fig:ID2}, \ref{fig:ID3}. Due to the round nature and bright martensite in figure \ref{fig:ID4} this site has probably been classified as an inclusion. The last damage site \ref{fig:ID5} shows interface decohesion that has grown into the ferrite and has therefore been classified by the majority of researchers as interface decohesion. 
+
+\subsection{Conclusion}
+Due to the problems arising in the study the class definitions were refined. The class of boundary decohesions was not used in further classifications, and a new class, the notch effect was added. This class is defined by a stress concentration in the microstructure. After nucleation of a void these damage sites show as a void between two martensite islands, that may have been a single martensite island or two martensite islands with a ferrite bridge in between them. These sites then later can evolve into sites resembling boundary decohesions. 
+
+
+Due to the problems arising in arriving at an agreement for a damage site belonging to the class "evolved damage" this class was emitted from training. On the one hand due to the lack of a clear threshold after which a damage sites is "evolved" and secondly this class is a collection of different mechanisms and damage sites can look very differently. This would prove difficult for a neural network to learn the relevant features classifying a damage site as evolved. \\
+
+Due to the arguments made in subsection \ref{sub:BD} the boundary decohesions have been omitted from being learned by the classifier. \\
+
+Furthermore martensite cracking and interface decohesion sites were restricted to sites that can be clearly linked to one of the machanisms. Sites that grow into the surrounding ferrite were either classified as evolved sites and therefore not used for training or marked as "difficult", keeping the question open whether to include them into the training.
+
+%Investigating the agreement with the predetermined classes for each sample is shown in table \ref{tab:Reliability}. As can be seen similar difficulties were found for the classes boundary decohesion and evolved damages. Furthermore it was found that due to the high martensite concentration, ferrite grains rarely if at all were directly adjacent to each other. Rather ferrite grains were seperated by martensite grains. Indicating that damage sites marked as boundary decohesions result from different mechanisms. \\
+
+%Additionally it was found that damage sites appeared often between the tips of two martensite islands. Therefore a new class was introduced, termed notch effect. This category is classified by its location in the microstructure exhibiting a special geometry. Due to the hardness of the martensite at this point in the geometry a stress concentration is present, resulting the formation of a damage site. In contrast to the other classes the underlying physical process, leading to the formation of a void, is not determined. It is possible that the two martensite islands were connected, prior to the crack occuring, or that a ferrite bridge existed between two separate martensite islands and an interface decohesion took place. \\
+
+Collecting the answers of all researchers and calculating their agreement with the predetermined classes results in the following accuracies.
 
 \begin{table}[H]
  \begin{center}
@@ -89,6 +273,10 @@ The new classes agreed upon are shown diagrammatically in figure \ref{fig:classe
  \caption{Agreement for the classification of damage sites by hand. }
  \label{tab:Reliability}
 \end{table}
+
+\subsubsection{Influence of an Incorrectly Labeled Dataset}
+
+
 
 %
 %During labeling, some difficulties arose. Mainly the classes boundary decohesion and evolved damage site posed particularly difficult. An internal study was therefore performed in order to assert whether the class definitions were narrow enough. The study showed that other researchers also had difficulties in classifying damage sites predetermined to belong to these classes. 

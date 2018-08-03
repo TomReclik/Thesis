@@ -1,46 +1,193 @@
 \chapter{Dual-Phase Steel}
 \label{cha:DualPhaseSteels}
 
-\section{Steel}
-Steel is one of the longest used materials in the history of mankind. Consisting of an alloy of iron and carbon, and other possible elements, it exhibits high ductility and hardness. The crystal structure of steel depending on the alloys temperature and carbon content are shown in figure \ref{fig:phaseDiagram}. At low temperatures and low carbon content the only thermodynamically stable configuration of the crystal structure is a body centered cubic structure, called ferrite. This phase exhibits a high ductility while being relatively soft. At higher temperatures the atoms in the crystal take the a face centered cubic structure, which is harder but less ductile. This phase is called austenite. While generating a fcc lattice at room temperature is adiabatically not possible, it is possible to start with austenite and rapidly cool it, during this process atoms do not have enough time to change the crystal structure completely, resulting in a tetragonal crystal structure. \\
+\section{Introduction}
+
+Steels are amongst the most important materials in humankind's history, being used in a wide variety of applications, e.g. as steel beams in buildings, as railways, or in the transportation industry. Steels are alloys with iron as their base material and varying degrees of carbon. Furthermore, other elements are used in the alloy in order to heavily modify the materials behavior and to stabilize different phases in the material. Additional degrees of freedom are added through the possibility to modify the materials properties by the way it is processed. Steels can therefore take a wide variety of properties, which makes them still an interesting material today. \\
+
+One example of steels processed using non-adiabatic transformations is dual-phase steel. They exhibit a high ultimate tensile strength, a low initial yield stress, high fracture strain, and a high hardening ratio. These advantageous properties together with their rather straightforward thermodynamical processing and light weight make them particularly interesting for the automotive industry, where they are mostly used for crash relevant sheet metal parts. \\
+
+The dual-phase steels microstructure consists of a ductile ferrite matrix with embedded islands of brittle martensite. The interplay of these two phases results in the dual-phase steels beneficial properties. The two constituents of dual-phase steel, ferrite and martensite, will be explained in the following. \\
+
+\section{Ferrite}
+
+Ferrite is an equilibrium phase of steel, at low carbon contents and low temperatures. Its crystal structure is body-centered cubic (bcc) with iron atoms at the corners and the center of the cube, see figure \ref{fig:bcc}. The carbon atoms occupy the interstitial sites of the lattice. Because carbon atoms are about twice as large as the interstitial sites, atom radius of carbon is about $0.77 \times 10^{-10}m$ and the radius of a sphere in an interstitial site is about $0.36\times 10^{-10}m$ \cite{Bleck}, carbon is only poorly soluble in ferrite. Mechanically ferrite is very ductile, compared with other steel microstructures.  \\
+
+Since carbon atoms hinder the movement of dislocations, which is necessary to deform a crystalline material, the low solubility together with other factors, like the crystal structure, result in a high ductility of ferrite. \\
 
 
-Steel is one of the oldest materials used by mankind. It is an alloy consisting of iron and carbon, that can also contain other elements. Due to the wide variety of properties depending on the alloys composition, it finds many commercial applications. 
+%Ferrite is an equilibrium phase of steel, at low carbon contents and low temperatures. Ferrite is a very ductile material. The crystal structure of ferrite is body-centered cubic (bcc) with iron atoms at the corners and the center of the cube, see figure \ref{fig:bcc}. The carbon atoms occupy the interstitial sites of the crystal. Because carbon atoms about twice as large as the interstitial sites, atom radius of carbon is about $0.77 \times 10^{-10}m$ and the radius of a sphere in an interstitial site is about $0.36\times 10^{-10}m$ \cite{Bleck}, carbon is only poorly soluble in ferrite.  
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=0.35\linewidth]{bcc.pdf}
+\caption{Body-centered cubic crystal structure.}
+\label{fig:bcc}
+\end{figure}
+
+\section{Martensite}
+
+Steel at higher temperatures adopts a face-centered cubic (fcc) crystal structure called austenite, with iron atoms at the edges and the center of each face of the cube, see figure \ref{sub:fcc}. For austenite, as for ferrite, carbon atoms occupy the interstitial sites of the crystal. Due to the larger size of these sites, $0.56\times 10^{-10} m$ carbon is better soluble in austenite than it is in ferrite. \\
+
+Through a fast cooling process, the transition of austenite into ferrite and cementite ($Fe_3C$) does not occur, as the diffusion of atoms in the lattice is supressed. Instead the metastable phase of martensite forms. The fcc crystal structure of austenite changes into an body-centered tetragonal crystal structure, shown in figure \ref{sub:bct}. This transformation is associated with a volume change, that is compensated through the formation of dislocations and twinning. Furthermore the Kurdjomov-Sachs relation states that from each austenite grain there $24$ possible martensite crystals can nucleate that differ in their orientation, resulting in a fine grained structure. This fine grained structure together with the already existing lattice errors lead to the hardness of martensite.
+
+These lattice defects lead to the hardness of martensite, as existing lattice defects hinder the movement and creation of new defects that are necessary in order for deformation.
+
+\begin{figure}[H]
+\begin{subfigure}{.5\textwidth}
+\includegraphics[width=0.8\linewidth]{fcc.pdf}
+\caption{Face-centered cubic crystal structure.}
+\label{sub:fcc}
+\end{subfigure}
+\begin{subfigure}{.5\textwidth}
+\includegraphics[width=0.8\linewidth]{bct.pdf}
+\caption{Body-centered tetragonal crystal structure.}
+\label{sub:bct}
+\end{subfigure}
+\label{fig:crystalStructures}
+\end{figure}
 
 
-\begin{itemize}
-\item Iron with carbon
-\item Phase diagram
-\item Ferrite
-\item Martensite
-\end{itemize}
+\section{Microstructure}
 
-\section{Dual-Phase Steel}
-\begin{itemize}
-\item Short introduction
-\item Properties
-\item Production
-\end{itemize}
+The microstructure of dual-phase steels consists of a ferrite matrix with islands of martensite, as mentioned before. A SEM micrograph of such a microstructure is shown in figure \ref{fig:DPMicrostructure}. Depending on the initial conditions, whether the material was in the austenitic phase or the intercritical regime, where both austenite and ferrite coexist, and the quenching speed, the resulting material contains different ratios of martensite and ferrite. Furthermore the other microstructural parameters like the average martensite grain size and overall and local morphology depend heavily on those parameters.  
+
+\begin{figure}[H]
+\centering
+  \includegraphics[width=0.8\linewidth]{DPMicrograph.png}
+  \caption{Dual-phase steel SEM micrograph.}
+  \label{fig:DPMicrostructure}
+\end{figure}
+
+%\section{Mechanical Properties}
+%
+%Dual-phase steels combine the ductility of the ferrite matrix with the brittleness of martensite. Their ultimate tensile strength, defined as the maximal stress the material can withstand before breaking, ranges between $600$ MPa and $1200$ MPa depending mainly on the martensite concentration. 
+%
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=1.\textwidth]{StressStrain.pdf}
+%\caption{Stress-strain curve of a dual-phase steel with an ultimate tensile strength of $800$ MPa.}
+%\label{fig:stressstrain}
+%\end{figure}
+
+
+%Steel is an alloy with iron as its base material, with carbon as the most prominent alloying partner
+%
+%Dual-phase steels are a class of high-strength steels. Consisting of a soft ferrite matrix with islands of hard martensite, they combine the ferrites ductility with the martensites hardness. They exhibit a high ultimate tensile strength, a low initial yielding stress, high fracture strain, and a high hardening ratio. These advantageous properties together with their rather straightforward thermodynamical processing and light weight make them particularly interesting for the automotive industry, where they are mostly used for sheet metal parts. 
+%
+%
+%
+%Dual-phase steels are a class of advanced high-strength steels. They combine a high ultimate tensile strength, a low initial yielding stress, high fracture strain, and a high hardening ratio. These advantageous properties together with their rather straightforward thermodynamical processing and light weight make them particularly interesting for the automotive industry, where they are mostly used for sheet metal parts. \\
+%
+%In the following carbon based steels and their different equilibrium phases are introduced in section \ref{sec:Steel}. Then based on the equilibrium phases the non-equilibrium phase martensite will be explained in section \ref{sec:Martensite}. Afterwards the microstructure and the different possible damage mechanisms of dual-phase steels will be explained in section \ref{sec:Microstructure}. Lastly the experimental setup and ex-situ and in-situ experiments will be described in section \ref{sec:Experiments}.
+
+%\section{Steel}
+%Steel is an alloy with iron as its base material, with carbon as the most prominent alloying partner. Often times different elements are added or the primary partner of steel in order to modify the steels properties. Here the different equilibrium phases depending on the materials carbon content and its temperature will be introduced. Especially the phases were the underlying crystal structure is determined by iron and carbon occupies the crystal interstitial sites. \\
+%
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=0.8\textwidth]{Fe-C.pdf}
+%\caption{Iron-carbon phase diagram.}
+%\label{fig:Fe-C}
+%\end{figure}
+%
+%The different equilibrium phases of steel in dependence of its carbon content and the temperature are shown in figure \ref{fig:Fe-C}. For low temperatures and low carbon contents steel takes the form of a body-centered cubic (bcc) crystal structure. This phase is called the $\alpha$-phase or ferrite. Due to the bcc crystal structure and the resulting smaller interstitial sites carbon is only poorly soluble in ferrite. Furthermore ferrite is a very ductile material. \\
+%
+%At higher temperatures, $911 ^\circ C$ when no carbon is present, the crystal takes the form of a face-centered cubic (fcc) structure, with iron atoms at the corners of the unit cell and in the center of each face. This phase is called the $\gamma$-phase or austenite. Due to the larger interstitial sites of the fcc crystal structure austenite can absorb more carbon and stay stable, up to $2.06 \%$ at a temperature of $1147 ^\circ C$. \\
+%
+%Exceeding the stable temperature for austenite at $1394 ^\circ C$ for no carbon present, the crystal structure switches again to bcc. 
+%
+%\begin{figure}[H]
+%\begin{subfigure}{.5\textwidth}
+%\includegraphics[width=0.8\linewidth]{bcc.pdf}
+%\caption{Body-centered cubic.}
+%\end{subfigure}
+%\begin{subfigure}{.5\textwidth}
+%\includegraphics[width=0.8\linewidth]{fcc.pdf}
+%\caption{Face-centered cubic.}
+%\end{subfigure}
+%\caption{The two possible crystal configurations for iron.}
+%\label{fig:crystalStructures}
+%\end{figure}
+%
+%%Steels are alloys consisting of iron with a low carbon content (up to $2\%$). Often times different elements are also added into the alloy in order to modify the materials properties. Steel is very versatile and finds applications in many fields of engineering. Its properties can be heavily modified by varying the contents of additional elements, and through the processing of the material. \\
+%%
+%%The carbon content in the steel heavily influences the steels properties. Depending on the carbon content and the temperature the different equilibrium phases can be read from the iron-carbon phase diagram. Steel comes with two possible crystal structure in equilibrium. At low temperatures the crystal structure takes a body-centered (bcc) form, this phase is called ferrite and denoted as the $\alpha$-phase. Exceeding the transition temperature $A_3$, the material favors a face-centered crystal structure, called austenite and denoted as the $\gamma$-phase. Beyond the stable regime of austenite, the crystal structure transitions once again to the bcc structure, denoted as the $\delta$-phase. \\
+%
+%\section{Martensite}
+%
+%Besides the thermodynamicall stable phases, shown in the iron-carbon phase diagram in figure \ref{fig:Fe-C}, other meta-stable phases can occur if the material is processed non-adiabatically. One such example, elementary for dual-phase steels, is martensite. Starting in a phase containing of or entirely consisting of austenite the material is rapidly cooled with a temperature drop of about $400 ^\circ C/s$. This process is called quenching. Due to the fast cooling rate, diffusion is supressed and the fcc crystal structure of austenite can not change to the bcc crystal structure of ferrite. Instead a body-centered tetragonal crystal structure is achieved. This is accompanied by a change in the crystals volume. This change is compensated by the creation of dislocations or twinning, depending on the carbon content of the initial phase. Due to these deformations the resulting martensite is very hard and brittle. The cooling process for an initial phase consisting only of austenite and an initial phase in the intercritical regime consisting of both austenite and ferrite are shown in figure \ref{sub:MartensiteTransformation}
+% 
+%
+%\begin{figure}[H]
+%\begin{subfigure}{.5\textwidth}
+%\includegraphics[width=0.9\linewidth]{MartensiteTransformation.pdf}
+%\caption{}
+%\label{sub:MartensiteTransformation}
+%\end{subfigure}
+%\begin{subfigure}{.5\textwidth}
+%\includegraphics[width=0.985\linewidth]{bct.pdf}
+%\caption{Body-centered tetragonal cell, with $c\neq a$}
+%\label{sub:bct}
+%\end{subfigure}
+%\caption{}
+%\end{figure}
+
+%\section{Martensite}
+%
+%Beside the equilibrium phases shown in figure ... different metastable phases can exist in steel depending on its processing. A rather prominent example is martensite. Starting from a steel with a low carbon content at high temperatures in the form of austenite, the material is cooled quickly. Due to the fast cooling process diffusion in the material is suppressed. The fcc structure is then transformed into a body-centered tetragonal structure. This crystal structure is heavily deformed. In order to compensate for the fact dislocations and twinning are created. These mechanisms lead to the hard and brittle nature of martensite. During this process also ferrite is formed. The ratio between ferrite and martensite depends on the composition of the steel and the specifics of the transformation process. 
+
+%Beside the equilibrium phases shown in figure .... different structures can be achieved through non-adiabatic transformations. A rather prominent example is the creation of martensite. Starting from a steel at high temperatures in the form of austenite, the material is cooled quickly to room temperature (quenching). Due to the fast cooling a diffusionless transformation is achieved and the carbon cannot be segregated in the form of cementite and in the material two phases are generated. On the one hand side ferrite on the other martensite. Due to the diffusionless transformation carbon is trapped in the crystal structure deforming it resulting in a body-centered tetragonal structure. Martensite exhibits very different properties than ferrite. While ferrite is very ductile, due to the elastic deformation of martensite twinning and deformation slips form in the martensite resulting in a very hard and brittle material. \\
 
 
 
-Dual-phase steels are a class of advanced high-strength steels. They combine a high ultimate tensile strength, a low initial yielding stress, high fracture strain, and a high hardening ratio. These advantageous properties together with their rather straightforward thermodynamical processing and light weight make them particularly interesting for the automotive industry, where they are mostly used for sheet metal parts. \\
+
+ %The different equilibrium phases depending on the carbon content and the materials temperature can be read from the iron-carbon phase diagram. The crystal structure of low carbon steel depends on the temperature. For low temperatures the crystal structure of steel is body-centered cubic (bcc), this phase is called ferrite and denoted as the $\alpha$ phase. Exceeding the critical temperature $A_3$ the crystal structure changes from bcc to a face-centered cubic (fcc) crystal structure, in the phase diagram denoted as $\gamma$ phase. At even higher temperatures the stable crystal structure is again bcc, sometimes denoted as the $\gamma$ phase.
+
+
+
+
+
+
+
+%Steels are alloys consisting of iron with a low carbon content. Oftentimes different elements like chrome and nickel are added to modify the materials behavior. The materials different equilibrium phases can be seen in figure \ref{fig:allphases} and for low carbon contents in figure \ref{fig:lowCphases}. For low to medium carbon contents the two equilibrium crystal structures are body-centered cubic (bcc) and face-centered cubic. The $\alpha$ phase at low temperatures is called ferrite and has a bcc crystal structure. At higher temperatures steel exists in the $\gamma$ phase which has a fcc crystal structure, this is called austenite. Going beyond the phase $\gamma$ phase boundary, the steel again takes the form of a bcc crystal structure in its equilibrium, the $\delta$ phase. \\
+
+
+%Pure iron is very ductile, in part due to its crystal structure, by increasing the carbon content of ferrite the randomly distributed carbon atoms prevent the movement of dislocations and therefore increase the materials hardness at the cost of a lower ductility. At higher carbon contents the ferrite becomes unstable and two phases exist parallel to each other, namely ferrite and cementite ($Fe_3C$). \\
+
+%At higher temperatures austenite is the stable form of steel. This phase exhibits a higher hardness and is less ductile. Furthermore it can absorb more carbon. Both of these facts are in great part due to its crystal structure. \\
+
+%An important component of dual-phase steels is martensite. This phase is not an equilibrium phase and can not be seen in the phase diagram. Rather it is created through an extremely fast cooling of austenite, this process is called quenching. Starting from the $\gamma$ phase, the material is cooled rapidly, at about $400\degree C/s$. By doing so the the transformation of austenite to ferrite through diffusion is suppressed and a new metastable phase is created. This phase is called martensite and has a body-centered tetragonal crystal structure (bct). \\
+
+%Depending on the initital condition different ferrite to martensite ratio can be achieved. These \\ 
+
+%Due to its crystal structure ferrite exhibits high ductility and can absorb little carbon before the carbon is extracted into cementite ($Fe_3C$). 
+
+
+%Steel is one of the longest used materials in the history of mankind. Consisting of an alloy of iron and carbon, and other possible elements, it exhibits high ductility and hardness. The crystal structure of steel depending on the alloys temperature and carbon content are shown in figure \ref{fig:phaseDiagram}. At low temperatures and low carbon content the only thermodynamically stable configuration of the crystal structure is a body centered cubic structure, called ferrite. This phase exhibits a high ductility while being relatively soft. At higher temperatures the atoms in the crystal take the a face centered cubic structure, which is harder but less ductile. This phase is called austenite. While generating a fcc lattice at room temperature is adiabatically not possible, it is possible to start with austenite and rapidly cool it, during this process atoms do not have enough time to change the crystal structure completely, resulting in a tetragonal crystal structure. \\
+
+
+%Steel is one of the oldest materials used by mankind. It is an alloy consisting of iron and carbon, that can also contain other elements. Due to the wide variety of properties depending on the alloys composition, it finds many commercial applications. 
 
 %They exhibit multiple advantageous properties besides its rather straightforward thermodynamical processing.Combined with their low weight they are of particular interest in the automotive industry, where they are used for steel sheets. \\
 %Dual-phase steels are a class of advanced high-strength steels. On a microstructural level they consist of a ductile ferrite matrix with islands of brittle martensite. Furthermore they can contain, austenite remaining from the processing of the material, pearlite, bainite carbides, and acicular ferrite. The hard martensite is responsible for the materials high ultimate strength, while the ductile ferrite results in a low initial yield strength. Those advantageous properties together with a high fracture strain, high hardening ratio, and their light weight makes them interesting from a engineering point of view, especially in the automotive industry, where dual-phase steels are used for steel sheets. \\
 
 
-On a microstructural level dual-phase steels consist of a ductile ferrite matrix with islands of brittle martensite. While the microstructure is seemingly simple, its influence on the materials mechanical properties is not fully understood and research since the patent of dual-phase steels in 1968 \cite{dualphassteel} is still ongoing. The microstructural parameters include the martensite volume fraction, the size of martensite islands, and the overall morphology. The configuration of these parameters depends on the chemical composition and processing of the material. 
+%On a microstructural level dual-phase steels consist of a ductile ferrite matrix with islands of brittle martensite. While the microstructure is seemingly simple, its influence on the materials mechanical properties is not fully understood and research since the patent of dual-phase steels in 1968 \cite{dualphassteel} is still ongoing. The microstructural parameters include the martensite volume fraction, the size of martensite islands, and the overall morphology. The configuration of these parameters depends on the chemical composition and processing of the material. 
 
 %On a microstructural level dual-phase steels consist of a ductile ferrite matrix with islands of brittle martensite. They furthermore can contain austenite, pearlite, bainite, carbides and acicular ferrites. While the microstructure of dual-phase steels is seemingly simple, consisting mostly of two While the microstructure of dual-phase steels is seemingly simple, its influence on the mechanical properties of dual-phase steels is only partially understood and research is ongoing PAPER. This is due to the fact that multiple microstructural parameters, like the martensite volume ratio, the size of martensite islands, the morphology, etc. play an important role in the macroscopic behavior. The microstructure at the surface of a sample is shown in figure \ref{fig:DPMicrostructure}. \\
 
-\begin{figure}[H]
-\centering
-  \includegraphics[width=\linewidth]{DPMicrograph.png}
-  \caption{Dual-phase steel SEM micrograph.}
-  \label{fig:DPMicrostructure}
-\end{figure}
-
+%\section{Microstructure}
+%
+%Through the quenching process a microstructure is created, consisting of a soft ferrite matrix with islands of hard martensite, shown in figure \ref{fig:DPMicrostructure}. The martensite volume fraction depends both on the initial conditions and the details of the processing. While this microstructure is seemingly simple, its influence on the mechanical properties and especially the damage behavior is not yet fully understood. The microstructural parameters include the martensite volume fraction, the average size of martensite islands, and the overall morphology. Nevertheless it can be stated that a higher martensite volume fraction leads to a higher hardness at the cost of lower ductility.
+%
+%\begin{figure}[H]
+%\centering
+%  \includegraphics[width=\linewidth]{DPMicrograph.png}
+%  \caption{Dual-phase steel SEM micrograph.}
+%  \label{fig:DPMicrostructure}
+%\end{figure}
+%
 \section{Damage Mechanisms}
 
 
@@ -54,12 +201,15 @@ On a microstructural level dual-phase steels consist of a ductile ferrite matrix
 
 
 %While under tensile stress, the material exhibits irreversible deformation at stresses above the yield point. A stress-strain curve is shown in figure \ref{fig:DPStressStrain}. Beyond this point voids can nucleate in the microstructure. These voids are classified based on their relative position to the constituents of the dual-phase steel. The classes are as follows
-During deformation, materials exhibit different behaviors depending on the applied stress. At first, a material reacts elastically, returning to its original state when the stress is released. Increasing the stress further, the regime of plastic deformation is reached, and permanent changes to the microstructure of the material are introduced. Additionally to the plastic deformation, in dual-phase steels voids nucleate in the microstructure, becouse of the stress and strain partitioning between the two phases and their plastic incompatibility. These voids can act as sources and propagators of a critical crack leading to the failure of the material if the stress is further increased. The emerging voids in the materials microstructure are classified based on their relative position to the constituents of the dual-phase steel. A common classification is as follows
+
+As a metallic material is plastically deformed, inelastic deformation to the microstructure of the material is introduced. Additionally, in dual-phase steels voids nucleate in the microstructure, due to the stress and strain partitioning between the two phases and their plastic incompatibility. These voids can act as sources and propagators of a critical crack leading to the failure of the material if the stress is further increased. The emerging voids in the materials microstructure are classified based on the local microstructural initiating mechanism. A common classification is as follows
 \begin{itemize}[label={}]
 \item \textbf{Martensite Cracking}: A brittle crack nucleating inside a martensite island.
 \item \textbf{Interface Decohesion}: Nucleation of a void at the interface between a martensite island and a ferrite grain.
 \item \textbf{Boundary Decohesion}: Nucleation of a void at the grain boundary between two adjacent ferrite grains.
 \end{itemize}
+It has been argued by ... that boundary decohesions as shown in figure \ref{sub:BD} occur very rarely. As ferrite grain boundaries often exist between two martensite islands, the damage to the grain boundary can be initialized at the intersection of the ferrite/ferrite grain boundary with the interface to the adjacent martensite grain. This void can then propagate to the other surrounding martensite grain. Other mechanisms that result in a void resembling a boundary decohesion, are either martensite crack of an elongated martensite grain that evolves into a lengthy shape, or an interface decohesion at either one or both martensite grains, that then evolves to become a void connecting both martensite grains.\\
+
 Furthermore, important for the materials behavior are foreign particles. These do not nucleate under stress but are introduced to the material during its processing. In SEM micrographs, these inclusions can also be seen as voids, albeit commonly of larger size.
 \begin{itemize}[label={}]
 \item \textbf{Inclusions}: A foreign particle remaining from the processing of the material. 
@@ -74,20 +224,20 @@ Abstracted examples of the possible damage mechanisms are shown in figure \ref{f
 \centering
   \includegraphics[width=.8\linewidth]{MartensiteCracking_abstraction_scalebar.pdf}
   \caption{MC}
-  \label{fig:MC}
+  \label{sub:MC}
 \end{subfigure}%
 \begin{subfigure}{.25\textwidth}
 \centering
   \includegraphics[width=.8\linewidth]{InterfaceDecohesion_abstraction_scalebar.pdf}
   \caption{ID}
-  \label{fig:Interface_scalebar}
+  \label{sub:ID}
 \end{subfigure}%
 \centering
 \begin{subfigure}{.25\textwidth}
 \centering
   \includegraphics[width=.8\linewidth]{BoundaryDecohesion_abstraction_scalebar.pdf}
   \caption{BD}
-  \label{fig:Inclusion_scalebar}
+  \label{sub:BD}
 \end{subfigure}%
 %\begin{subfigure}{.2\textwidth}
 %\centering
@@ -100,21 +250,29 @@ Abstracted examples of the possible damage mechanisms are shown in figure \ref{f
 \centering
   \includegraphics[width=.8\linewidth]{Inclusion_abstraction_scalebar.pdf}
   \caption{Inclusion}
-  \label{fig:Inclusion_scalebar}
+  \label{sub:Inc}
 \end{subfigure}%
 \caption{Abstracted damage mechanism for martensite cracking (MC) in subfigure (a), interface decohesion (ID) in subfigure (b), boundary decohesion (BD) in subfigure (c),  and inclusions in subfigure (d). The martensite islands, the ferrite matrix, and the foreign body are labeled as M, F, and I respectively.}
 \label{fig:DamageCategories_abstraction}
 \end{figure}
 
+
 \section{Experimental Setup}
 
-In order to study the mechanisms behind the deformation of a material and its failure, experiments have to be performed investigating the materials response to different kinds and levels of plastic strain under a certain stress state. By studying the response of the microstructure, specifically the formation of voids, a deeper understanding of the materials mechanic properties can be generated. While it is possible to use three dimensional imaging, these methods are limited by their time intensity and are usually limited to small portions of a probe. Another possibility is to use surface micrographs, these are limited by voids nucleating at or evolving to the surface of the specimen, but larger portions of the probe can be imaged. Furthermore two types of experiments can be performed, explained in the following. \\
+In order to study the mechanisms behind the deformation of a material and its failure, experiments have to be performed investigating the materials response to different kinds and levels of plastic strain under a certain stress state. By studying the response of the microstructure, specifically the formation of voids, a deeper understanding of the materials behavior can be generated. While it is possible to use three dimensional imaging, these methods are limited by their time intensity and are usually limited to small portions of a deformed specimen. In order to cover larger portions of the probe usually surface micrographs are used. From the resulting two dimensional images conclusions about the three dimensional material can be drawn. Furthermore one usually distinguishes between two kinds of experiments, namely ex-situ and in-situ experiments, as explained in the following. \\
+ 
+\subsection{Ex-Situ Experiments}
 
-\noindent \textbf{Ex-Situ}\\
-In ex-situ experiments a sample is deformed, then metallographically prepared in order to be able to distinguish the constituents on the surface of the material. Afterwards, the surface of the specimen is scanned and investigated. This method is restricted to temporal snapshots of damage mechanisms. However, a view of the damage in the bulk of the material is possible, as material is ground during the metallographic preparation.\\
+In ex-situ experiments a sample is deformed, then metallographically prepared in order to be able to distinguish the constituents on the surface of the material. Afterwards, the surface of the specimen is scanned and investigated. This method is restricted to temporal snapshots of damage mechanisms. However, a view of the damage in the bulk of the material is possible, as material is ground during the metallographic preparation. This process is diagrammatically depicted in figure \ref{fig:ex-situ}.\\
 
-\noindent \textbf{In-Situ}\\
-In in-situ experiments, the surface of the sample is prepared beforehand and the deformation experiment is performed afterwards with different stages of stress, enabling the study of the time evolution of damage sites. The downside to this method is the influence of the preparation of the materials surface on its deformation behavior. Furthermore, the nucleation and evolution of damage sites at the surface of the sample differs from the bulk properties as the stress states at th surface are altered. \\
+\subsection{In-Situ Experiments}
+
+In in-situ experiments, the surface of the sample is prepared beforehand and the deformation experiment is performed afterwards with different stages of stress, enabling the study of the time evolution of damage sites. The downside to this method is the influence of the preparation of the materials surface on its deformation behavior. Furthermore, the nucleation and evolution of damage sites at the surface of the sample differs from the bulk properties as the stress states at the surface are altered.  A diagrammatic depiction of this process is shown in figure \ref{fig:in-situ}.\\
+
+
+ %Another possibility is to use surface micrographs, these are limited by voids nucleating at or evolving to the surface of the specimen, but larger portions of the probe can be imaged. Furthermore two types of experiments can be performed, explained in the following. \\
+
+
 
 The data used in this thesis stems from uniaxial tensile tests with surface micrographs from both ex-situ and in-situ experiments. Detail of the experimental setup can be found in the appendix \ref{app:experiment}.
 

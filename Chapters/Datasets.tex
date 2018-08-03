@@ -6,15 +6,15 @@
 The collection of a dataset is a crucial step in the construction of a machine learning based classification algorithm. Since a neural network learns from labeled samples, any bias from a researcher involved in the annotation of the data will be transfered to the network. It is therefore necessary to create clear class definitions, suppressing any possible bias through the interpretation involved in the labeling. 
 
 
-The collection of a dataset is a crucial step in the construction of a machine learning based classification algorithm. Since a neural network learns given the examples shown to it, any bias from a researcher involved in the labeling of the data will be learned by the network. It is therefore necessary to find class definitions clear enough for different researchers to arrive at the same conclusion for different similar sites. This is due to two reasons. Firstly when multiple people are involved in the creation of a labeled dataset conflicting interpretations of the given classes will lead the neural network to perform poorly since similar sites might be labeled differently. \\
+%The collection of a dataset is a crucial step in the construction of a machine learning based classification algorithm. Since a neural network learns given the examples shown to it, any bias from a researcher involved in the labeling of the data will be learned by the network. It is therefore necessary to find class definitions clear enough for different researchers to arrive at the same conclusion for different similar sites. This is due to two reasons. Firstly when multiple people are involved in the creation of a labeled dataset conflicting interpretations of the given classes will lead the neural network to perform poorly since similar sites might be labeled differently. \\
 
 
 \section{Data Collection - First Stage}
-In the first stage of data collection, damage sites in SEM micrographs were classified using the conventional class definitions for damage sites in dual-phase steels. These consist of martensite cracking, interface decohesion, boundary decohesion and inclusions, as explained in chapter \ref{cha:dual-phasesteels}. Additionally a the class of evolved damage sites was introduced. These sites are damage sites in a later stage of their evolution, where it is not possible to clearly establish what mechanism lead to the formation of the void in the microstructure. \\
+In the first stage of data collection, damage sites in SEM micrographs were classified using the conventional class definitions for damage sites in dual-phase steels. These consist of martensite cracking, interface decohesion, boundary decohesion and inclusions, as explained in chapter \ref{cha:cha:DualPhaseSteels}. Additionally a the class of evolved damage sites was introduced. These sites are damage sites in a later stage of their evolution, where it is not possible to clearly establish what mechanism lead to the formation of the void in the microstructure. \\
 
 
 
-Due to the time intensity involved in the evaluation of SEM micrographs, two researchers were involved in the labeling of damage sites, using the labeling tool labelImg \cite{labelImg}. This tool enables its user to zoom into images, find objects of interest, create a rectangle around the object and annotate it. Additionally it is possible to mark objects as difficult, which was used when damage sites could not be clearly identified by one researcher and further discussion was necessary. If both researchers would not arrive at the same conclusion the "difficult" mark would remain, and these sites could be neglected from training later on. A labeled micrograph using labelImg can be seen in figure \ref{fig:labelImg}. 
+Due to the time intensity involved in the evaluation of SEM micrographs, two researchers were involved in the labeling of damage sites, using the labeling tool labelImg \cite{labelImg}. This tool enables its user to zoom into images, find objects of interest, create a rectangle around the object and annotate it. Additionally it is possible to mark objects as difficult, which was used when damage sites could not be clearly identified by one researcher and further discussion was necessary. If both researchers would not arrive at the same conclusion the "difficult" mark would remain, leaving the option to exclude these sites from training. A labeled micrograph using labelImg can be seen in figure \ref{fig:labelImg}. 
 
 \begin{figure}[H]
 \centering
@@ -322,114 +322,114 @@ In a first approximation the effect of using different class definitions for lab
 
 %Due to the necessary time for the labeling of damage sites, this task is performed by multiple researchers. Unclear class definitions will lead to different conclusions for similar damage sites, leading the neural network to adapt its weights once in order to learn the mapping $o_0 \mapsto c_0$ and for a similar object $o_1 \mapsto c_1$, while the true class may be either $c_0$ or $c_1$. This will nullify the correction of the networks weights. \\
 
-\section{Reliability of Training Data}
-
-Due to the need of consistently labeled datasets, for the training process of the classifier, a study was performed internally beforehand. Five experts were asked to classify $25$ damage sites given the following descriptions. 
-\begin{itemize}[label={}]
-\item \textbf{Inclusion}: Inclusions, either holes left from preparation or actual inclusions.
-\item \textbf{Martensite Cracking}: Brittle cracked martensite islands.
-\item \textbf{Interface Decohesion}: Damage to the martensite/ferrite boundary.
-\item \textbf{Boundary Decohesion}: Damage to ferrite grain boundaries.
-\item \textbf{Evolved Damage}: More than one active damage mechanism, e.g. martensite cracking evolved into ductile damage in ferrite.
-\end{itemize}
-The agreement with the damage classes determined beforehand can be seen in table \ref{tab:Reliability}. Major problems arose with boundary decohesions and evolved damage sites. Due to the high concentration of martensite in the dual-phase steel used, few ferrite grains are adjacent to each other. Therefore boundary decohesions will occur rarely, and sites resembling boundary decohesions probably result from other mechanisms. Problems with evolved damage sites come from the lack of a clear threshold after which a damage site falls into this class. Due to this, boundary decohesions and evolved damages were not used for the classification algorithm to distinguish between.\\
-
-\begin{table}[H]
- \begin{center}
-  \begin{tabular}{@{} *2l @{}} \toprule[2pt]
-   Damage Category & Accuracy \\\midrule
-   Martensite Cracking & $85 \%$   \\ 
-   Inclusion  & $84 \%$ \\ 
-   Interface Decohesion  & $76 \% $ \\
-   Evolved & $56\%$ \\
-   Boundary Decohesion & $44 \%$ \\ \bottomrule[2pt]
-
-  \end{tabular}
- \end{center}
- \caption{Agreement for the classification of damage sites by hand. }
- \label{tab:Reliability}
-\end{table}
-
-Furthermore damage sites located in a special geometrical constellation appeared often. These are classified by being located between the tips of two martensite islands. The underlying mechanisms of the nucleation of these damage sites is unknown, and might result from the cracking of one formerly connected martensite or the decohesion of a ferrite bridge between two martensite islands. Characteristic for this constellation is a stress concentration at this particular point in the microstructure, this class is called notch effect. The final classes used for classification in this work are shown in figure \ref{fig:classes}.
-
-\begin{figure}[H]
-\begin{subfigure}{.25\textwidth}
-\centering
-  \includegraphics[width=.8\linewidth]{MartensiteCracking_abstraction_scalebar.pdf}
-  \caption{MC}
-  \label{fig:MC}
-\end{subfigure}%
-\begin{subfigure}{.25\textwidth}
-\centering
-  \includegraphics[width=.8\linewidth]{InterfaceDecohesion_abstraction_scalebar.pdf}
-  \caption{ID}
-  \label{fig:Interface_scalebar}
-\end{subfigure}%
-\centering
-\begin{subfigure}{.25\textwidth}
-\centering
-  \includegraphics[width=.8\linewidth]{NotchEffect_abstraction_scalebar.pdf}
-  \caption{NE}
-  \label{fig:Notch_scalebar}
-\end{subfigure}%
-\begin{subfigure}{.25\textwidth}
-\centering
-  \includegraphics[width=.8\linewidth]{Inclusion_abstraction_scalebar.pdf}
-  \caption{Inclusion}
-  \label{fig:Inclusion_scalebar}
-\end{subfigure}%
-\caption{Abstracted damage mechanism for martensite cracking (MC) in subfigure (a), interface decohesion (ID) in subfigure (b), notch effect (NE) in subfigure (c),  and inclusions in subfigure (d). The martensite islands, the ferrite matrix, and the foreign body are labeled as M, F, and I respectively.}
-\label{fig:classes}
-\end{figure}
-
-
-
-\section{Influence of an Incorrectly Labeled Dataset}
-
-The influence of an incorrectly labeled dataset was studied using the CIFAR-10 dataset, with the EERACN network, see \ref{app:EERACN}. The network was trained for $30$ epochs with an Adam optimizer \cite{Sharma2017} with a learning rate of $0.0005$ and other parameters set to default. The baseline accuracy for a correctly labeled dataset with constant seeds among experiments and fluctuations resulting from the use of GPU is $0.73\pm 0.01$. Purposely mislabeling $30 \%$, corresponding to the average mislabeling rate from \ref{tab:Reliability}, of the training data leads to an accuracy of $0.66\pm 0.01$ evaluated on a dataset with correct labels, leading to a drop in the accuracy of $0.07 \pm 0.01$. For a realistic setting the test dataset will also be mislabeled. Evaluating the trained network on a mislabeled dataset leads to a further drop in the accuracy to $0.43\pm 0.01$, since correctly labeled inputs will be evaluated as wrong predictions. The mislabeled data has therefore two effects. Firstly the performance of the network drops significantly. Secondly the measured accuracy of the network will be skewed towards a network using random predictions. 
-
-
-%The network was once trained with a correctly labeled dataset and then with a dataset with $30\%$ of the datapoints mislabeled, corresponding to the average mislabeling rate from \ref{tab:Reliability}. The baseline accuracy for a correctly labeled dataset with constant seeds among experiments and fluctuations resulting from the use of GPU is $0.73\pm 0.01$. Training the network with mislabeled data and evaluating the trained network on a dataset labeled correctly the accuracy drops to $0.66\pm 0.01$. Because the data used for the training of a network distinguishing between damage mechanisms is completely labeled by hand the test dataset would also be labeled incorrectly. The accuracy of a network evaluated on a test dataset with inconstistent labeling leads to a further drop in the accuracy to $0.43\pm 0.01$, due to correct predictions being labeled as wrong.\\
-
-
-\section{Datasets}
-The datasets were obtained from SEM micrographs by two researchers. 
-
-
-
-The datasets were obtained in two ways. At first labelImg \cite{labelImg} was used. With this tool it is possible to mark damage sites in SEM panoramas, requiring the user to search for them by zooming into the micrograph. Later once the localization algorithm was implemented as explained in chapter \ref{cha:Localization}, significantly reducing the required time for the creation of a dataset by negating the need to localize damage sites by hand. \\
-
-\begin{figure}[H]
-\begin{subfigure}{.5\textwidth}
-\centering
-  \includegraphics[width=.8\linewidth]{Artifact_scalebar.png}
-\end{subfigure}
-\begin{subfigure}{.5\textwidth}
-\centering
-  \includegraphics[width=.8\linewidth]{Artifact_2_scalebar.png}
-\end{subfigure}
-\caption{Artifact showing on the surface of the sample.}
-\label{fig:artifacts}
-\end{figure}
-
-During deformation artifacts can form on the surface of the micrograph. A few examples of such artifacts are shown in figure \ref{fig:artifacts}. Due to the preparation of the sample these do not show in ex-situ experiments and very rarely in early stages of in-situ experiments. The dataset is therefore split into two categories. The first one consists of surface micrographs not containing artifacts on the sample's surface, while the second one consists of surface micrographs containing said artifacts. \\
-
-The available data for each damage mechanism and category after labeling is shown in table \ref{tab:Dataset}.
-
-%The data is split into two categories. The first category are surface micrographs that were taken right after preparing the sample. Due to the preparation these do not contain artifacts from the deformation of the sample. This first category consists of ex-situ experiments and the first stage of in-situ experiments. Later stages of in-situ experiments fall into the second category, 
-%The data is split into three parts. Firstly data from ex-situ experiments, with different grades of stress. The dual-phase steel was prepared before each recording with the SEM, therefore no artifacts can be seen on the surface of the sheet. Secondly data from the first stage of in-situ experiments, this data is  The second round of experiments was performed in-situ. Due to the in-situ nature of those experiments at higher rates of deformation, recordings contain artifacts on the surface of the probe. The datasets with the number of damage sites in each category can be seen in table \ref{tab:Dataset}. \\ 
-
-\begin{table}[H]
-\begin{center}
-\begin{tabular}{@{} *5l @{}} \toprule[2pt]
-Training set &  \multicolumn{4}{c}{Damage Mechanism}   \\\midrule
- & Inc & MC & ID & NE   \\ 
-ex-situ  & 379 & 691 & 788 & 443\\ 
-in-situ  & 193 & 796 & 586 & 418 \\ \bottomrule
-all  & 572 & 1487 & 1374 & 861\\\bottomrule[2pt]
-
-\end{tabular}
- \caption{The number of damage sites found in the ex-situ and in-situ experiments per class (inclusion (Inc), martensite cracking (MC), interface decohesion (ID), and notch effect (NE)).}
- \label{tab:Dataset}
-\end{center}
-\end{table}
+%\section{Reliability of Training Data}
+%
+%Due to the need of consistently labeled datasets, for the training process of the classifier, a study was performed internally beforehand. Five experts were asked to classify $25$ damage sites given the following descriptions. 
+%\begin{itemize}[label={}]
+%\item \textbf{Inclusion}: Inclusions, either holes left from preparation or actual inclusions.
+%\item \textbf{Martensite Cracking}: Brittle cracked martensite islands.
+%\item \textbf{Interface Decohesion}: Damage to the martensite/ferrite boundary.
+%\item \textbf{Boundary Decohesion}: Damage to ferrite grain boundaries.
+%\item \textbf{Evolved Damage}: More than one active damage mechanism, e.g. martensite cracking evolved into ductile damage in ferrite.
+%\end{itemize}
+%The agreement with the damage classes determined beforehand can be seen in table \ref{tab:Reliability}. Major problems arose with boundary decohesions and evolved damage sites. Due to the high concentration of martensite in the dual-phase steel used, few ferrite grains are adjacent to each other. Therefore boundary decohesions will occur rarely, and sites resembling boundary decohesions probably result from other mechanisms. Problems with evolved damage sites come from the lack of a clear threshold after which a damage site falls into this class. Due to this, boundary decohesions and evolved damages were not used for the classification algorithm to distinguish between.\\
+%
+%\begin{table}[H]
+% \begin{center}
+%  \begin{tabular}{@{} *2l @{}} \toprule[2pt]
+%   Damage Category & Accuracy \\\midrule
+%   Martensite Cracking & $85 \%$   \\ 
+%   Inclusion  & $84 \%$ \\ 
+%   Interface Decohesion  & $76 \% $ \\
+%   Evolved & $56\%$ \\
+%   Boundary Decohesion & $44 \%$ \\ \bottomrule[2pt]
+%
+%  \end{tabular}
+% \end{center}
+% \caption{Agreement for the classification of damage sites by hand. }
+% \label{tab:Reliability}
+%\end{table}
+%
+%Furthermore damage sites located in a special geometrical constellation appeared often. These are classified by being located between the tips of two martensite islands. The underlying mechanisms of the nucleation of these damage sites is unknown, and might result from the cracking of one formerly connected martensite or the decohesion of a ferrite bridge between two martensite islands. Characteristic for this constellation is a stress concentration at this particular point in the microstructure, this class is called notch effect. The final classes used for classification in this work are shown in figure \ref{fig:classes}.
+%
+%\begin{figure}[H]
+%\begin{subfigure}{.25\textwidth}
+%\centering
+%  \includegraphics[width=.8\linewidth]{MartensiteCracking_abstraction_scalebar.pdf}
+%  \caption{MC}
+%  \label{fig:MC}
+%\end{subfigure}%
+%\begin{subfigure}{.25\textwidth}
+%\centering
+%  \includegraphics[width=.8\linewidth]{InterfaceDecohesion_abstraction_scalebar.pdf}
+%  \caption{ID}
+%  \label{fig:Interface_scalebar}
+%\end{subfigure}%
+%\centering
+%\begin{subfigure}{.25\textwidth}
+%\centering
+%  \includegraphics[width=.8\linewidth]{NotchEffect_abstraction_scalebar.pdf}
+%  \caption{NE}
+%  \label{fig:Notch_scalebar}
+%\end{subfigure}%
+%\begin{subfigure}{.25\textwidth}
+%\centering
+%  \includegraphics[width=.8\linewidth]{Inclusion_abstraction_scalebar.pdf}
+%  \caption{Inclusion}
+%  \label{fig:Inclusion_scalebar}
+%\end{subfigure}%
+%\caption{Abstracted damage mechanism for martensite cracking (MC) in subfigure (a), interface decohesion (ID) in subfigure (b), notch effect (NE) in subfigure (c),  and inclusions in subfigure (d). The martensite islands, the ferrite matrix, and the foreign body are labeled as M, F, and I respectively.}
+%\label{fig:classes}
+%\end{figure}
+%
+%
+%
+%\section{Influence of an Incorrectly Labeled Dataset}
+%
+%The influence of an incorrectly labeled dataset was studied using the CIFAR-10 dataset, with the EERACN network, see \ref{app:EERACN}. The network was trained for $30$ epochs with an Adam optimizer \cite{Sharma2017} with a learning rate of $0.0005$ and other parameters set to default. The baseline accuracy for a correctly labeled dataset with constant seeds among experiments and fluctuations resulting from the use of GPU is $0.73\pm 0.01$. Purposely mislabeling $30 \%$, corresponding to the average mislabeling rate from \ref{tab:Reliability}, of the training data leads to an accuracy of $0.66\pm 0.01$ evaluated on a dataset with correct labels, leading to a drop in the accuracy of $0.07 \pm 0.01$. For a realistic setting the test dataset will also be mislabeled. Evaluating the trained network on a mislabeled dataset leads to a further drop in the accuracy to $0.43\pm 0.01$, since correctly labeled inputs will be evaluated as wrong predictions. The mislabeled data has therefore two effects. Firstly the performance of the network drops significantly. Secondly the measured accuracy of the network will be skewed towards a network using random predictions. 
+%
+%
+%%The network was once trained with a correctly labeled dataset and then with a dataset with $30\%$ of the datapoints mislabeled, corresponding to the average mislabeling rate from \ref{tab:Reliability}. The baseline accuracy for a correctly labeled dataset with constant seeds among experiments and fluctuations resulting from the use of GPU is $0.73\pm 0.01$. Training the network with mislabeled data and evaluating the trained network on a dataset labeled correctly the accuracy drops to $0.66\pm 0.01$. Because the data used for the training of a network distinguishing between damage mechanisms is completely labeled by hand the test dataset would also be labeled incorrectly. The accuracy of a network evaluated on a test dataset with inconstistent labeling leads to a further drop in the accuracy to $0.43\pm 0.01$, due to correct predictions being labeled as wrong.\\
+%
+%
+%\section{Datasets}
+%The datasets were obtained from SEM micrographs by two researchers. 
+%
+%
+%
+%The datasets were obtained in two ways. At first labelImg \cite{labelImg} was used. With this tool it is possible to mark damage sites in SEM panoramas, requiring the user to search for them by zooming into the micrograph. Later once the localization algorithm was implemented as explained in chapter \ref{cha:Localization}, significantly reducing the required time for the creation of a dataset by negating the need to localize damage sites by hand. \\
+%
+%\begin{figure}[H]
+%\begin{subfigure}{.5\textwidth}
+%\centering
+%  \includegraphics[width=.8\linewidth]{Artifact_scalebar.png}
+%\end{subfigure}
+%\begin{subfigure}{.5\textwidth}
+%\centering
+%  \includegraphics[width=.8\linewidth]{Artifact_2_scalebar.png}
+%\end{subfigure}
+%\caption{Artifact showing on the surface of the sample.}
+%\label{fig:artifacts}
+%\end{figure}
+%
+%During deformation artifacts can form on the surface of the micrograph. A few examples of such artifacts are shown in figure \ref{fig:artifacts}. Due to the preparation of the sample these do not show in ex-situ experiments and very rarely in early stages of in-situ experiments. The dataset is therefore split into two categories. The first one consists of surface micrographs not containing artifacts on the sample's surface, while the second one consists of surface micrographs containing said artifacts. \\
+%
+%The available data for each damage mechanism and category after labeling is shown in table \ref{tab:Dataset}.
+%
+%%The data is split into two categories. The first category are surface micrographs that were taken right after preparing the sample. Due to the preparation these do not contain artifacts from the deformation of the sample. This first category consists of ex-situ experiments and the first stage of in-situ experiments. Later stages of in-situ experiments fall into the second category, 
+%%The data is split into three parts. Firstly data from ex-situ experiments, with different grades of stress. The dual-phase steel was prepared before each recording with the SEM, therefore no artifacts can be seen on the surface of the sheet. Secondly data from the first stage of in-situ experiments, this data is  The second round of experiments was performed in-situ. Due to the in-situ nature of those experiments at higher rates of deformation, recordings contain artifacts on the surface of the probe. The datasets with the number of damage sites in each category can be seen in table \ref{tab:Dataset}. \\ 
+%
+%\begin{table}[H]
+%\begin{center}
+%\begin{tabular}{@{} *5l @{}} \toprule[2pt]
+%Training set &  \multicolumn{4}{c}{Damage Mechanism}   \\\midrule
+% & Inc & MC & ID & NE   \\ 
+%ex-situ  & 379 & 691 & 788 & 443\\ 
+%in-situ  & 193 & 796 & 586 & 418 \\ \bottomrule
+%all  & 572 & 1487 & 1374 & 861\\\bottomrule[2pt]
+%
+%\end{tabular}
+% \caption{The number of damage sites found in the ex-situ and in-situ experiments per class (inclusion (Inc), martensite cracking (MC), interface decohesion (ID), and notch effect (NE)).}
+% \label{tab:Dataset}
+%\end{center}
+%\end{table}

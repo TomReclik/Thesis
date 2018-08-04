@@ -39,6 +39,17 @@ The surface of the material after deformation was recorded using an SEM. Its spe
  \caption{Details of the SEM used for the surface micrographs.}
    \label{tab:SEM}
 \end{table}
+
+\section{Wrong Label}
+
+In a first approximation the effect of using different class definitions for labeling or misclassification can be explained as follows. Assuming the network has already been trained to some extent on a correctly labeled dataset, two similar samples, both belonging to class $c_0$ but one of them incorrectly labeled as class $c_1$, will be mapped by the feature extraction to close proximity of each other in the feature space. The fully connected layer in the end of the CNN will then have to learn to map these close points in the feature space to the maximal distance in the output space, requiring large weight corrections, therefore slowing down training. Furthermore, if the two points in the feature space are arbitrarily small to each other the effect of a mislabeled training sample will then nullify the adaptation of the network to a correctly labeled sample. This mapping problem can be seen in figure \ref{fig:featuremapping}.
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{featuremapping.pdf}
+\caption{The classification of two similar images in the input space to two different classes. Given a feature mapping this will on the one hand lead to a close distance in the feature space, while on the other hand to a desired maximal distance in the output space. The possible outputs are indicated by a dashed line.}
+\label{fig:featuremapping}
+\end{figure}
 %
 %\section{Cost Functions}
 %\begin{itemize}

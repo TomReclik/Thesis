@@ -294,13 +294,9 @@ Since the information of the location of the damage site inside of the micrograp
 
 \section{Underrepresented Data}
 
+In order to guarantee that a classifier learns the relevant features for a classification task, a balanced dataset is needed. It is possible if one class occurs much more often than any other class that the classifier will learn an a-priori probability favoring this class in its prediction. Two approaches exist when dealing with underrepresented classes, \textbf{undersampling} and \textbf{oversampling}.\\
 
-
-Training a classifier to distinguish classes represented with differing frequencies, features relevant for the underrepresented classes will be 
-
-
-
-undersampling, oversampling, additional weights
+A balanced dataset can be created by undersampling all classes that occur more frequently. The resulting dataset will consist of all samples from the underrepresented class and the same amount of samples of overrepresented classes that are chosen at random. Oversampling follows the opposite strategy. The dataset is balanced by including copies of the underrepresented classes, such that the all classes occur with the same frequency. In this work 
 
 
 

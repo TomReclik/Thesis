@@ -214,6 +214,8 @@ Starting from a fully connected neural network the action of a discrete convolut
 
 A digitalized image is represented internally as pixel values in the shape of an array $I_{m,n,c}$ with $m=0,\dots ,M-1$ and $n=0,\dots ,N-1$ being the spatial dimensions of the image for an image of size $M\times N$. The additional index $c$ is used in order to represent colour. An image represented in the RGB colour space will have three channels, where each channel corresponds to the contribution of each colour, red, green, and blue. \\
 
+% Moreover, a network is used for the purpose of the best amplification method theory adviser controller overview. A heuristic approach to the mining of displayed pixels is achieved through the usage of tree based paper trails, using an coffee implementation. Therefore, the supply chain has insignificant variations which lead to unexpected unobservable universial changing events. However, determining the structure of a theory with underlying hidden droplets is not feasible in humankinds lifespan. The juggling of pods provides the known solution to the structure and comparing the theory among strange thoughts however beetles survive. From the perspective of a researcher active in the field of biosophy the advantegous properties of watersolutions in mud have no significant contribution to the appetite of a great ape. Apart from human neural networks, different kinds slowly evolve and master pieces of operations as long the labor force concentrates heavily on quantums. As a conclusion the convolution resolves the evolution of the solution of any ution to provide the answer. Having found the answer all that remains is finding the corresponding question. 
+
 At first the transformation of an ANN to incorporate discrete convolutions will be explained for images having only one colour channel, corresponding to grayscale images, extracting only a single feature. The channel index will therefore be ommitted. In order to preserve the topology of the input, its shape is retained taking the form of a tensor $I_{m,n}$ with $m=0,\dots ,M-1$ and $n=0,\dots ,N-1$. The weights of neuron $i$ then also take the form $W^i_{m,n}$, where each neuron can still be connected to each neuron from its input.
 %In order to preserve the topology of the image the input now is an tensor $I_{m,n}$ with $m=0,\dots ,M-1$ and $n=0,\dots ,N-1$. The connections of a neuron therefore also becomes tensor $W_{m,n}^i$ with $m=0,\dots ,M-1$, $n=0,\dots ,N-1$, and $i$ being the index of the neuron. The bias of neuron $i$ is $b^i$. The output of neuron $i$ then is
 
@@ -271,7 +273,9 @@ The increments with which the convolutional window is moved across the input is 
 Besides convolutional layers CNNs also consist of other layers. These will be described in the following.
 
 \subsubsection{Pooling}
-As a network grows and the size of the input increases, the number of values to be tracked and need to be calculated increases, leading to a high consumption of memory and time. Pooling layers address this issue by downsampling the input in between layers in order to save memory. Furthermore the use of downsampling leads to a desired invariance to small translations as the exact position of an object is not important for the task of classification. \\
+As a network grows, adding multiple layers with multiple channels per layer, the required memory and the number of operations increases alongside. In order to reduce memory consumption and computation times in between layers pooling layers are added. These downsample the output of one layer for the following layer, therefore tackling these issues. Furthermore due to the predetermined nature of pooling layers acting on a local field, the network becomes on some level invariant to small translations.
+
+%As a network grows and the size of the input increases, the number of values to be tracked and need to be calculated increases, leading to a high consumption of memory and time. Pooling layers address this issue by downsampling the input in between layers in order to save memory. Furthermore the use of downsampling leads to a desired invariance to small translations as the exact position of an object is not important for the task of classification. \\
 
 Pooling layers work similarly to a convolutional layers except that their is predetermined. Just like the convolutional layer pooling layers also have the hyperparameters window size $N^P_1 \times N^P_2$, and stride $s_1^P,s_2^P$, where again $N^P_1 = N^P_2 = N^P$ and $s_1^P=s_2^P=s^P$ are most commonly chosen. An input with the  dimensions $M \times N \times c$ is then mapped to  $M \mapsto \ceil{(M-N^P)/s^P} $ and $N \mapsto \ceil{(N-N^P)/s^P}$ while the channel dimension remains unchanged $c \mapsto c$.\\
 
@@ -279,7 +283,7 @@ The most popular choices for the pooling function are either to return the maxim
 
 \begin{figure}[H]
 \centering
-\includegraphics[width=0.8\linewidth]{MaxPooling.pdf}
+\includegraphics[width=1\linewidth]{MaxPooling.pdf}
 \caption{Max pooling}
 \label{fig:MaxPooling}
 \end{figure}
@@ -316,19 +320,22 @@ Preventing the adaption of internal layers to shifts in preceding layers, this m
 
 As the input is transformed and features are extracted through the subsequent convolution and pooling operations, the spatial information is lost. The features are then flattened into a feature vector. As fully connected neural networks have proven as a powerful tool for the classification based on inputs having no direct relationship, the last layer of a CNN is a fully connected layer, using the extracted information in order to assign a class. \\
 
-
-
-
-
-
-For classification tasks, the output of the layer should represent a probability or confidence of the network that the object processed belongs to class $j$. Therefore it should return normalized values in the interval $[0,1]$. For multi-class problems this is achieved by using the softmax function defined by
-
-%After the application of subsequent convolution and pooling operations the resulting features are collected flattened into a feature vector. The last layer of the network then decides to which class the object belongs to. Desired properties of the output of the network are that if the object belongs to class $j$ the output at node $j$ should be close to one in order to have some form of probability or confidence of the network in its decision. Therefore the output should be in the interval $(0,1]$. One popular function exhibiting these properties is the softmax function defined by
+The output of this layer can take any value before an activation function is applied. However in order to be capable to interpret the output of the network in a probabilistic manner, it is desired that the output should fall into the interval $[0,1]$. An activation function that satisfies this condition is the softmax function defined by
 \begin{equation}
 \sigma(z)_j = \frac{e^{z_j}}{\sum_i e^{z_i}}
 \end{equation}
+Where $z_j$ is the output of neuron $j$ before the application of an activation function. 
 
+%For classification tasks, the output of the layer should represent a probability or confidence of the network that the object processed belongs to class $j$. Therefore it should return normalized values in the interval $[0,1]$. For multi-class problems this is achieved by using the softmax function defined by
 
+%After the application of subsequent convolution and pooling operations the resulting features are collected flattened into a feature vector. The last layer of the network then decides to which class the object belongs to. Desired properties of the output of the network are that if the object belongs to class $j$ the output at node $j$ should be close to one in order to have some form of probability or confidence of the network in its decision. Therefore the output should be in the interval $(0,1]$. One popular function exhibiting these properties is the softmax function defined by
+%\begin{equation}
+%\sigma(z)_j = \frac{e^{z_j}}{\sum_i e^{z_i}}
+%\end{equation}
+
+\section{Typical Architecture}
+
+The structure of CNNs can generally be described as a subsequent application of convolutional layers, with pooling layers in between, and a fully connected neural network in the end tasked with the assignment of a class. A diagrammatic depiction of this architecture can be seen in figure \ref{fig:typicalArchitecture}.
 
 %
 %\section{Convolutional Neural Networks - Architecture}
@@ -378,24 +385,41 @@ For classification tasks, the output of the layer should represent a probability
 %
 \section{Performance Analysis}
 
-In order to assess how well a classifier performs and generalizes to new data, the dataset is split into a training dataset and a testing dataset. Once the classifier is trained its predictions on the test dataset are investigated. Due to the size of the dataset evaluating all its predictions by hand is infeasible and metrics have to be derived indicating how well the classifier performs. 
+In order to asses how well a classifier performs and generalizes to new data, the dataset available is split into a training dataset and a testing dataset. Once the classifier is trained, its predictions on the test dataset are investigated. \\
+
+The testing dataset will be denoted as $\{I_i,y_i\}_{i=1,\dots ,N} $, with $I_i$ being a image with index $i$, $y_i$ being the correct class for image $i$, and $N$ being the size of the testing dataset, and the prediction of the network for $I_i$ will be denoted as $\hat{y}_i$. It is now possible to study the performance of the network in varies degrees of detail, listed in the following with decreasing levels of detail.
+
+\begin{itemize}
+\item \textbf{Inspection by hand}: With this method all available resources will be used by the researcher in order to study the networks performance, namely the image itself $I_i$, the correct prediction $y_i$, and the networks prediction $\hat{y}_i$. This can be done for the entire dataset, which becomes increasingly time intensive as the dataset grows, or by restricting the dataset to samples of cases were the prediction of the network differs from the true class label.
+\item \textbf{Confusion matrix}: By using a confusion matrix the information of the image itself $I_i$ is disregarded and the predictions of the network and the true classes are collected in a matrix, in the form that each entry corresponds to the number of times a class $i$ was predicted and class $j$ was the true class.
+\item \textbf{Metrics}: The information at hand can be reduced further by now collecting the all predictions of the network and all true classes into a single scalar, the metric. Popular metrics are the accuracy or the precision.
+\end{itemize}
+
+Commonly firstly the metrics are studied in order to have an first intuition whether the network performs well overall. If the network performs sub-optimal the confusion matrix can be used in order to determine difficult classes that then can be investigated by hand. In the following confusion matrices and different metrics will be discussed in detail.
 
 
 \subsection{Confusion Matrix}
 
-One useful metric for the investigation of the performance of a network is the confusion matrix, comparing the predicted classes with the actual classes. The confusion matrix is a matrix of size $k\times k$ with $k$ being the number of possible classes. Each element of the confusion matrix $c_{i,j}$ is the number of times an object belonging to class $i$ was predicted to be class $j$. The diagonal of the matrix $i=j$ therefore corresponds to correct predictions, while all of diagonal elements correspond to how many times class $j$ was confused with class $i$. \\
+As mentioned above a confusion matrix is the collection of the prediction of the network and the true classes into a matrix. Its elements $c_{m,n}$ are defined as the number that class $m$ was predicted for an instance when class $n$ was true, i.e. it is given by
+\begin{equation}
+c_{m,n} = \# \{y_i = m \quad \textrm{and} \quad \hat{y}_i = n \quad | \quad i=1,\dots,N  \}
+\end{equation}
+where $\#$ denotes the size of a set. It is therefore a matrix of size $k\times k$, where $k$ is the number of classes, of integer values. The diagonal elements are the cases in which the classifiers prediction were correct and the off-diagonal elements are wrong predictions of the classifier. \\
 
-If two classes $i_0$ and $i_1$ are often confused with each other, the networks prediction for class $i_0$ or $i_1$ will not be reliable and the information retreived from the prediction of the network is reduced to the object either belonging to $i_0$ or $i_1$. \\
-
-From the confusion matrix other useful metrics can be derived, described in the next section.
+The confusion matrix can be used in order to investigate if two classes are often confused with each other, since in that case the entries $c_{m,n}$ for some fixed classes $m$ and $n$ will be large in comparison to other off-diagonal elements. Two cases of confusion matrices are shown in figure \ref{fig:confusionMatrix}, with an example of the optimal case and an example for a realistic case in which two classes are often confused with each other. \\
 
 \subsection{Metrics}
 
-The most prominent metric for the analysis of a classifier is its accuracy. Defined from the confusion matrix by
-
+From the confusion matrix, different metrics can be defined. These are listed in the following
+\begin{itemize}[label={}]
+\item \textbf{Accuracy}: One of the most commonly used metrics for the assessment of a networks performance. It is defined by the number of correct predictions divided by the number of all predictions. Its values therefore fall in the interval $[0,1]$, where an accuracy of $1$ corresponds to a perfect classifier and a value of $0$ to a classifier never predicting the correct class. It can be defined from the confusion matrix as 
 \begin{equation}
-a = \frac{\sum_{i=0}^{k-1} c_{i,i}}{\sum_{i=0}^{k-1} \sum_{j=0}^{k-1} c_{i,j}}
-\end{equation}
+a = \frac{\sum_{m=0}^{k-1} c_{m,m}}{\sum_{m=0}^{k-1} \sum_{n=0}^{k-1} c_{m,n}}
+\end{equation} 
+where $m$ and $n$ indicate the classes and $k$ is the number of all possible classes.
+\item \textbf{Precision}:
+\end{itemize}
+
 
 
 While the accuracy is a useful metric, for multi-class problems the information about the classifiers performance on each class is lost. In order to assess the performance for each class the accuracy for class $i$ can be used, defined by

@@ -3,10 +3,9 @@
 \label{cha:Architecture}
 
 \section{Hierarchical Classifier}
-Due to the inherent size difference between the different damage categories, as can be seen in figure \ref{fig:SizeDifference}, using a single CNN for an ad-hoc classification, comes with one major drawback. Choosing a receptive field large enough to encase an entire inclusion, would lead to the void of other damage categories being underrepresented in the image. While choosing a receptive field of the typical size of a void of a category different than inclusion would be too small in order to show the relevant features of an inclusion.\\
+Due to the small size of the training dataset, the parameters of the SEM are kept constant among experiments. This is done in order to prevent the need for a classifier to adapt to a changing environment while at the same time learning the relevant features, necessary for a distinction between the different damage mechanisms. Size differences between different damage mechanisms will therefore be coherent among the input of a CNN. The most distinct size difference can be seen between inclusions, and the remaining damage mechanisms, as indicated in figure \ref{fig:SizeDifference}. Using a single CNN for the classification of damage mechanisms, would come with the problem that a window size large enough to encompass an inclusion site, would lead to the other damage mechanisms being underrepresented in the input, while a window size on the typical scale of a martensite cracking, an interface decohesion, or a notch effect would not show a typical inclusion site in its entirety. \\
 
-Therefore, instead of using a single CNN for the classification task, a hierarchical structure was chosen. Taking advantage of the size difference between inclusions and the remaining damage categories, the first classifier receives an input of a size of a typical inclusion site. It then classifies inclusion sites and passes the remaining sites to the next classifier. The second classifier has a smaller receptive field receiving only the relevant features to distinguish the remaining three classes, martensite cracking, interface decohesion, and notch effect. A diagrammatic depiction of this is shown in figure \ref{fig:Architecture}.\\
-\begin{figure}
+\begin{figure}[H]
 \centering
 \begin{subfigure}{.25\textwidth}
 \centering
@@ -35,9 +34,18 @@ Therefore, instead of using a single CNN for the classification task, a hierarch
 \caption{The different categories of damage sites, that the classifiers are trained to distinguish from each other together with a scale bar.}
 \label{fig:SizeDifference}
 \end{figure}
+
+Therefore a hierarchical structure for the classification task at hand was chosen. Taking advantage of the size difference between inclusions and the remaining damage categories, the first classifier receives an input of a size of a typical inclusion site. It then classifies inclusion sites and passes the remaining sites to the next classifier. The second classifier has a smaller receptive field receiving only the relevant features to distinguish the remaining three classes, martensite cracking, interface decohesion, and notch effect. A diagrammatic depiction of this is shown in figure \ref{fig:Architecture}.\\
+
+%Due to the inherent size difference between the different damage categories, as can be seen in figure \ref{fig:SizeDifference}, using a single CNN for the distinction between all possible damage mechanisms, comes with a major drawback. As the resolution is restrict to be the same experiments, in orde
+%
+%Due to the inherent size difference between the different damage categories, as can be seen in figure \ref{fig:SizeDifference}, using a single CNN for an ad-hoc classification, comes with one major drawback. Choosing a receptive field large enough to encase an entire inclusion, would lead to the void of other damage categories being underrepresented in the image. While choosing a receptive field of the typical size of a void of a category different than inclusion would be too small in order to show the relevant features of an inclusion.\\
+%
+%Therefore, instead of using a single CNN for the classification task, a hierarchical structure was chosen. Taking advantage of the size difference between inclusions and the remaining damage categories, the first classifier receives an input of a size of a typical inclusion site. It then classifies inclusion sites and passes the remaining sites to the next classifier. The second classifier has a smaller receptive field receiving only the relevant features to distinguish the remaining three classes, martensite cracking, interface decohesion, and notch effect. A diagrammatic depiction of this is shown in figure \ref{fig:Architecture}.\\
+
 \begin{figure}
 \begin{center}
-  \includegraphics[width=\linewidth]{Architecture.pdf}
+  \includegraphics[width=1.1\linewidth]{Architecture_cropped.pdf}
 \caption{Comparison of the precision between networks trained excluding in-situ data and including in-situ data. There is a visible drop of the accuracy once the classifier trained on the ex-situ data is applied to the in-situ data to just above a random classifier.}
 \label{fig:Architecture}
 \end{center}

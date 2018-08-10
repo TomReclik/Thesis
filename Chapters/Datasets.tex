@@ -1,20 +1,20 @@
 \chapter{Datasets}
 
 
-\section{Actual Introduction}
+\section{Introduction}
 
-The collection of a dataset is a crucial step in the construction of a machine learning based classification algorithm. Since a neural network learns from labeled samples, any bias from a researcher involved in the annotation of the data will be transfered to the network. It is therefore necessary to create clear class definitions, suppressing any possible bias through the interpretation involved in the labeling. 
+The collection of a dataset is a crucial step in the construction of a machine learning based classification algorithm. Since a neural network learns from labeled samples, any bias from a researcher involved in the annotation of the data will be transfered to the network. It is therefore necessary to create clear class definitions, suppressing any possible bias through the interpretation involved in the labeling. \\
 
 
 %The collection of a dataset is a crucial step in the construction of a machine learning based classification algorithm. Since a neural network learns given the examples shown to it, any bias from a researcher involved in the labeling of the data will be learned by the network. It is therefore necessary to find class definitions clear enough for different researchers to arrive at the same conclusion for different similar sites. This is due to two reasons. Firstly when multiple people are involved in the creation of a labeled dataset conflicting interpretations of the given classes will lead the neural network to perform poorly since similar sites might be labeled differently. \\
 
 
 \section{Data Collection - First Stage}
-In the first stage of data collection, damage sites in SEM micrographs were classified using the conventional class definitions for damage sites in dual-phase steels. These consist of martensite cracking, interface decohesion, boundary decohesion and inclusions, as explained in chapter \ref{cha:cha:DualPhaseSteels}. Additionally a the class of evolved damage sites was introduced. These sites are damage sites in a later stage of their evolution, where it is not possible to clearly establish what mechanism lead to the formation of the void in the microstructure. \\
+In the first stage of data collection, damage sites in SEM micrographs were classified using the conventional class definitions for damage sites in dual-phase steels. These consist of martensite cracking, interface decohesion, boundary decohesion and inclusions, as explained in chapter \ref{cha:cha:DualPhaseSteels}. Additionally he class of evolved damage sites was introduced. These sites are damage sites in a later stage of their evolution, where it is not possible to clearly establish what mechanism lead to the formation of the void in the microstructure. \\
 
 
 
-Due to the time intensity involved in the evaluation of SEM micrographs, two researchers were involved in the labeling of damage sites, using the labeling tool labelImg \cite{labelImg}. This tool enables its user to zoom into images, find objects of interest, create a rectangle around the object and annotate it. Additionally it is possible to mark objects as difficult, which was used when damage sites could not be clearly identified by one researcher and further discussion was necessary. If both researchers would not arrive at the same conclusion the "difficult" mark would remain, leaving the option to exclude these sites from training. A labeled micrograph using labelImg can be seen in figure \ref{fig:labelImg}. 
+Due to the time intensity involved in the evaluation of SEM micrographs, two researchers were involved in the labeling of damage sites, using the labeling tool labelImg \cite{labelImg}. This tool enables its user to zoom into images, find objects of interest, create a rectangle around the object and annotate it. Additionally it is possible to mark objects as difficult, which was used when damage sites could not be clearly identified by one researcher and further discussion was necessary. If both researchers would not arrive at the same conclusion the "difficult" mark would remain, leaving the option to exclude these sites from training, as these sites are not representative of a specific damage mechanism. A labeled micrograph using labelImg can be seen in figure \ref{fig:labelImg}. 
 
 \begin{figure}[H]
 \centering
@@ -195,7 +195,7 @@ For evolved damage sites only for the site shown in figure \ref{fig:Ev1} the maj
 \label{fig:BD}
 \end{figure}
 
-While for the damage sites shown in figures \ref{fig:BD1}, \ref{fig:BD2}, and \ref{fig:BD3} the majority of researchers arrived at the conclusion that these sites show boundary decohesions, the confusion among the researchers is similarly large to the case of evolved damage sites. This indicates that this class is either ill defined or that the sites shown are not representative of boundary decohesions. As can be seen in the boundary decohesion sites shown in figure \ref{fig:BD}, and can be seen in almost all boundary decohesion sites found in the material, almost all voids are cornered by martensite grains. This supports the idea explained in \ref{sec:DamageSites} that the void did not nucleate directly at the boundary between two ferrite grains, but instead other mechanisms were involved, resulting in damage sites that either stem from a void nucleating at the point were a ferrite ferrite grain boundary meets a martensite grain, or another mechanism lead to a damage site resembling to a boundary decohesion site. 
+While for the damage sites shown in figures \ref{fig:BD1}, \ref{fig:BD2}, and \ref{fig:BD3} the majority of researchers arrived at the conclusion that these sites show boundary decohesions, the confusion among the researchers is similarly large to the case of evolved damage sites. This indicates that this class is either ill defined or that the sites shown are not representative of boundary decohesions. As can be seen in the boundary decohesion sites shown in figure \ref{fig:BD}, and can be seen in all boundary decohesion sites found in the material, all voids are cornered by martensite grains. This supports the idea explained in \ref{sec:DamageSites} that the void did not nucleate directly at the boundary between two ferrite grains, but instead other mechanisms were involved, resulting in damage sites that either stem from a void nucleating at the point were a ferrite ferrite grain boundary meets a martensite grain, or another mechanism lead to a damage site resembling a boundary decohesion site. 
 
 
 \subsection{Interface Decohesion}
@@ -240,11 +240,20 @@ While for the damage sites shown in figures \ref{fig:BD1}, \ref{fig:BD2}, and \r
 For small damage sites predetermined to be interface decohesions, agreement between researchers was reached, \ref{fig:ID1} \ref{fig:ID2}, \ref{fig:ID3}. Due to the round nature and bright martensite in figure \ref{fig:ID4} this site has probably been classified as an inclusion. The last damage site \ref{fig:ID5} shows interface decohesion that has grown into the ferrite and has therefore been classified by the majority of researchers as an evolved damage site. 
 
 \subsection{Conclusion}
-Due to the problems arising in the study the class definitions were refined. The class of boundary decohesions was not used in further classifications, instead a new class, the notch effect was added. This class is defined by a stress concentration in the microstructure. After nucleation of a void these damage sites show as a void between two martensite islands, that may have been a single martensite island or two martensite islands with a ferrite bridge in between them. These sites then later can evolve into sites resembling boundary decohesions. \\
+Due to the problems arising in the study the class definitions were refined. The class of boundary decohesions was not used in further classifications, instead a new class, the notch effect was added. This class is defined by a stress concentration in the microstructure. After nucleation of a void these damage sites show as a void between two martensite islands, that may have been a single martensite island or two martensite islands with a ferrite bridge in between them. These sites then later can evolve into sites resembling boundary decohesions. A diagrammatic depiction of such a site can be seen in figure \ref{fig:Notch_scalebar}. \\
 
-Due to the problems arising in arriving at an agreement for a damage site belonging to the class "evolved damage" this class was emitted from training. On the one hand due to the lack of a clear threshold after which a damage sites is "evolved" and secondly this class is a collection of different mechanisms and damage sites can look very differently. This would prove difficult for a neural network to learn the relevant features classifying a damage site as evolved. \\
+\begin{figure}[H]
+\centering
+\includegraphics[scale=1]{NotchEffect_abstraction_scalebar.pdf}
+\caption{A diagrammatic depiction of a notch effect damage site.}
+\label{fig:Notch_scalebar}
+\end{figure}
 
-The classes martensite cracking, interface decohesion, and inclusion remain unchanged. 
+Due to the problems in finding an agreement between the different researchers for the classification of a site as evolved, this class was omitted from training but was still included in the labeling process. One problem in the classification of a damage site as "evolved" is the difficulty in defining a clear threshold, which a damage site has to exceed in order to be categorized as evolved. Furthermore, multiple damage mechanisms play a role in the formation of an evolved damage site. As the network learns to distinguish between different mechanisms, including a class that consists to varying degrees of these mechanisms, this would lead to a slowed down learning process at best, resulting in the need for a much larger dataset, and in the worst case to a network not converging to a satisfactory minimum, resulting in a useless classifier.\\ 
+
+Due to the problems arising in arriving at an agreement for a damage site belonging to the class "evolved damage" this class was emitted from training. On the one hand due to the lack of a clear threshold after which a damage sites is "evolved" and secondly this class is a collection of different mechanisms and damage sites can look very differently. This would prove difficult for a neural network to learn the relevant features, classifying a damage site as evolved. \\
+
+The definitions for the remaining classes, martensite cracking, interface decohesion, and inclusion, stay unchanged. 
 %Investigating the agreement with the predetermined classes for each sample is shown in table \ref{tab:Reliability}. As can be seen similar difficulties were found for the classes boundary decohesion and evolved damages. Furthermore it was found that due to the high martensite concentration, ferrite grains rarely if at all were directly adjacent to each other. Rather ferrite grains were seperated by martensite grains. Indicating that damage sites marked as boundary decohesions result from different mechanisms. \\
 
 %Additionally it was found that damage sites appeared often between the tips of two martensite islands. Therefore a new class was introduced, termed notch effect. This category is classified by its location in the microstructure exhibiting a special geometry. Due to the hardness of the martensite at this point in the geometry a stress concentration is present, resulting the formation of a damage site. In contrast to the other classes the underlying physical process, leading to the formation of a void, is not determined. It is possible that the two martensite islands were connected, prior to the crack occuring, or that a ferrite bridge existed between two separate martensite islands and an interface decohesion took place. \\
@@ -290,13 +299,90 @@ The classes martensite cracking, interface decohesion, and inclusion remain unch
 
 \section{Data Collection - Second Stage}
 
-Since the information of the location of the damage site inside of the micrograph is not necessary for the training of a classifier, a new method was used for the classification of damage sites. The goal is to eliminate the need to search for damage sites by hand. This was performed by using DBSCAN, as explained in chapter \ref{cha:CNN}. Extracting the found damage sites, and having the researchers focus on classification and localization. \\
+Since the information of the location of the damage site inside of the micrograph is not necessary for the training of a classifier, a new method was used for the classification of damage sites. The goal is to eliminate the need to search for damage sites by hand, therefore reducing the overall required time associated with the collection of data.\\
 
-\section{Underrepresented Data}
+This was achieved by using DBSCAN, as explained in \ref{sec:DBSCAN}, in order to localize damage sites. Then use the information about the location for the extraction of a site of interest. And finally assigning each damage site a unique number, such that all the work that has to be done be hand is restricted to assigning a class definition to the damage site. This process is illustrated in figure \ref{fig:LabelingSecondStage}.
 
-In order to guarantee that a classifier learns the relevant features for a classification task, a balanced dataset is needed. It is possible if one class occurs much more often than any other class that the classifier will learn an a-priori probability favoring this class in its prediction. Two approaches exist when dealing with underrepresented classes, \textbf{undersampling} and \textbf{oversampling}.\\
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{/Datasets/DataCollectionSecondStage.pdf}
+\caption{The extraction of damage sites for a shorter annotation time.}
+\label{fig:LabelingSecondStage}
+\end{figure}
 
-A balanced dataset can be created by undersampling all classes that occur more frequently. The resulting dataset will consist of all samples from the underrepresented class and the same amount of samples of overrepresented classes that are chosen at random. Oversampling follows the opposite strategy. The dataset is balanced by including copies of the underrepresented classes, such that the all classes occur with the same frequency. In this work 
+\section{Shadows}
+
+As the detector of the SEM is not located on the same axis as the electron source, the topography of the surface can show shadows. Because damage sites are located using a binarization of the micrograph depending on their gray-values, these shadows will be found as candidates for damage sites, to be classified by a CNN. This would introduce a systematic error to the evaluation of damage sites, as the classifier is not trained to distinguish between a shadow and an actual damage site, and therefore sites not belonging to any class can be possible classified as one. The predictions of a classifier receiving a shadow as its input will be evaluated in \ref{sec:Robustness}.
+
+
+\begin{figure}[H]
+\begin{subfigure}{.24\textwidth}
+\includegraphics[width = 0.9\linewidth]{/Shadows/Nothing_191.png}
+\end{subfigure}
+\begin{subfigure}{.24\textwidth}
+\includegraphics[width = 0.9\linewidth]{/Shadows/Nothing_223.png}
+\end{subfigure}
+\begin{subfigure}{.24\textwidth}
+\includegraphics[width = 0.9\linewidth]{/Shadows/Nothing_115.png}
+\end{subfigure}
+\begin{subfigure}{.24\textwidth}
+\includegraphics[width = 0.9\linewidth]{/Shadows/Nothing_132.png}
+\end{subfigure}
+\caption{Shadows found in the surface micrographs.}
+\end{figure}
+
+\section{Size of the Dataset}
+
+The data collected is shown in table \ref{tab:Dataset}. Overall $4294$ samples were gathered distributed unevenly among the four classes. In modern CNN applications, the dataset used is usually orders of magnitude larger. This poses a challenge for the classification algorithm, as the dataset might be to small for a CNN to learn relevant features from. In order to prevent the network from having to adjust for different experimental settings, therefore preventing the 
+
+\begin{table}[H]
+\begin{center}
+\begin{tabular}{@{} *5l @{}} \toprule[2pt]
+Training set &  \multicolumn{4}{c}{Damage Mechanism}   \\\midrule
+ & Inc & MC & ID & NE   \\ 
+ex-situ  & 379 & 691 & 788 & 443\\ 
+in-situ  & 193 & 796 & 586 & 418 \\ \bottomrule
+all  & 572 & 1487 & 1374 & 861\\\bottomrule[2pt]
+
+\end{tabular}
+\end{center}
+\end{table}
+
+
+
+\section{Class Imbalance}
+
+As can be seen in figure \ref{fig:datasets}, the number of samples per class are distributed unevenly, a so called class imbalance. The action of a neural network can be understood to some degree as an approximation of the Bayesian a posteriori probability. If the frequency of the distribution among classes varies heavily, this will introduce an a priori probability into the a posteriori probability. It is now possible for a neural network to maximize its precision, the a priori probability will be learned, and classes with few examples will not be learned by the network and therefore not predicted. E.g. In the extreme case of two classes, where class $1$ occurs $99$ more often than class $2$, always predicting class $1$ will lead to a high accuracy on the training dataset. \\
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{/Datasets/Dataset.pdf}
+\caption{Distribution of samples among the classes inclusion (Inc), notch effect (NE), interface decohesion (ID), and martensite cracking (MC), in increasing order.}
+\label{fig:datasets}
+\end{figure}
+
+Multiple methods exist addressing this issue. They can be categorized in sampling methods, artificially modifying the sample distribution in the training dataset, and methods modifying the learning process and prediction of a classifier. In the following a selection of possible methods will be explained
+
+\subsection{Oversampling}
+Oversampling describes the usage of already available examples of underrepresented classes multiple times. The most basic approach is to randomly select elements of an underrepresented class and add it to the training set until the classes are balanced. Because the information coded in the samples of the underrepresented classes is used multiple times, this method comes with the danger of overfitting and poor generalizability. Furthermore due to increased training size, the time a network requires for training is increased. 
+
+\subsection{Undersampling}
+Undersampling follows the opposite idea of oversampling. Instead of increasing the training dataset with samples from the underrepresented class, samples from overrepresented classes are chosen at random until all classes have the same amount of training data. The obvious downside to this method is that not all available data is used for training. While balance is restored the possible accuracy for overrepresented classes may not be achieved. As the training size decreases, the required time for training also decreases. \\
+
+\subsection{Scaling}
+Scaling is a method modifying the learning process of a neural network. The adjustment of the weights due to a sample belonging to a class with lower frequency will be increased by a factor, depending on the a priori probability of that class. Correspondingly this can be understood as the modification of the error function, with the corresponding scaling factor. Wrong classifications of underrepresented classes therefore lead to a larger overall error. 
+
+\subsection{Post-Scaling}
+Instead of modifying the learning process, this method aims to correct the prediction of a neural network after it has been trained. The output of the network is then scaled with the a priori probability. Both scaling and post-scaling methods heavily rely on the Bayesian a posteriori probability interpretability of the output of the network.\\
+
+\subsection{Conclusion}
+Buda et. al. performed experiments on three benchmark datasets, in order to investigate the influence of class imbalance and the performance of methods used to compensate its effects \cite{Buda2017}. The two major points found in this work that are relevant for this thesis are 
+\begin{itemize}
+\item The most dominant method is oversampling
+\item Oversampling does not imply overfitting
+\end{itemize}
+In the following oversampling will therefore be the method of choice when dealing with imbalanced class distributions.
+
 
 
 

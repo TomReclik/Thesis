@@ -25,25 +25,38 @@ Due to the small amount of available data, optimization of a networks architectu
    InceptionResNetV2  & 0.854 & 0.849 & 0.888\\
  \boxit{8.46cm}   InceptionV3 & 0.901 & 0.863 & 0.915 \\ \bottomrule[2pt]
 
-   \label{tab:AccuracyComparisonNetworks}
   \end{tabular}
  \end{center}
  \caption{Accuracy of the networks trained on different training sets evaluated on the available datasets.}
+   \label{tab:AccuracyComparisonNetworks}
 \end{table}
 
 \subsection{Ex-Situ Data}
-Training and evaluating the network on the ex-situ data results in an accuracy of $0.906$. Inspecting the precision vs recall plot shown in figure \ref{fig:InceptionExSituCLAvsACC}, indicates that this network works near optimum. It is possible to introduce a threshold in order to increase the classifiers accuracy, at the cost of more sites not being labeled. E.g. a desired accuracy of $95\%$ would result in a classification rate of about $83\%$.
+Training and evaluating the network on the ex-situ data results in an accuracy of $0.906$. Inspecting the precision vs recall plot shown in figure \ref{fig:InceptionExSituCLAvsACC}, indicates that this network works near optimum. 
 
 \begin{figure}[H]
-\includegraphics[width=\textwidth]{/FirstClassifier/InceptionExSituCLAvsACC_withLines.pdf}
+\includegraphics[width=\textwidth]{/FirstClassifier/InceptionExSituCLAvsACC_TPR_FPR_withLines.pdf}
 \caption{The precision plotted against the efficiency, for the inception network trained and evaluated on the ex-situ dataset.}
 \label{fig:InceptionExSituCLAvsACC}
 \end{figure}
 
-\begin{figure}
-\centering
-\includegraphics[width=0.3\textwidth]{/FirstClassifier/InceptionExSituConfusionMatrixBrackets.pdf}
-\end{figure}
+%\begin{figure}
+%\centering
+%\includegraphics[width=0.3\textwidth]{/FirstClassifier/InceptionExSituConfusionMatrixBrackets.pdf}
+%\end{figure}
+
+\begin{table}[H]
+ \begin{center}
+  \begin{tabular}{@{} *3l @{}} \toprule[2pt]
+   predicted &  \multicolumn{2}{c}{true}  \\\midrule
+    & Inclusion  & Rest   \\ 
+   Inclusion  & 66 & 5 \\ 
+   Rest  & 10 & 70 \\ \bottomrule[2pt]
+   \label{tab:FirstClassifierConfusionMatrixExSitu}
+  \end{tabular}
+ \end{center}
+ \caption{Confusion matrix.}
+\end{table}
 
 In figure \ref{fig:InceptionExSituPredictedIncTrueRest} sites are shown that the classifier misclassified damage sites that stem from martensite cracking, interface decohesion, or notch effect. The damage site shown in \ref{sub:IDasInc1} shows itself as a large void, probably leading the network to assign the class inclusion. In the immediate surrounding of the damage site shown in figure \ref{sub:NasInc} is an inclusion in the lower left part, leading to the classifier interpreting the input as belonging to a site showing an inclusion. For the two damage sites \ref{sub:MasInc} and \ref{sub:IDasInc2} a justification of the assignment of the class inclusion is difficult. \\
 
@@ -127,50 +140,41 @@ While working only with the data recorded ex-situ, the network generalized well 
 \end{table}
 
 
-\begin{figure}
-  \includegraphics[width=\linewidth]{Inception_ex_vs_in.pdf}
-\caption{Comparison of the precision between networks trained excluding in-situ data and including in-situ data.}
-\label{fig:Inception_ex_vs_in}
-\end{figure}
+%\begin{figure}
+%  \includegraphics[width=\linewidth]{Inception_ex_vs_in.pdf}
+%\caption{Comparison of the precision between networks trained excluding in-situ data and including in-situ data.}
+%\label{fig:Inception_ex_vs_in}
+%\end{figure}
 
 \subsection{Overall Performance}
-The network achieved an accuracy of $0.92$ on all available data. Of the $76$ inclusion sites $66$ were classified correctly, while 
+The network achieved an accuracy of $0.92$. The accuracy, true positive rate, and the false positive rate plotted against the classification rate are shown for one of the classifiers making up the statistical accuracy in figure \ref{fig:FirstClassifierInSitu}. As can be seen the classification of damage sites not belonging to the inclusion class works with near optimum accuracy, while difficulties in recognizing inclusion sites arose. The confusion matrix can be seen in table \ref{tab:FirstClassifierConfusionMatrixInSitu}. \\
 
-
-\begin{figure}
-\includegraphics[width=\textwidth]{/FirstClassifier/InceptionInSituCLAvsACC_withLines.pdf}
+\begin{figure}[H]
+\includegraphics[width=\textwidth]{/FirstClassifier/InceptionInSituCLAvsACC_TPR_FPR_withLines.pdf}
 \caption{Precision vs Recall together with the true positive rates for each class. }
 \label{fig:FirstClassifierInSitu}
 \end{figure}
 
+\begin{table}[H]
+ \begin{center}
+  \begin{tabular}{@{} *3l @{}} \toprule[2pt]
+   predicted &  \multicolumn{2}{c}{true}  \\\midrule
+    & Inclusion  & Rest   \\ 
+   Inclusion  & 94 & 4 \\ 
+   Rest  & 19 & 107 \\ \bottomrule[2pt]
+  \end{tabular}
+ \end{center}
+ \caption{Confusion matrix.}
+   \label{tab:FirstClassifierConfusionMatrixInSitu}
+\end{table}
 
-Of the $76$ inclusion sites present in the test dataset $66$ were correctly identified as inclusions while the remaining $10$ were misclassified as stemming from a different mechanism. 
+%\begin{figure}
+%
+%\end{figure}
 
 
-Overall an accuracy of $0.92$ was found. \\
-
-The precision efficiency plot can be found in figure ...
-
-Confusion matrix
-
-Samples were it went wrong
-
-\begin{itemize}
-\item Problems with generalization
-\item Fourier Analysis
-\item Accuracy: $0.90$
-\item Confusion Matrix
-\begin{equation}
-\begin{pmatrix}
-94 & 4 \\
-19&107 \\
-\end{pmatrix}
-\end{equation}
-\item Precision vs Recall
-\end{itemize}
-
-\subsection{Choosing a Threshold}
-The output of the network can be seen as a probability that a certain damage site belongs to a damage class. By choosing a threshold above which the classifier should classify a given damage site, a trade-off has to be made between the desired accuracy and the classification rate. In figure \ref{fig:InceptionACC_EFF_THETA} the accuracy of the first network together with its classification rate plotted against the threshold can be seen. Requiring the accuracy to be $95\%$ would correspond to a threshold of $\theta = 0.7$ and a classification rate of $92\%$. The remaining $8\%$ of damage sites have to be labeled afterwards by hand. 
+%\subsection{Choosing a Threshold}
+%The output of the network can be seen as a probability that a certain damage site belongs to a damage class. By choosing a threshold above which the classifier should classify a given damage site, a trade-off has to be made between the desired accuracy and the classification rate. In figure \ref{fig:InceptionACC_EFF_THETA} the accuracy of the first network together with its classification rate plotted against the threshold can be seen. Requiring the accuracy to be $95\%$ would correspond to a threshold of $\theta = 0.7$ and a classification rate of $92\%$. The remaining $8\%$ of damage sites have to be labeled afterwards by hand. 
 %
 %
 %%Due to the first classifier acting as a filter for the next classifier, it is necessary to minimize the number of falsely classified damage sites. By introducing a threshold for the network to only decide for a damage site to be of a category if the returned probability exceeds it, the number of falsely classified damage sites can be minimized, at the cost of a lower efficiency. By labeling the not classified damage sites by hand, those can be later introduced back into the system as new training data, representing points in the input space not learned by the network. The accuracy together with the efficiency against the threshold are shown in figure \ref{fig:InceptionACC_EFF_THETA}. A reasonable choice for this threshold is $\theta=0.7$, resulting in an accuracy of $95\%$ classifying $92\%$ of all damage sites. 
@@ -181,8 +185,8 @@ The output of the network can be seen as a probability that a certain damage sit
 %\label{fig:InceptionACC_EFF_THETA}
 %\end{figure}
 
-\subsubsection{Comparison}
-In figure \ref{fig:TPR_comparison} the precision of both differently trained networks are shown. As one can see the network performed well, while working only with ex-situ data. Transferring the network to be used on in-situ data the networks precision dropped immensely, rendering the network useless for classifying in-situ images. However, by including a small portion of in-situ data in the training of the network, the number of damage sites wrongly classified by the network as inclusions becomes negligible above a certain threshold. 
+%\subsubsection{Comparison}
+%In figure \ref{fig:TPR_comparison} the precision of both differently trained networks are shown. As one can see the network performed well, while working only with ex-situ data. Transferring the network to be used on in-situ data the networks precision dropped immensely, rendering the network useless for classifying in-situ images. However, by including a small portion of in-situ data in the training of the network, the number of damage sites wrongly classified by the network as inclusions becomes negligible above a certain threshold. 
 
 \newpage
 \section{Second Classifier}

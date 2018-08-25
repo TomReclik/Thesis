@@ -1,2 +1,124 @@
 \chapter{Practical Considerations}
+\label{cha:PracticalConsiderations}
+
+In this chapter implementation details are explained. Firstly, the treatment of imbalanced classes is explained. Secondly, a hierarchical classification algorithm consisting of two CNNs is introduced. Lastly, the details of training will be explained. 
+
+\section{Class Imbalance}
+
+As can be seen in figure \ref{fig:datasets}, the number of samples per class are distributed unevenly, a so called class imbalance. The action of a neural network can be understood to some degree as an approximation of the Bayesian a posteriori probability. If the frequency of the distribution among classes varies heavily, this will introduce an a priori probability into the a posteriori probability. It is now possible for a neural network to minimize the error function by learning the a priori probability, and classes with few examples will not be learned by the network and therefore not predicted. E.g. In the extreme case of two classes, where class $0$ occurs $99$ more often than class $1$, always predicting class $0$ will lead to a low error on the training dataset. \\
+
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{/Datasets/Dataset.pdf}
+\caption{Distribution of samples among the classes inclusion (Inc), notch effect (NE), interface decohesion (ID), and martensite cracking (MC), in increasing order.}
+\label{fig:datasets}
+\end{figure}
+
+Multiple methods exist addressing this issue. They can be categorized in sampling methods, artificially modifying the sample distribution in the training dataset, and methods modifying the learning process and prediction of a classifier. In the following a selection of possible methods will be explained
+
+\subsection{Oversampling}
+Oversampling describes the usage of already available examples of underrepresented classes multiple times. The most basic approach is to randomly select elements of an underrepresented class and add it to the training set until the classes are balanced. Because the information coded in the samples of the underrepresented classes is used multiple times, this method comes with the danger of overfitting and poor generalizability. Furthermore due to increased training size, the time a network requires for training is increased. 
+
+\subsection{Undersampling}
+Undersampling follows the opposite idea of oversampling. Instead of increasing the training dataset with samples from the underrepresented class, samples from overrepresented classes are chosen at random until all classes have the same amount of training data. The obvious downside to this method is that not all available data is used for training. While balance is restored the possible accuracy for overrepresented classes may not be achieved. As the training size decreases, so does the required training time. \\
+
+\subsection{Scaling}
+Scaling is a method modifying the learning process of a neural network. The adjustment of the weights due to a sample belonging to a class with lower frequency will be increased by a factor, depending on the a priori probability of that class. Correspondingly this can be understood as the modification of the error function, with the corresponding scaling factor. Wrong classifications of underrepresented classes therefore lead to a larger overall error. 
+
+\subsection{Post-Scaling}
+Instead of modifying the learning process, this method aims to correct the prediction of a neural network after it has been trained. The output of the network is then scaled with the a priori probability. Both scaling and post-scaling methods heavily rely on the Bayesian a posteriori probability interpretability of the output of the network.\\
+
+\subsection{Conclusion}
+Buda et. al. performed experiments on three benchmark datasets, in order to investigate the influence of class imbalance and the performance of methods used to compensate its effects \cite{Buda2017}. The two major points relevant for this thesis are 
+\begin{itemize}
+\item The most dominant method is oversampling
+\item Oversampling does not imply overfitting
+\end{itemize}
+In the following oversampling will therefore be the method of choice when dealing with imbalanced class distributions.
+
+\section{Class Hierarchy}
+
+Due to the small size of the training dataset, the parameters of the SEM are kept constant among experiments. This is done in order to prevent the need for a classifier to adapt to a changing environment while at the same time learning the relevant features, necessary for a distinction between the different damage mechanisms. Size differences between different damage mechanisms will therefore be coherent among the input of a CNN. The most distinct size difference can be seen between inclusions, and the remaining damage mechanisms, as indicated in figure \ref{fig:SizeDifference}. Using a single CNN for the classification of damage mechanisms, would come with the problem that a window size large enough to encompass an inclusion site, would lead to the other damage mechanisms being underrepresented in the input, while a window size on the typical scale of a martensite cracking, an interface decohesion, or a notch effect would not show a typical inclusion site in its entirety. \\
+
+\begin{figure}[H]
+\centering
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Inclusion_scalebar.png}
+  \caption{Inclusion}
+  \label{fig:Inclusion_scalebar}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Martensite_scalebar.png}
+  \caption{MC}
+  \label{fig:Martensite_scalebar}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Interface_scalebar.png}
+  \caption{ID}
+  \label{fig:Interface_scalebar}
+\end{subfigure}%
+\begin{subfigure}{.25\textwidth}
+\centering
+  \includegraphics[width=.8\linewidth]{Notch_scalebar.png}
+  \caption{NE}
+  \label{fig:Notch_scalebar}
+\end{subfigure}%
+\caption{The different categories of damage sites, that the classifiers are trained to distinguish from each other together with a scale bar.}
+\label{fig:SizeDifference}
+\end{figure}
+
+Therefore a hierarchical structure for the classification task at hand was chosen. Taking advantage of the size difference between inclusions and the remaining damage categories, the first classifier receives an input of a size of a typical inclusion site. It then classifies inclusion sites and passes the remaining sites to the next classifier. The second classifier has a input window, field receiving only the relevant features to distinguish the remaining three classes, martensite cracking, interface decohesion, and notch effect. A diagrammatic depiction of this is shown in figure \ref{fig:Architecture}.\\
+
+%Due to the inherent size difference between the different damage categories, as can be seen in figure \ref{fig:SizeDifference}, using a single CNN for the distinction between all possible damage mechanisms, comes with a major drawback. As the resolution is restrict to be the same experiments, in orde
+%
+%Due to the inherent size difference between the different damage categories, as can be seen in figure \ref{fig:SizeDifference}, using a single CNN for an ad-hoc classification, comes with one major drawback. Choosing a receptive field large enough to encase an entire inclusion, would lead to the void of other damage categories being underrepresented in the image. While choosing a receptive field of the typical size of a void of a category different than inclusion would be too small in order to show the relevant features of an inclusion.\\
+%
+%Therefore, instead of using a single CNN for the classification task, a hierarchical structure was chosen. Taking advantage of the size difference between inclusions and the remaining damage categories, the first classifier receives an input of a size of a typical inclusion site. It then classifies inclusion sites and passes the remaining sites to the next classifier. The second classifier has a smaller receptive field receiving only the relevant features to distinguish the remaining three classes, martensite cracking, interface decohesion, and notch effect. A diagrammatic depiction of this is shown in figure \ref{fig:Architecture}.\\
+
+\begin{figure}[H]
+\begin{center}
+  \includegraphics[width=\linewidth]{Architecture.png}
+\caption{Hierarchical classifier.}
+\label{fig:Architecture}
+\end{center}
+\end{figure}
+
+\section{Training}
+
+\subsection{Implementation}
+The networks were implemented and tested using keras 2.1.5 \cite{chollet2015keras} with tensorflow 1.2.1 \cite{tensorflow2015-whitepaper} and cuDNN 6.0.21 \cite{Chetlur2014} as backend. The clustering algorithms were implented using scikit-learn \cite{scikit-learn}. Training and evaluation was performed on a NVidia GeForce GTX 1070.\\
+
+Both networks were trained using the Adam optimizer with a learning rate of $0.001$ for the first network and a learning rate of $0.0005$ for the second network, the remaining parameters were left at their default values, i.e. $\beta_1=0.9$, $\beta_2=0.999$, $\epsilon=10^{-8}$, and a learning rate decay of $0.0$. The first network was trained for $50$ epochs and the second network for $90$ epochs. The training loss and accuracy during training is exemplary shown in figure \ref{fig:Training}. \\
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{training.pdf}
+\caption{Loss and accuracy of a network during training.}
+\label{fig:Training}
+\end{figure}
+
+The available data was split into $80\%$ used for training and $20\%$ used for testing. In order to prevent the networks from having to the non-zero mean of the input distribution, due to the pixel values taking values between $0$ and $255$, the input was rescaled to the interval $[-1,1]$. \\
+
+%\subsection{Statistical Fluctuations}
+%
+%Depending on the initial state of a network, i.e. the values of the weights after initialization, its weights will converge to different values. This can be suppressed by setting the seed of the pseudo-random number generation. Another source of fluctuations 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 

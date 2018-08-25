@@ -311,6 +311,7 @@ This was achieved by using a clustering algorithm, as explained in \ref{sec:DBSC
 \end{figure}
 
 \section{Shadows}
+\label{sec:Shadows}
 
 As the detector of the SEM is not located on the same axis as the electron source, the topography of the surface can show shadows. Because damage sites are located using a binarization of the micrograph depending on their gray-values, these shadows will be found as candidates for damage sites, to be classified by a CNN. This would introduce a systematic error to the evaluation of damage sites, as the classifier is not trained to distinguish between a shadow and an actual damage site, and therefore sites not belonging to any class can be possibly classified as one. The predictions of a classifier receiving a shadow as its input will be evaluated in \ref{sec:Robustness}.
 
@@ -352,38 +353,6 @@ all  & 572 & 1487 & 1374 & 861\\\bottomrule[2pt]
 
 
 
-\section{Class Imbalance}
-
-As can be seen in figure \ref{fig:datasets}, the number of samples per class are distributed unevenly, a so called class imbalance. The action of a neural network can be understood to some degree as an approximation of the Bayesian a posteriori probability. If the frequency of the distribution among classes varies heavily, this will introduce an a priori probability into the a posteriori probability. It is now possible for a neural network to minimize the error function by learning the a priori probability, and classes with few examples will not be learned by the network and therefore not predicted. E.g. In the extreme case of two classes, where class $0$ occurs $99$ more often than class $1$, always predicting class $0$ will lead to a low error on the training dataset. \\
-
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{/Datasets/Dataset.pdf}
-\caption{Distribution of samples among the classes inclusion (Inc), notch effect (NE), interface decohesion (ID), and martensite cracking (MC), in increasing order.}
-\label{fig:datasets}
-\end{figure}
-
-Multiple methods exist addressing this issue. They can be categorized in sampling methods, artificially modifying the sample distribution in the training dataset, and methods modifying the learning process and prediction of a classifier. In the following a selection of possible methods will be explained
-
-\subsection{Oversampling}
-Oversampling describes the usage of already available examples of underrepresented classes multiple times. The most basic approach is to randomly select elements of an underrepresented class and add it to the training set until the classes are balanced. Because the information coded in the samples of the underrepresented classes is used multiple times, this method comes with the danger of overfitting and poor generalizability. Furthermore due to increased training size, the time a network requires for training is increased. 
-
-\subsection{Undersampling}
-Undersampling follows the opposite idea of oversampling. Instead of increasing the training dataset with samples from the underrepresented class, samples from overrepresented classes are chosen at random until all classes have the same amount of training data. The obvious downside to this method is that not all available data is used for training. While balance is restored the possible accuracy for overrepresented classes may not be achieved. As the training size decreases, so does the required training time. \\
-
-\subsection{Scaling}
-Scaling is a method modifying the learning process of a neural network. The adjustment of the weights due to a sample belonging to a class with lower frequency will be increased by a factor, depending on the a priori probability of that class. Correspondingly this can be understood as the modification of the error function, with the corresponding scaling factor. Wrong classifications of underrepresented classes therefore lead to a larger overall error. 
-
-\subsection{Post-Scaling}
-Instead of modifying the learning process, this method aims to correct the prediction of a neural network after it has been trained. The output of the network is then scaled with the a priori probability. Both scaling and post-scaling methods heavily rely on the Bayesian a posteriori probability interpretability of the output of the network.\\
-
-\subsection{Conclusion}
-Buda et. al. performed experiments on three benchmark datasets, in order to investigate the influence of class imbalance and the performance of methods used to compensate its effects \cite{Buda2017}. The two major points relevant for this thesis are 
-\begin{itemize}
-\item The most dominant method is oversampling
-\item Oversampling does not imply overfitting
-\end{itemize}
-In the following oversampling will therefore be the method of choice when dealing with imbalanced class distributions.
 
 
 

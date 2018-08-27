@@ -1,7 +1,7 @@
 \chapter{Practical Considerations}
 \label{cha:PracticalConsiderations}
 
-In this chapter implementation details are explained. Firstly, the treatment of imbalanced classes is explained. Secondly, a hierarchical classification algorithm consisting of two CNNs is introduced. Lastly, the details of training will be explained. 
+In this chapter implementation details will be discussed. Firstly, the treatment of imbalanced classes will be discussed. Secondly, a hierarchical classification algorithm consisting of two CNNs will be introduced. Lastly, the basis for the training and the evaluation of CNNs will be treated.
 
 \section{Class Imbalance}
 
@@ -70,7 +70,7 @@ Due to the small size of the training dataset, the parameters of the SEM are kep
 \label{fig:SizeDifference}
 \end{figure}
 
-Therefore a hierarchical structure for the classification task at hand was chosen. Taking advantage of the size difference between inclusions and the remaining damage categories, the first classifier receives an input of a size of a typical inclusion site. It then classifies inclusion sites and passes the remaining sites to the next classifier. The second classifier has a input window, field receiving only the relevant features to distinguish the remaining three classes, martensite cracking, interface decohesion, and notch effect. A diagrammatic depiction of this is shown in figure \ref{fig:Architecture}.\\
+Therefore a hierarchical structure for the classification task at hand was chosen. Taking advantage of the size difference between inclusions and the remaining damage categories, the first classifier receives an input of a size of a typical inclusion site. It then classifies inclusion sites and passes the remaining sites to the next classifier. The second classifier has a input window  receiving only the relevant features to distinguish the remaining three classes, martensite cracking, interface decohesion, and notch effect. A diagrammatic depiction of this is shown in figure \ref{fig:Architecture}.\\
 
 %Due to the inherent size difference between the different damage categories, as can be seen in figure \ref{fig:SizeDifference}, using a single CNN for the distinction between all possible damage mechanisms, comes with a major drawback. As the resolution is restrict to be the same experiments, in orde
 %
@@ -100,7 +100,7 @@ Both networks were trained using the Adam optimizer with a learning rate of $0.0
 \label{fig:Training}
 \end{figure}
 
-The available data was split into $80\%$ used for training and $20\%$ used for testing. In order to prevent the networks from having to the non-zero mean of the input distribution, due to the pixel values taking values between $0$ and $255$, the input was rescaled to the interval $[-1,1]$. \\
+The available data was split into $80\%$ used for training and $20\%$ used for testing. In order to prevent the networks from having to adapt to the non-zero mean of the input distribution, due to the pixel values taking values between $0$ and $255$, the input was rescaled to the interval $[-1,1]$. \\
 
 %\subsection{Statistical Fluctuations}
 %

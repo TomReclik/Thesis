@@ -10,7 +10,7 @@ The collection of a dataset is a crucial step in the construction of a machine l
 
 
 \section{Data Collection - First Stage}
-In the first stage of data collection, damage sites in SEM micrographs were classified using the conventional class definitions for damage sites in dual-phase steels. These consist of martensite cracking, interface decohesion, boundary decohesion and inclusions, as explained in \ref{sec:DamageMechanisms}. Additionally he class of evolved damage sites was introduced. These sites are damage sites in a later stage of their evolution, where it is not possible to clearly establish what mechanism lead to the formation of the void in the microstructure. \\
+In the first stage of data collection, damage sites in SEM micrographs were classified using the conventional class definitions for damage sites in dual-phase steels. These consist of martensite cracking, interface decohesion, boundary decohesion and inclusions, as explained in \ref{sec:DamageMechanisms}. Additionally the class of evolved damage sites was introduced. These sites are damage sites in a later stage of their evolution, where it is not possible to clearly establish what mechanism lead to the formation of the void in the microstructure. \\
 
 
 
@@ -27,7 +27,7 @@ Due to the time intensity involved in the evaluation of SEM micrographs, two res
 
 \section{Consistency of Class Definitions}
 
-In order to test whether different researchers given the class definitions, given in \ref{sec:DamageMechanisms}, would arrive at the same conclusion, indicating that no bias during the creation of a dataset was transfered, an internal study was performed. In this study five experts, researching in the field of material science, were asked to label $25$ different images given the following class definitions.\\
+In order to test whether different researchers given the class definitions, given in \ref{sec:DamageMechanisms}, would arrive at the same conclusion, indicating that no bias during the creation of a dataset was transfered, an internal study at the institute for metallurgy and metal-physics\footnote{RWTH Aachen University, Kopernikusstraße 14, 52074 Aachen} was performed. In this study five experts, researching in the field of material science, were asked to label $25$ different images given the following class definitions.\\
 
 \begin{itemize}[label={}]
 \item \textbf{Inclusion}: "Inclusions, either holes left from preparation or actual inclusions."
@@ -249,7 +249,7 @@ Due to the problems arising in the study the class definitions were refined. The
 \label{fig:Notch_scalebar}
 \end{figure}
 
-Due to the problems in finding an agreement between the different researchers for the classification of a site as evolved, this class was omitted from training but was still included in the labeling process. One problem in the classification of a damage site as "evolved" is the difficulty in defining a clear threshold, which a damage site has to exceed in order to be categorized as evolved. Furthermore, multiple damage mechanisms play a role in the formation of an evolved damage site. As the network learns to distinguish between different mechanisms, including a class that consists to varying degrees of these mechanisms, this would lead to a slowed down learning process at best, resulting in the need of a much larger dataset, and in the worst case to a network not converging to a satisfactory minimum, resulting in a useless classifier.\\ 
+Due to the problems in finding an agreement between the different researchers for the classification of a site as evolved, this class was omitted from training but was still included in the labeling process. One challenge in the classification of a damage site as "evolved" is the difficulty in defining a clear threshold, which a damage site has to exceed in order to be categorized as evolved. Furthermore, multiple damage mechanisms play a role in the formation of an evolved damage site. As the network learns to distinguish between different mechanisms, including a class that consists to varying degrees of these mechanisms, this would lead to a slowed down learning process at best, resulting in the need of a much larger dataset, and in the worst case to a network not converging to a satisfactory minimum, resulting in a useless classifier.\\ 
 
 %Due to the problems arising in arriving at an agreement for a damage site belonging to the class "evolved damage" this class was emitted from training. On the one hand due to the lack of a clear threshold after which a damage sites is "evolved" and secondly this class is a collection of different mechanisms and damage sites can look very differently. This would prove difficult for a neural network to learn the relevant features, classifying a damage site as evolved. \\
 
@@ -313,7 +313,7 @@ This was achieved by using a clustering algorithm, as explained in \ref{sec:DBSC
 \section{Shadows}
 \label{sec:Shadows}
 
-As the detector of the SEM is not located on the same axis as the electron source, the topography of the surface can show shadows. Because damage sites are located using a binarization of the micrograph depending on their gray-values, these shadows will be found as candidates for damage sites, to be classified by a CNN. This would introduce a systematic error to the evaluation of damage sites, as the classifier is not trained to distinguish between a shadow and an actual damage site, and therefore sites not belonging to any class can be possibly classified as one. The predictions of a classifier receiving a shadow as its input will be evaluated in \ref{sec:Robustness}.
+As the detector of the SEM is not located on the same axis as the electron source, the topography of the surface can cast shadows. Because damage sites are located using a binarization of the micrograph depending on their gray-values, these shadows will be found as candidates for damage sites, to be classified by a CNN. This would introduce a systematic error to the evaluation of damage sites, as the classifier is not trained to distinguish between a shadow and an actual damage site, and therefore sites not belonging to any class can be possibly classified as one. Including shadows as an additional class to the classifier would lead to the problem that the distinction between a shadow and damage mechanisms is difficult. Therefore treating shadows at an earlier stage, i.e. the preparation of the material, is a more promising approach to prevent problems with classification. The predictions of a classifier receiving a shadow as its input will be evaluated in \ref{sec:Robustness}.
 
 
 \begin{figure}[H]

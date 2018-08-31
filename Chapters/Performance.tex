@@ -3,14 +3,14 @@
 
 \label{Performance} % For referencing the chapter elsewhere, use \ref{Chapter1} 
 
-In this chapter firstly the performance of the two components of the architecture described in chapter \ref{cha:PracticalConsiderations} will be studied. In the end of this chapter the combined classifier is applied to the tracking of the evolution of damage sites in in-situ experiments, and its issues with generalization are discussed.
+In this chapter the performance of the two components of the architecture described in chapter \ref{cha:PracticalConsiderations} will be studied. In the end of this chapter the combined classifier is applied to the tracking of the evolution of damage sites in in-situ experiments, and its issues with generalization are discussed.
 
 \section{Performance}
-In the following the performance of the two components of the combined classifier will be studied. This is performed by using the methods introduced in \ref{sec:Metrics}, with baseline metrics referring to the classification without the use of confidence levels.
+In the following the performance of the two components of the combined classifier will be studied. This is performed by using the methods introduced in \ref{sec:Metrics}, with baseline metrics referring to the classification without the use of confidence levels. Furthermore statistical variations on the calculated metrics stem from different initial weights of the CNNs. 
 
 \subsection{First Classifier}
 
-Due to the relatively small size of the datasets, optimization of a networks architecture is not promising for an increased performance. Instead three networks performing well on the ImageNet challenge \cite{imagenet_cvpr09} with input sizes similar to a typical inclusion site. The networks tested are the Xception network \cite{Xception}, the InceptionResNetV2 network \cite{InceptionResNetV2}, and the InceptionV3 network \cite{inception}. The achieved accuracies on the different datasets of each network can be seen in table \ref{tab:AccuracyComparisonNetworks}. Because the InceptionV3 network performed best, it was chosen as the architecture for the first CNN classifying inclusion sites. \\
+In preliminary studies the influence of small datasets was studied. It was observed that the main influence on the performance of a CNN is the amount of data, while the optimization of a CNNs architecture leads to minimal changes in the accuracy. Instead of optimizing a networks architecture three networks performing well on the ImageNet challenge \cite{imagenet_cvpr09} with input sizes similar to a typical inclusion site were tested, by estimating their performance through training them once on the training dataset and evaluating them on the test dataset. The networks tested are the Xception network \cite{Xception}, the InceptionResNetV2 network \cite{InceptionResNetV2}, and the InceptionV3 network \cite{inception}. The achieved accuracies on the different datasets of each network can be seen in table \ref{tab:AccuracyComparisonNetworks}. Because the InceptionV3 network performed best, it was chosen as the architecture for the first CNN classifying inclusion sites. \\
 
 
 %Due to the relative small size of the available data, optimization of a networks architecture is not promising to increase its performance. Therefore three networks were chosen that performed well on the ImageNet challenge \cite{imagenet_cvpr09} with input sizes comparable to the typical size of inclusion sites,  Their accuracies on the different datasets can be seen in table \ref{tab:AccuracyComparisonNetworks}. Because the InceptionV3 Network performed best on the available data it was chosen for the classification of inclusion sites.
@@ -64,7 +64,7 @@ The baseline confusion matrix is shown in table \ref{tab:FirstClassifierConfusio
  \caption{Confusion matrix.}
 \end{table}
 
-In figure \ref{fig:InceptionExSituPredictedIncTrueRest} damage sites incorrectly classified as inclusion sites are shown, together with the class probability for the assigned class returned by the network. In figure \ref{sub:MasInc} a martensite cracking is shown. In figure \ref{sub:IDasInc1} an interface decohesion site is shown. In figure \ref{sub:IDasInc2} a notch effect site is shown. In the bottom left an inclusion site can be seen, leading the classifier to conclude that the excerpt depicts an inclusion site. 
+In figure \ref{fig:InceptionExSituPredictedIncTrueRest} damage sites incorrectly classified as inclusion sites are shown, together with the class probability for the assigned class returned by the network. In figure \ref{sub:MasInc} a martensite cracking is shown. In figure \ref{sub:IDasInc1} an interface decohesion site is shown. In figure \ref{sub:IDasInc2} a notch effect site is shown. In the bottom left an inclusion site can be seen (marked with a green ellipse), leading the classifier to conclude that the excerpt depicts an inclusion site. 
 
 %In figure \ref{fig:InceptionExSituPredictedIncTrueRest} sites are shown that the classifier misclassified damage sites that stem from martensite cracking, interface decohesion, or notch effect. The damage site shown in \ref{sub:IDasInc1} shows itself as a large void, probably leading the network to assign the class inclusion. In the immediate surrounding of the damage site shown in figure \ref{sub:NasInc} is an inclusion in the lower left part, leading to the classifier interpreting the input as belonging to a site showing an inclusion. For the two damage sites \ref{sub:MasInc} and \ref{sub:IDasInc2} a justification of the assignment of the class inclusion is difficult. \\
 
@@ -72,28 +72,28 @@ In figure \ref{fig:InceptionExSituPredictedIncTrueRest} damage sites incorrectly
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P0_T1_0_93039989.png}
-\caption{$0.930$}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P0_T1_0_93039989_scalebar.png}
+\caption{\\pred: Inc($0.930$) \\true: Not Inc}
 \label{sub:MasInc}
 \end{subfigure}
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P0_T2_0_92554379.png}
-\caption{$0.926$}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P0_T2_0_92554379_scalebar.png}
+\caption{\\pred: Inc($0.926$) \\true: Not Inc}
 \label{sub:IDasInc1}
 \end{subfigure}
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P0_T3_0_75197071.png}
-\caption{$0.742$}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P0_T3_0_75197071_scalebar.png}
+\caption{\\pred: Inc($0.752$) \\true: Not Inc}
 \label{sub:IDasInc2}
 \end{subfigure}
-\caption{Damage sites incorrectly classified as inclusion sites together with the networks confidence. In (a) a martensite cracking site is shown, in (b) an interface decohesion site is shown, and in (c) a notch effect site is shown.}
+\caption{Damage sites incorrectly classified as inclusion sites together with the networks confidence. In (a) a martensite cracking site is shown, in (b) an interface decohesion site is shown, and in (c) a notch effect site is shown. The damage site to be classified is marked by a red arrow and in (c) the inclusion site at the bottom left corner is highlighted using a green ellipse.}
 % In figure (a) a martensite cracking is shown classified as an inclusion, in figure (b) interface decohesion is shown classified as an inclusion, and in figure (c) a notch effect site is shown classified as an inclusion.} 
 \label{fig:InceptionExSituPredictedIncTrueRest}
 \end{figure}
 
-In figure \ref{fig:InceptionExSituPredictedRestTrueInc} sites not recognized as inclusion sites are shown, together with the class probability for the assigned class returned by the network. The inclusion site shown in figure \ref{sub:IncAsRest_1} looks similar to the combination of an interface decohesion together with a martensite cracking close to it. The characteristics of an inclusion site are not stand out as for other inclusion sites. The sites shown in figures \ref{sub:IncAsRest_2} and \ref{sub:IncAsRest_3} are similar in that manner. Additionally, the voids typically surrounding an included particle are missing. \\
+In figure \ref{fig:InceptionExSituPredictedRestTrueInc} sites not recognized as inclusion sites are shown, together with the class probability for the assigned class returned by the network. The inclusion site shown in figure \ref{sub:IncAsRest_1} looks similar to the combination of an interface decohesion together with a martensite cracking close to it. The characteristics of an inclusion site, i.e. a large surrounding void and a clearly distinguishable included foreign particle, are not as prominent as for other inclusion sites. The sites shown in figures \ref{sub:IncAsRest_2} and \ref{sub:IncAsRest_3} are similar in that manner. \\
 
 % In figures \ref{sub:IncAsRest_2} and \ref{sub:IncAsRest_3} two inclusion sites are shown without the characteristic surrounding voids. 
 %In figure \ref{fig:InceptionExSituPredictedRestTrueInc} damage sites are shown that are inclusions but have not been recognized by the network as such. As can be seen for figure \ref{sub:IncAsRest1} and \ref{sub:IncAsRest4} the void is at the edge of the window. The damage sites shown in figures \ref{sub:IncAsRest2} and \ref{sub:IncAsRest3} the included foreign particle resembles a martensite grain closely. \\
@@ -101,23 +101,23 @@ In figure \ref{fig:InceptionExSituPredictedRestTrueInc} sites not recognized as 
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P1_T0_0_6985262.png}
-\caption{$0.699$}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P1_T0_0_6985262_scalebar.png}
+\caption{\\pred: Not Inc($0.699$) \\true: Inc}
 \label{sub:IncAsRest_1}
 \end{subfigure}
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P1_T0_0_92622524.png}
-\caption{$0.926$}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P1_T0_0_92622524_scalebar.png}
+\caption{\\pred: Not Inc($0.926$) \\true: Inc}
 \label{sub:IncAsRest_2}
 \end{subfigure}
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P1_T0_0_99065292.png}
-\caption{$0.742$}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_ExSitu_P1_T0_0_99065292_scalebar.png}
+\caption{\\pred: Not Inc($0.742$) \\true: Inc}
 \label{sub:IncAsRest_3}
 \end{subfigure}
-\caption{Inclusion sites not recognized by the classifier.}
+\caption{Inclusion sites not recognized by the classifier. The inclusion sites are highlighted using a red ellipse.}
 \label{fig:InceptionExSituPredictedRestTrueInc}
 
 %In figure (a) a martensite cracking is shown classified as an inclusion, in figures (b) and (c) interface decohesions are shown classified as inclusions, and in figure \ref{sub:NasInc} a notch effect site is shown classified as an inclusion}. \\
@@ -190,9 +190,9 @@ The different metrics of the first classifier are shown in table \ref{tab:FirstC
 
 \begin{table}[H]
  \begin{center}
-  \begin{tabular}{@{} *3l @{}} \toprule[2pt]
+  \begin{tabular}{@{} *3c @{}} \toprule[2pt]
    Threshold & Metric &   \\ \midrule
-   $\theta=0$ & ACC & $0.948\pm0.06$ \\
+   $\theta=0$ & ACC & $0.948\pm0.006 \text{ }$ \\
    &TPR  & $0.84\pm 0.06$ \\
    &TNR  & $0.98\pm 0.01$ \\
    &PPV  & $0.90\pm0.04$ \\
@@ -230,56 +230,67 @@ The baseline confusion matrix is shown in table \ref{tab:FirstClassifierConfusio
    \label{tab:FirstClassifierConfusionMatrixInSitu}
 \end{table}
 
-In figure \ref{fig:FirstClassifierInSituP0T1} damage sites incorrectly classified as inclusions can be seen, together with the class probability for the assigned class returned by the network. In figure \ref{sub:InSituP0T1} a martensite cracking was classified as an inclusion site. Due to the high damage site density in the input of the network, different damage sites, than the one intended (in the middle of the window), influence the prediction of the network. In figure \ref{sub:InSituP0T2} an interface decohesion site was classified as an inclusion site, similar to \ref{sub:InSituP0T1}, multiple damage sites are in the input, influencing the networks prediction. Lastly, in figure \ref{sub:InSituP0T3}, a notch effect site was classified as an inclusion site. It can be seen that that the martensite grains are very bright in the image. These bright spots are characteristic for inclusion sites.
+In figure \ref{fig:FirstClassifierInSituP0T1} damage sites incorrectly classified as inclusions can be seen, together with the class probability for the assigned class returned by the network. In figure \ref{sub:InSituP0T1} a martensite cracking was classified as an inclusion site. Due to the high damage site density in the input of the network the networks prediction for the damage site that is to be classified (marked by a red arrow), other damage sites present in the input to the network (highlighted using green ellipses) influence the networks prediction. In figure \ref{sub:InSituP0T2} an interface decohesion site was classified as an inclusion site, similar to \ref{sub:InSituP0T1}, multiple damage sites are in the input, influencing the networks prediction. Lastly, in figure \ref{sub:InSituP0T3}, a notch effect site was classified as an inclusion site. It can be seen that that the martensite grains are very bright in the image. These bright spots are characteristic for inclusion sites, as the included foreign particle leads to distortions on the surface of the material.
 
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P0_T1_0_958.png}
-\caption{0.958}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P0_T1_0_958_scalebar.png}
+\caption{\\pred: Inc($0.958$) \\true: Not Inc}
 \label{sub:InSituP0T1}
 \end{subfigure}
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P0_T2_0_999.png}
-\caption{0.999}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P0_T2_0_999_scalebar.png}
+\caption{\\pred: Inc($0.999$) \\true: Not Inc}
 \label{sub:InSituP0T2}
 \end{subfigure}
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P0_T3_0_654.png}
-\caption{0.654}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P0_T3_0_654_scalebar.png}
+\caption{\\pred: Inc($0.654$) \\true: Not Inc}
 \label{sub:InSituP0T3}
 \end{subfigure}
 \caption{Damage sites incorrectly classified as inclusions, together with the networks confidence. In (a) a martensite cracking site is shown, in (b) an interface decohesion site is shown, and in (c) a notch effect site is shown.}
 \label{fig:FirstClassifierInSituP0T1}
 \end{figure}
 
-In figure \ref{fig:FirstClassifierInSituP1T0} damage sites incorrectly classified as damage mechanisms other than inclusions can be seen, together with the class probability for the assigned class returned by the network. While the damage site shown in figure \ref{sub:InSituP1T10_1} was not recognized as an inclusion by the classifier, the confidence in its prediction is just above $0.5$, i.e. just above the threshold for a two class problem without a confidence level. By using confidence levels this site would be not classified, needing classification by hand but preventing errors by the network. In figure \ref{sub:InSituP1T0_2} the inclusion site shows itself without the characteristic dark surroundings. The inclusion site shown in figure \ref{sub:InSituP1T0_3} is an atypical site. While most inclusion sites show themselves as large included particles with large voids surrounding them, this site shows itself solely through a small void in the ferrite matrix. \\
+In figure \ref{fig:FirstClassifierInSituP1T0} damage sites incorrectly classified as damage mechanisms other than inclusions can be seen, together with the class probability for the assigned class returned by the network. While the damage site shown in figure \ref{sub:InSituP1T10_1} was not recognized as an inclusion by the classifier, the confidence in its prediction is just above $0.5$, i.e. just above the threshold for a two class problem without a confidence level. By using confidence levels this site would be not classified, requiring classification by hand but preventing errors by the network. In figure \ref{sub:InSituP1T0_2} the inclusion site shows itself without the characteristic dark surroundings. The inclusion site shown in figure \ref{sub:InSituP1T0_3} is an atypical site. While most inclusion sites show themselves as large included particles with large voids surrounding them, this site shows itself solely through a small void in the ferrite matrix. \\
 \begin{figure}[H]
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P1_T0_0_540.png}
-\caption{0.540}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P1_T0_0_540_scalebar.png}
+\caption{\\pred: Not Inc($0.540$) \\true: Inc}
 \label{sub:InSituP1T10_1}
 \end{subfigure}
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P1_T0_0_797.png}
-\caption{0.797}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P1_T0_0_797_scalebar.png}
+\caption{\\pred: Not Inc($0.797$) \\true: Inc}
 \label{sub:InSituP1T0_2}
 \end{subfigure}
 \centering
 \begin{subfigure}{.3\textwidth}
-\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P1_T0_0_999.png}
-\caption{0.999}
+\includegraphics[width=0.8\linewidth]{/FirstClassifier/FirstClassifier_InSitu_P1_T0_0_999_scalebar.png}
+\caption{\\pred: Not Inc($0.999$) \\true: Inc}
 \label{sub:InSituP1T0_3}
 \end{subfigure}
 \caption{Inclusion sites not recognized by the classifier, together with the networks confidence.}
 \label{fig:FirstClassifierInSituP1T0}
 \end{figure}
 
-By using LIME as discussed in \ref{sec:LIME} the decisive regions for the classification of a damage site can be found. In figure \ref{fig:InSituP1T0_2_LIME} it can be seen that while the classifier correctly identified the inclusion, other influences lead to the misclassification. \\
+By using LIME as discussed in \ref{sec:LIME} the decisive regions for the classification of a damage site can be found. In the following two misclassified damage sites are analyzed.\\
+
+In figure \ref{fig:LIME1} the damage site previously discussed and shown in figure \ref{sub:InSituP0T2} is analyzed. As can be seen not only the interface decohesion in the middle of the window (marked with I) is decisive for the classification as inclusion, but also the void in the upper part of the window (marked with II). This falls in line with the assumption that multiple damage sites present in the input window will tilt the output of the network towards the classification of an inclusion site. \\
+
+\begin{figure}
+\centering
+\includegraphics[width=\textwidth]{/FirstClassifier/FirstClassifier_InSitu_P0_T2_0_999LIME_scalebar.png}
+\caption{Analysis of site \ref{sub:InSituP0T2} using LIME.}
+\label{fig:LIME1}
+\end{figure}
+
+In figure \ref{fig:LIME2} the damage site previously discussed and shown in figure \ref{sub:InSituP1T0_2} is analyzed. The included foreign particle was recognized by the classifier. However, he influence of this region was not significant enough for the classifier to classify this image as an inclusion site.
 
 %\begin{figure}[H]
 %\centering
@@ -288,13 +299,12 @@ By using LIME as discussed in \ref{sec:LIME} the decisive regions for the classi
 %\label{fig:InSituP0T1_LIME}
 %\end{figure}
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{/FirstClassifier/FirstClassifier_InSitu_P1_T0_0_797LIME.png}
-\caption{0.797}
-\label{fig:InSituP1T0_2_LIME}
-\end{figure}
-In figure \ref{sub:InSituP1T10_1_LIME} part of the inclusion was recognized by the classifier. The foreign particle itself was recognized as not belonging to the inclusion.
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=\textwidth]{/FirstClassifier/FirstClassifier_InSitu_P1_T0_0_797LIME_scalebar.png}
+%\caption{0.797}
+%\label{fig:InSituP1T0_2_LIME}
+%\end{figure}
 %In figure \ref{sub:InSituP1T10_1_LIME} as discussed earlier the bright regions of the micrograph were decisive for the classification of this damage site as an inclusion
 %\begin{figure}[H]
 %\centering
@@ -305,9 +315,9 @@ In figure \ref{sub:InSituP1T10_1_LIME} part of the inclusion was recognized by t
 %
 \begin{figure}
 \centering
-\includegraphics[width=\textwidth]{/FirstClassifier/FirstClassifier_InSitu_P1_T0_0_540LIME.png}
-\caption{}
-\label{sub:InSituP1T10_1_LIME}
+\includegraphics[width=\textwidth]{/FirstClassifier/FirstClassifier_InSitu_P1_T0_0_540LIME_scalebar.png}
+\caption{Analysis of site \ref{sub:InSituP1T0_2} using LIME.}
+\label{fig:LIME2}
 \end{figure}
 %%
 %\begin{figure}
@@ -346,7 +356,7 @@ In figure \ref{sub:InSituP1T10_1_LIME} part of the inclusion was recognized by t
 
 \newpage
 \subsection{Second Classifier}
-Due to the smaller nature of the remaining classes, compared to inclusions, for the second classifier a simpler network architecture was decided upon. The networks architecture can be found in \ref{app:Architecture}.
+Because the remaining damage categories show themselves through smaller voids, compared to inclusion sites, for the second classifier a simpler network architecture was decided upon. The networks architecture can be found in \ref{app:Architecture}.
 
 
 %In order to compare the performance of such a simple architecture to the performance of a complex architecture, the Inception network, their respective precision recall plots are shown in \ref{fig:InVsEE}.  As can be seen for these smaller sites the naive architecture outperforms the InceptionV3 network. It was therefor decided upon to use the EERACN network as described in ... .
@@ -403,18 +413,18 @@ In figure \ref{fig:ExSituMartensiteSamples} sites classified as martensite crack
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierExSitu_T0P0score0_999962.png}
-\caption{$1.000$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierExSitu_T0P0score0_999962_scalebar.png}
+\caption{\\pred: MC($1.000$) \\ true: MC}
 \label{sub:ExSituMartensiteSamplesM}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P0_T1_0_95029753.png}
-\caption{$0.950$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P0_T1_0_95029753_scalebar.png}
+\caption{\\pred: MC($0.950$) \\ true: ID}
 \label{sub:ExSituMartensiteSamplesI}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P0_T2_0_9859941.png}
-\caption{$0.986$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P0_T2_0_9859941_scalebar.png}
+\caption{\\pred: MC($0.986$) \\ true: NE}
 \label{sub:ExSituMartensiteSamplesN}
 \end{subfigure}
 \caption{Damage sites classified as martensite cracking, together with the confidence of the network in its prediction. In (a) a martensite cracking site is shown, in (b) an interface decohesion site is shown, and in (c) a notch effect site is shown.}
@@ -428,41 +438,41 @@ In figure \ref{fig:ExSituInterfaceDecohesionSamples} damage site classified as i
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P1_T0_0_90312707.png}
-\caption{$0.903$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P1_T0_0_90312707_scalebar.png}
+\caption{\\pred: ID($0.903$) \\ true: MC}
 \label{sub:ExSituInterfaceDecohesionSamplesM}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierExSitu_T1P1score0_987877.png}
-\caption{$0.988$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierExSitu_T1P1score0_987877_scalebar.png}
+\caption{\\pred: ID($0.988$) \\ true: ID}
 \label{sub:ExSituInterfaceDecohesionSamplesID}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P1_T2_0_82387412.png}
-\caption{$0.823$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P1_T2_0_82387412_scalebar.png}
+\caption{\\pred: ID($0.823$) \\ true: NE}
 \label{sub:ExSituInterfaceDecohesionSamplesN}
 \end{subfigure}
 \caption{Damage sites classified as interface decohesion, together with the confidence of the network in its prediction. In (a) the site was identified as an martensite cracking, in (b) as an interface decohesion and in (c) as a notch effect. }
 \label{fig:ExSituInterfaceDecohesionSamples}
 \end{figure}
 
-In figure \ref{fig:ExSituNotchEffectSamples} damage sites classified as notch effect are shown, together with the class probability for the assigned class returned by the network. In figure \ref{sub:ExSituNotchEffectSamplesM} a martensite cracking site is shown. While the site is typical for a martensite cracking site, it is relatively small. In figure \ref{sub:ExSituNotchEffectSamplesI} the classifier identified an interface decohesion site as the underlying damage mechanism. This site is very similar to a notch effect site, as it shows itself as a small void in the viccinity of two martensite grains. Finally in figure \ref{sub:ExSituNotchEffectSamplesN} the notch effect site was classified correctly. 
+In figure \ref{fig:ExSituNotchEffectSamples} damage sites classified as notch effect are shown, together with the class probability for the assigned class returned by the network. In figure \ref{sub:ExSituNotchEffectSamplesM} a martensite cracking site is shown. Because the crack has not propagate the full width of the martensite grain, this damage site is relatively small. In figure \ref{sub:ExSituNotchEffectSamplesI} the classifier identified an interface decohesion site as the underlying damage mechanism. This site is very similar to a notch effect site, as it shows itself as a small void in the viccinity of two martensite grains. Finally in figure \ref{sub:ExSituNotchEffectSamplesN} the notch effect site was classified correctly. 
 
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P2_T0_0_74333996.png}
-\caption{$0.743$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P2_T0_0_74333996_scalebar.png}
+\caption{\\pred: NE($0.743$) \\ true: MC}
 \label{sub:ExSituNotchEffectSamplesM}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P2_T1_0_71155632.png}
-\caption{$0.712$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierClassifier_ExSitu_P2_T1_0_71155632_scalebar.png}
+\caption{\\pred: NE($0.712$) \\ true: ID}
 \label{sub:ExSituNotchEffectSamplesI}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierExSitu_T2P2score0_953783.png}
-\caption{$0.985$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierExSitu_T2P2score0_953783_scalebar.png}
+\caption{\\pred: NE($0.985$) \\ true: NE}
 \label{sub:ExSituNotchEffectSamplesN}
 \end{subfigure}
 \caption{Damage sites classified as notch effect, together with the confidence of the network in its prediction. In (a) the site was identified as an martensite cracking, in (b) as an interface decohesion and in (c) as a notch effect. }
@@ -471,7 +481,7 @@ In figure \ref{fig:ExSituNotchEffectSamples} damage sites classified as notch ef
 
 
 \subsubsection{Transition to In-Situ Data}
-Similarly to the generalization issues that arose for the first classifier, the accuracy of the second classifier when evaluated on the in-situ data, dropped noticeably from $0.71$ to $0.65$, while not as significantly as for the first classifier.
+Similarly to the generalization issues that arose for the first classifier, the accuracy of the second classifier when evaluated on the in-situ data, dropped noticeably from $0.71$ to $0.65$, while not as significantly as for the first classifier. This drop in the accuracy, can be explained by necessity to adopt to the new in-situ environment, i.e. the different order of preparation and imaging compared to ex-situ experiments (see section \ref{sec:Ex_In_Situ}).
 
 \begin{figure}[H]
 \centering
@@ -488,6 +498,7 @@ The network trained on the ex-situ and in-situ training data evaluated on the ex
 \begin{itemize}
 \item The networks true positive rate rate for martensite cracking is higher than the remaining classes.
 \item The true positive rate for notch effects stabilized compared to the network only trained on the ex-situ dataset. 
+\item Large fluctuations are present for low classification rates, due to the limited available statistics.
 \end{itemize}
 The different metrics of the first classifier are shown in table \ref{tab:SecondClassifierMetrics}.
 
@@ -508,6 +519,8 @@ The different metrics of the first classifier are shown in table \ref{tab:Second
    \label{tab:SecondClassifierMetrics}
 \end{table}
 
+
+
 \begin{figure}
 \centering
 \includegraphics[width=\textwidth]{/SecondClassifier/EERACNInSituCLAvsACC_allClasses_corrected.pdf}
@@ -515,25 +528,25 @@ The different metrics of the first classifier are shown in table \ref{tab:Second
 \label{fig:SecondClassifierOverallAllClasses}
 \end{figure}
 
-In figure \ref{fig:InSituMartensiteSamples} damage sites classified as martensite cracking are shown, together with the class probability for the assigned class returned by the network. Site \ref{sub:InSituMartensiteSamplesM} shows the classifier recognizing a martensite cracking. In figure \ref{sub:InSituMartensiteSamplesI} an interface decohesion sites was misclassified as a martensite cracking. While this site is located between two martensite grains, a ferrite bridge can be seen to the left of the void. Furthermore the void has an elongated shape. In figure \ref{sub:InSituMartensiteSamplesN} a notch effect site was mas misclassified as a martensite cracking. Similar to figure \ref{sub:InSituMartensiteSamplesI}, the void is located between two martensite islands. It can be seen that the martensite islands were not connected prior to the void nucleating.
+In figure \ref{fig:InSituMartensiteSamples} damage sites classified as martensite cracking are shown, together with the class probability for the assigned class returned by the network. Site \ref{sub:InSituMartensiteSamplesM} shows the classifier recognizing a martensite cracking. In figure \ref{sub:InSituMartensiteSamplesI} an interface decohesion sites was misclassified as a martensite cracking. While this site is located between two martensite grains, a ferrite bridge can be seen to the left of the void. Furthermore the void has an elongated shape. In figure \ref{sub:InSituMartensiteSamplesN} a notch effect site was misclassified as a martensite cracking. Similar to figure \ref{sub:InSituMartensiteSamplesI}, the void is located between two martensite islands. It can be seen that the martensite islands were not connected prior to the void nucleating.
 
 %In figure \ref{sub:InSituMartensiteSamplesI} the damage site was classified as an interface decohesion. While it can be seen that the martensite island was cracked, a void exists between the martensite islands and the ferrite matrix. This void was probably the cause for the classifier at arriving at interface decohesion as the underlying damage mechanism. In the last site \ref{sub:InSituMartensiteSamplesN}, the damage site was classified as a notch effect. As the void is between two martensite islands, that might have been connected before the cracking, this sites shows the characteristics of a notch effect. The main difference between this site and typical notch effect damage sites is the elongated shape of the void.
 
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T0P0score0_999788.png}
-\caption{$1.000$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T0P0score0_999788_scalebar.png}
+\caption{\\pred: MC($1.000$) \\ true: MC}
 \label{sub:InSituMartensiteSamplesM}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T1P0score0_975219.png}
-\caption{$0.975$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T1P0score0_975219_scalebar.png}
+\caption{\\pred: MC($0.975$) \\ true: ID}
 \label{sub:InSituMartensiteSamplesI}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T2P0score0_958659.png}
-\caption{$0.959$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T2P0score0_958659_scalebar.png}
+\caption{\\pred: MC($0.959$) \\ true: NE}
 \label{sub:InSituMartensiteSamplesN}
 \end{subfigure}
 \caption{Damage sites classified as martensite cracking, together with the confidence of the network in its prediction. In (a) a martensite cracking site is shown, in (b) an interface decohesion site is shown, and in (c) a notch effect site is shown. }
@@ -546,18 +559,18 @@ In figure \ref{fig:InSituInterfaceDecohesionSamples} different sites classified 
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T0P1score0_906806.png}
-\caption{$0.907$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T0P1score0_906806_scalebar.png}
+\caption{\\pred: ID($0.907$) \\ true: MC}
 \label{sub:InSituInterfaceDecohesionSamplesM}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T1P1score0_986926.png}
-\caption{$0.987$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T1P1score0_986926_scalebar.png}
+\caption{\\pred: ID($0.987$) \\ true: ID}
 \label{sub:InSituInterfaceDecohesionSamplesID}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T2P1score0_859208.png}
-\caption{$0.859$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T2P1score0_859208_scalebar.png}
+\caption{\\pred: ID($0.859$) \\ true: NE}
 \label{sub:InSituInterfaceDecohesionSamplesN}
 \end{subfigure}
 \caption{Damage sites classified as interface decohesion, together with the confidence of the network in its prediction. In (a) a martensite cracking site is shown, in (b) an interface decohesion site is shown, and in (c) a notch effect site is shown. }
@@ -569,18 +582,18 @@ In figure \ref{fig:InSituNotchEffectSamples} different sites classified as notch
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T0P2score0_657974.png}
-\caption{$0.658$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T0P2score0_657974_scalebar.png}
+\caption{\\pred: NE($0.658$) \\ true: MC}
 \label{sub:InSituNotchEffectSamplesM}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T1P2score0_961009.png}
-\caption{$0.961$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T1P2score0_961009_scalebar.png}
+\caption{\\pred: NE($0.961$) \\ true: ID}
 \label{sub:InSituNotchEffectSamplesI}
 \end{subfigure}
 \begin{subfigure}{0.3\textwidth}
-\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T2P2score0_993681.png}
-\caption{$0.994$}
+\includegraphics[width=\linewidth]{/SecondClassifier/SecondClassifierInSitu_T2P2score0_993681_scalebar.png}
+\caption{\\pred: NE($0.994$) \\ true: NE}
 \label{sub:InSituNotchEffectSamplesN}
 \end{subfigure}
 \caption{Damage sites classified as notch effects, together with the confidence of the network in its prediction. In (a) a martensite cracking site is shown, in (b) an interface decohesion site is shown, and in (c) a notch effect site is shown. }
@@ -674,12 +687,12 @@ As explained in section \ref{sec:Shadows}, the localizer can find sites not resu
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.24\textwidth}
-\includegraphics[width=0.8\linewidth]{/Shadows/Nothing_97_as_Inc.png}
+\includegraphics[width=0.8\linewidth]{/Shadows/Nothing_97_as_Inc_scalebar.png}
 \caption{}
 \end{subfigure}
 \centering
 \begin{subfigure}{0.24\textwidth}
-\includegraphics[width=0.8\linewidth]{/Shadows/Nothing_246_as_Inc.png}
+\includegraphics[width=0.8\linewidth]{/Shadows/Nothing_246_as_Inc_scalebar.png}
 \caption{}
 \end{subfigure}
 \caption{Shadows classified as inclusions.}
@@ -689,22 +702,22 @@ As explained in section \ref{sec:Shadows}, the localizer can find sites not resu
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.24\textwidth}
-\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_6_As_0.png}
+\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_6_As_0_scalebar.png}
 \caption{}
 \end{subfigure}
 \centering
 \begin{subfigure}{0.24\textwidth}
-\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_8_As_0.png}
+\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_8_As_0_scalebar.png}
 \caption{}
 \end{subfigure}
 \centering
 \begin{subfigure}{0.24\textwidth}
-\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_17_As_0.png}
+\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_17_As_0_scalebar.png}
 \caption{}
 \end{subfigure}
 \centering
 \begin{subfigure}{0.24\textwidth}
-\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_19_As_0.png}
+\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_19_As_0_scalebar.png}
 \caption{}
 \end{subfigure}
 \caption{Shadows classified as martensite cracking.}
@@ -714,22 +727,22 @@ As explained in section \ref{sec:Shadows}, the localizer can find sites not resu
 \begin{figure}[H]
 \centering
 \begin{subfigure}{0.24\textwidth}
-\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_3_As_1.png}
+\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_3_As_1_scalebar.png}
 \caption{}
 \end{subfigure}
 \centering
 \begin{subfigure}{0.24\textwidth}
-\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_7_As_1.png}
+\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_7_As_1_scalebar.png}
 \caption{}
 \end{subfigure}
 \centering
 \begin{subfigure}{0.24\textwidth}
-\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_10_As_1.png}
+\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_10_As_1_scalebar.png}
 \caption{}
 \end{subfigure}
 \centering
 \begin{subfigure}{0.24\textwidth}
-\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_13_As_1.png}
+\includegraphics[width=0.8\linewidth]{/Shadows/Shadow_13_As_1_scalebar.png}
 \caption{}
 \end{subfigure}
 \caption{Shadows classified as interface decohesion.}
@@ -740,18 +753,51 @@ As explained in section \ref{sec:Shadows}, the localizer can find sites not resu
 \subsection{In-Situ Tracking}
 In order to track the evolution of damage sites, both classifiers were trained on all available data with the training parameters as described previously. \\
 
-The damage sites were tracked from one panorama to the next using a rather primitive algorithm. At first the expected position of a damage site was calculated by using the coordinates of the damage sites and correcting it by the elongation of the panorama. By now extracting a window around the damage site of size $128\times 128$ and a search window around the expected position in previous and/or following panoramas of size $512 \times 512$. In order to reduce the required computational resources both the window containing the damage site and the search window were reduced in size using max-pooling with a window size of $2\times 2$ and a stride of $2$. Then the window containing the damage site was moved across the search window calculating the difference between pixel values, and the position was determined by the position at which the deviation was minimal. In the following some selected damage sites and their evolution will be shown. \\
+In this experiment a dual-phase steel sample was prepared and put under tensile stress. At different stages of stress the surface of the sample a SEM micrograph was recorded, see section \ref{sec:InSitu}. Damage sites found in the first stage of deformation were then localized and classified using the combined classifier. These sites were then tracked through the remaining stages of stress, using a simple algorithm explained in the following. \\
+
+\begin{enumerate}
+\item Extract window of size $128\times 128 \text{pixel}^2$ around damage site found in the first stage of deformation
+\item Estimate position of damage site in the following stage of deformation by correcting the damage sites position by the elongation of the following panorama
+\item Extract search window of size $512\times 512 \text{pixel}^2$ around the estimated position of the damage site
+\item Downsample both the window around the original damage site and the search window using max pooling with a $2\times 2$ window and stride $2$.
+\item Move the downsampled window extracted around the original damage site through the downsampled search window and calculate at each position the pixel-wise difference between the two windows.
+\item The correct position in the following stage of deformation will be the position at which the variance of the pixel-wise difference is minimal.
+\end{enumerate}
+
+%\begin{figure}
+%\centering
+%\begin{subfigure}{0.3\textwidth}
+%\includegraphics[width=0.9\linewidth]{In-Situ-Tracking.png}
+%\caption{}
+%\end{subfigure}
+%\begin{subfigure}{0.67\textwidth}
+%\includegraphics[width=0.9\linewidth]{CombinedHeatmapSearchWindow.png}
+%\caption{}
+%\end{subfigure}
+%\caption{(a) Movement of the extracted window around the original damage site over the search window. For clarity the original excerpts are shown instead of the downsampled windows. (b) The resulting variance of the pixel-wise difference. The correct position of the }
+%\end{figure}
+
+\begin{figure}
+\centering
+\subcaptionbox{}%
+  [.3\linewidth]{\includegraphics[width=0.35\linewidth]{In-Situ-Tracking.png}}
+\centering
+\subcaptionbox{}
+  [.67\linewidth]{\includegraphics[width=0.55\linewidth]{CombinedHeatmapSearchWindow.png}}
+\end{figure}
+
+%The damage sites were tracked from one panorama to the next using a rather primitive algorithm. At first the expected position of a damage site was calculated by using the coordinates of the damage sites and correcting it by the elongation of the panorama. By now extracting a window around the damage site of size $128\times 128$ and a search window around the expected position in previous and/or following panoramas of size $512 \times 512$. In order to reduce the required computational resources both the window containing the damage site and the search window were reduced in size using max-pooling with a window size of $2\times 2$ and a stride of $2$. Then the window containing the damage site was moved across the search window calculating the difference between pixel values, and the position was determined by the position at which the deviation was minimal. In the following some selected damage sites and their evolution will be shown. \\
 
 In figures \ref{fig:MCEV1} and \ref{fig:MCEV2} the evolution of two martensite cracking sides are shown. In figures \ref{fig:NEEV1} and \ref{fig:NEEV2} the evolution of two notch effect sides are shown. Two effects can be seen, firstly one can see that the voids increase in size and secondly that the surface deepens around the void. \\
 
 \begin{figure}
-\includegraphics[width=\textwidth]{/InSituTracking/Martensite.png}
+\includegraphics[width=\textwidth]{/InSituTracking/Martensite_scalebar.png}
 \caption{The evolution of a martensite cracking found in stage 0.}
 \label{fig:MCEV1}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=\textwidth]{/InSituTracking/Martensite2.png}
+\includegraphics[width=\textwidth]{/InSituTracking/Martensite2_scalebar.png}
 \caption{The evolution of a martensite cracking found in stage 0.}
 \label{fig:MCEV2}
 \end{figure}
@@ -764,35 +810,49 @@ In figures \ref{fig:MCEV1} and \ref{fig:MCEV2} the evolution of two martensite c
 %\end{figure}
 
 \begin{figure}
-\includegraphics[width=\textwidth]{/InSituTracking/Notch.png}
-\caption{The evolution of a martensite cracking found in stage 0.}
+\includegraphics[width=\textwidth]{/InSituTracking/Notch_scalebar.png}
+\caption{The evolution of a notch effect site found in stage 0.}
 \label{fig:NEEV1}
 \end{figure}
 
 \begin{figure}
-\includegraphics[width=\textwidth]{/InSituTracking/Notch2.png}
-\caption{The evolution of a martensite cracking found in stage 0.}
+\includegraphics[width=\textwidth]{/InSituTracking/Notch2_scalebar.png}
+\caption{The evolution of a notch effect site found in stage 0.}
 \label{fig:NEEV2}
 \end{figure}
 
 
 
-For early damage sites in early stages of deformation the classification algorithm found $15$ inclusions of which $13$ where classified correctly, corresponding to an accuracy of about $0.86$ for inclusion sites. Of the $54$ found martensite cracking damage sites $42$ were classified correctly, an accuracy of about $0.78$, of the $16$ interface decohesion damage sites $12$ were classified correctly, corresponding to an accuracy of about $0.75$, of the $8$ notch effect damage sites $6$ were classified correctly, corresponding to an accuracy of about $0.75$, and $32$ sites were not classified. While the set of samples is barely statistically relevant, the trend described beforehand was reproduced. \\
+For early damage sites in early stages of deformation the classification algorithm found $15$ inclusions of which $13$ where classified correctly, corresponding to an accuracy of $0.86$ for inclusion sites. Of the $54$ found martensite cracking damage sites $42$ were classified correctly, an accuracy of $0.78$, of the $16$ interface decohesion damage sites $12$ were classified correctly, corresponding to an accuracy of $0.75$, of the $8$ notch effect damage sites $6$ were classified correctly, corresponding to an accuracy of $0.75$, and $32$ sites were not classified. While the set of samples is barely statistically relevant, the trend described beforehand was reproduced. \\
 
 For higher stages of deformation the classifier rarely classified damage sites correctly. Furthermore the localization algorithm performed very poorly finding many shadows. This effect can be explained by the formation of surface reliefs, and the evolved nature of many damage sites in later evolutions, as newly nucleated damage sites rarely occur, as they evolve quickly. 
 
 \subsection{Generalization}
 
-Applying the combined classifier to a dual-phase steel, that is different from the one the classifier has been trained on, the accuracy drops significantly. In figure \ref{fig:newMaterial} a different dual-phase steel microstructure is shown. As can be seen the martensite islands have a very different appearance. Standing out is the the fine surface structure of martensite and the bright border. The performance of the classifier drops significantly, i.e. $127$ inclusion sites were found of which $33$ were identified correctly corresponding to an accuracy of $0.26$, of $60$ found martensite cracking sites $15$ were correctly identified corresponding to an accuracy of $0.25$, of $137$ interface decohesion sites $80$ were identified correctly corresponding to an accuracy of $0.58$, and of $24$ notch effect sites $16$ were identified correctly corresponding to an accuracy of $0.67$. \\
+In order to test the generalizability of the classifier, its predictions were investigated on a dual-phase steel with a different microstructure. In figure \ref{sub:NewMaterial} an excerpt of the different dual-phase steel is shown. As can be seen the martensite microstructure is vastly different compared to the martensite microstructure of the material the classifier is trained on, shown in figure \ref{sub:OldMaterial}. \\
+
+%When the classifier is applied to a dual-phase steel with a significantly different microstructure, its performance drops considerably. 
+%
+%When the classifier is applied to a dual-phase steel with a significantly different microstructure, its performance of the classifier drops 
+%
+%Applying the combined classifier to a dual-phase steel, that is different from the one the classifier has been trained on, the accuracy drops significantly. In figure \ref{fig:newMaterial} a different dual-phase steel microstructure is shown. As can be seen the martensite islands have a very different appearance. Standing out is the the fine surface structure of martensite and the bright border. 
+
+The performance of the classifier drops significantly, i.e. $127$ inclusion sites were found of which $33$ were identified correctly corresponding to an accuracy of $0.26$, of $60$ found martensite cracking sites $15$ were correctly identified corresponding to an accuracy of $0.25$, of $137$ interface decohesion sites $80$ were identified correctly corresponding to an accuracy of $0.58$, and of $24$ notch effect sites $16$ were identified correctly corresponding to an accuracy of $0.67$. \\
 
 \begin{figure}
 \centering
 \begin{subfigure}{0.48\textwidth}
-\includegraphics[width=\linewidth]{NewMaterial/Interface10.png}
+\centering
+\includegraphics[width=0.8\linewidth]{NewMaterial/NewMaterial.png}
+\caption{}
+\label{sub:NewMaterial}
 \end{subfigure}
 \centering
 \begin{subfigure}{0.48\textwidth}
-\includegraphics[width=\linewidth]{NewMaterial/Interface37.png}
+\centering
+\includegraphics[width=0.8\linewidth]{NewMaterial/OldMaterial.png}
+\caption{}
+\label{sub:OldMaterial}
 \end{subfigure}
 \caption{Surface micrograph of a different dual-phase steel.}
 \label{fig:newMaterial}

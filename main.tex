@@ -33,7 +33,7 @@
 \newcommand\tab[1][0.5cm]{\hspace*{#1}}
 \renewcommand{\baselinestretch}{1.5} 
 
-\title{Application of Deep Convolutional Neural Network for the Classification of Damage Sites in Dual-Phase Steels}
+\title{Machine Learning for Damage Classification in Dual-Phase Steels}
 \author{Tom Markus Reclik}
 
 \def\boxit#1{%
@@ -41,11 +41,24 @@
 }
 
 \begin{document}
-%\maketitle
-%\begin{abstract}
-%To this day, various methods are used in order to reveal the micromechanical mechanisms of damage in materials. Post-mortem analysis at different stages of stress reveals only snapshots of the material, while in-situ methods are spatially limited to observing the evolution of only a few damage events. A limiting factor in all those methods is the amount of work involved in controlling the microscope and the image analysis. \\
+\maketitle
+\begin{abstract}
+To this day, various methods are used in order to reveal the micromechanical mechanisms of damage in materials. Post-mortem analysis at different stages of stress reveals only snapshots of the material, while in-situ methods are spatially limited to observing the evolution of only a few damage events. A limiting factor in all those methods is the amount of work involved in controlling the microscope and the image analysis. \\
+
+In this thesis, a machine learning based algorithm is implemented and evaluated for the classification of damage sites, were localization is performed using clustering algorithms and classification using a hierarchical classifier consisting of convolutional neural networks. As a sample material dual-phase steels are chosen, due to the different responses of the ductile ferrite matrix and the brittle martensite islands to stress, resulting in the formation of damage sites belonging to distinct classes at early stages of deformation. \\
+
+%The localization task is approached using clustering algorithms. The classification algorithm was
+%In this thesis, a machine learning based approach to the localization and classification of damage sites in dual-phase steels is presented and evaluated. 
+%In this thesis, a machine learning based approach to localization and classification algorithm for damage sites in dual-phase steels was implemented, because dual-phase steels are special in some kind as damages show themselves in distinct way. They can be distinguished right after nucleation. The damage sites were localized using clustering algorithms. Classification was performed using a hierarchical classifier consisting of two convolutional neural networks. \\
+
+%In this thesis, we implement different structures and architectures of neural networks for the localization and classification of damages. As a sample material dual-phase steels are chosen, due to the different responses of the ductile ferrite matrix and the brittle martensite islands to stress, resulting in the formation of damage sites belonging to distinct classes at early stages of deformation. \\
+
+%The accuracy achieved for the first networks is $0.945\pm0.006$ and for the classifier of $0.74\pm0.01$. 
+
 %\tab[0.4cm] In this work, we implement different structures and architectures of neural networks for the localization and classification of damages. As a sample material dual-phase steels are chosen, due to the different responses of the ductile ferrite matrix and the brittle martensite islands to stress, resulting in the formation of damage sites belonging to distinct classes at early stages of deformation. \\
-%\tab[0.4cm] The developed algorithms can on the one hand be used in order to automate the statistical evaluation of post-mortem micrographs, while on the other hand enabling in-situ experiments to generate statistically relevant data. Due to the computational nature of this method, a high throughput of data is possible, enabling a more complete understanding of failure mechanisms in many materials.
+
+The classification algorithm achieves an accuracy of $0.85\pm0.06$, when distinguishing between inclusions, brittle and ductile damages. The developed algorithms can on the one hand be used in order to automate the statistical evaluation of post-mortem micrographs, while on the other hand enabling in-situ experiments to generate statistically relevant data.  Due to the computational nature of this method, a high throughput of data is possible, enabling a more complete understanding of failure mechanisms in many materials.
+\end{abstract}
 %
 %
 %
@@ -69,16 +82,17 @@
 %
 %%Different kinds of damages can emerge in dual phase steel under uniaxial and biaxial tension. Gathering statisticly meaningful data is an important means for understanding its mechanical properties. The process of collecting data to this point is performed either manually or partly assisted by computational means. In this thesis we ask whether it is possible to automatize this process of locating and categorizating damages by means of artificial neural networks. Solving this problem we face to problems. On the one hand a low volume of training data compared to classical categorization problems. Secondly damages are objects mostly defined by their surroundings rather than by their own properties.
 %\end{abstract}
-%\include{Chapters/Introduction}
-%\include{Chapters/Dual-Phase-Steel}
-%\include{Chapters/CNN_neu}
-%%%%\include{Chapters/PreliminaryStudies}
+\tableofcontents
+\listoffigures
+\listoftables
+\include{Chapters/Introduction}
+\include{Chapters/Dual-Phase-Steel}
+\include{Chapters/CNN_neu}
 \include{Chapters/Datasets}
-%\include{Chapters/PracticalConsiderations}
-%\include{Chapters/Performance}
-%%%\include{Chapters/Workflow}
-%\include{Chapters/Conclusion}
-%\include{Chapters/Outlook}
+\include{Chapters/PracticalConsiderations}
+\include{Chapters/Performance}
+\include{Chapters/Conclusion}
+\include{Chapters/Outlook}
 %\appendix
 %\include{Chapters/Appendix}
 

@@ -14,7 +14,7 @@ The problem of classification of damage sites in SEM surface micrographs in dual
 
 \section{Classification}
 
-The task of classification of objects in images is a highly non-trivial problem, as the information about the object is encoded in a digitized form, where both the values and their relative position matter. As no straightforward way for object classification exists, intermediate steps have to be taken, firstly extracting relevant features from the image, that a classifier can use in order to identify the object in the image. Convolutional neural networks are todays state of the art algorithms for the classification of images. They differ from classical approaches to computer vision, as they incorporate the selection of features into the learning process. The complexity of these algorithms requires high computational resources, that have been made available for realistic problems only in the recent decade, in part through the demand for ever more powerful personal computer and the usage of tensor calculation on the graphics processing unit (GPU). \\
+The task of classification of objects in images is a highly non-trivial problem, as the information about the object is encoded in a digitized form, where both the values and their relative position matter. As no straightforward way for object classification exists, intermediate steps have to be taken, firstly extracting relevant features from the image, that a classifier can use in order to identify the object in the image. CNNs are todays state of the art algorithms for the classification of images. They differ from classical approaches to computer vision, as they incorporate the selection of features into the learning process. The complexity of these algorithms requires high computational resources, that have been made available for realistic problems only in the recent decade, in part through the demand for ever more powerful personal computer and the usage of tensor calculation on the graphics processing unit (GPU). \\
 
 %The original idea for CNNs was inspired by the groundbreaking work of Hubel and Wiesel in 1958 \cite{Hubel1959}, recognizing the orientation dependence of perceptive fields and the hierarchical structure of the visual cortex of cats. In a similar manner, CNNs learn and recognize objects through a hierarchical representation and make use of the idea of the orientation dependent perceptive field. \\
 
@@ -103,14 +103,9 @@ where $w_i^l$ is the weight vector of neuron $i$ in layer $l$, $n_l$ is the numb
 x^{l-1} \mapsto g_l(W^l x^{l-1} + b^l)
 \end{equation}
 where $g_l$ is the layer dependent activation function that is applied elementwise to the input vector. The number of layers and the number of neurons in each layer are free parameters in the design of the neural network architecture. \\
-\begin{figure}[H]
-\centering
-  \includegraphics[width=0.8\linewidth]{SimpleNeuron-crop.pdf}
-  \caption{An ANN with an input vector of $5$ elements, $3$ hidden layers, containing $6$ neurons each, outputting a single real number. Each edge corresponds to the weight connection between the connected neurons. }
-  \label{fig:ANN}
-\end{figure}
 
-The weights of such a network are initialized using pseudo-random numbers, e.g. using either a normal or uniform distribution with different variances depending on the activation function used in the network, e.g. He initialization \cite{He2015} for ReLU functions and Xavier initialization \cite{Glorot2010} for sigmoid functions. After initialization such a network will not be capable of classification tasks as no information about the data has been transfered into the network. Necessary for this are 
+
+The weights of such a network are initialized using pseudo-random numbers, e.g. using either a normal or uniform distribution with different variances depending on the activation function used in the network, e.g. He initialization \cite{He2015} for ReLU functions and Xavier initialization \cite{Glorot2010} for sigmoid functions. After initialization such a network will not be capable of classification tasks as no information about the data has been transfered into the network. Necessary for the training of a network are 
 \begin{itemize}
 \item \textbf{Training Data}: The network is trained using data appropriate for the problem, consisting of samples of data with their corresponding label. The training dataset is denoted as $T = \{x_i, y_i | x_i\in \mathbb{R}^n, y_i \in \{0,1\}^k, i=0,\dots,N-1\}$ with $x_i$ being the data samples, $y_i$ being the corresponding class label, $k$ being number of classes, and $N$ being the size of the dataset. The label $y_i$ is given by $(y_i)_j=\delta_{jj'}$, where  $j'$ is the true class label, e.g. for a problem with $4$ classes and sample $x_0$ belonging to class $3$, $y_0 = (0,0,1,0)$.
 \item \textbf{Cost Function}: The cost function defines a notion of distance between the output of the network and the desired output. For classification problems with more than two labels, the most common choice is the cross-entropy function, defined by
@@ -119,7 +114,7 @@ C = \frac{1}{k} \sum_{i=1}^k (y_i)_j \ln{(\hat{y}_i)_j} + (1-y_i)_j \ln{(1-(\hat
 \end{equation}
 with $\hat{y}_i$ being the prediction of the network for sample $x_i$.
 \end{itemize}
-Having defined a cost function, the samples of the training data are passed through the network and the output is calculated (forward pass). Then the cost function is calculated. By now calculating the contribution of each weight and bias in the network, these can be adjusted such that the cost is minimized (backwards pass). This is performed by using a numerical optimizer, e.g. gradient descent, Adam, Adagrad. This algorithm is called backpropagation \cite{Rumelhart1986} and was a cornerstone for the rise in popularity of neural networks in 1986. There exist three different modes of training of a network listed in the following
+Having defined a cost function, the samples of the training data are passed through the network and the output is calculated (forward pass). Then the cost function is calculated. By now calculating the contribution of each weight and bias in the network, these can be adjusted such that the cost is minimized (backwards pass). This is performed by using a numerical optimizer, e.g. gradient descent, Adam \cite{Sharma2017}, Adagrad \cite{Duchi2010}. This algorithm is called backpropagation \cite{Rumelhart1986} and was a cornerstone for the rise in popularity of neural networks in 1986. There exist three different modes of training of a network listed in the following
 \begin{itemize}
 \item \textbf{Online Learning}: The networks weights are adapted after processing each sample in the training set.
 \item \textbf{Batch Learning}: All samples in the training set are passed through the network first and the weights are adjusted afterwards.
@@ -183,6 +178,13 @@ Image recognition is easy for humans, due to our evolution and sensory developme
 
 One approach to construct a topology in a network is to connect each neuron in one layer with every neuron in its preceding layer, a so called fully connected neural network, which can be seen in figure \ref{fig:ANN}. These kinds of networks are used for classification or regression problems depending on parameters living in separate spaces, e.g. the prediction of the price of a house depending on its numbers of rooms, the number of square meters, etc. Applying this network to the classification of images comes with two major downsides. Firstly the number of trainable parameters grows quickly as the size of the image and the size of the network grows, e.g. classifying an image of size $256\times 256$ with $100$ neurons in the networks first layer would already lead to $6553600$ trainable parameters. Secondly such a network treats all inputs as belonging to independent axis, disregarding the topology of the input space. \\
 
+\begin{figure}%[H]
+\centering
+  \includegraphics[width=0.8\linewidth]{SimpleNeuron-crop.pdf}
+  \caption{An ANN with an input vector of $5$ elements, $3$ hidden layers, containing $6$ neurons each, outputting a single real number. Each edge corresponds to the weight connection between the connected neurons. }
+  \label{fig:ANN}
+\end{figure}
+
 Another approach, taking the internal topology of the input space into account, is to create a network topology recreating the action of a convolution, as popularized by LeCun in 1998 \cite{LeCun1998}. In the following a brief introduction to convolutions will be given.\\
 %The basis for a ANNs with a special internal structure so called convolutional neural networks are convolutions that will be explained in the following section. \\
 
@@ -206,7 +208,7 @@ When working with digitalized data, equation \ref{eq:convolutionContinuous} need
 \end{equation}
 $g$ is usually restricted to have non-zero values only in a window of a certain size. For a two-dimensional object an example is shown in figure \ref{fig:Convolution}. \\
 
-\begin{figure}[H]
+\begin{figure}%[H]
 \centering
 \includegraphics[width=\linewidth]{DiscreteConvolution.pdf}
 \caption{Discrete convolution for a kernel of size $3\times 3$ (gray) and an input of size $5\times 5$ (blue). The output is shown in green. Taken from \cite{RajaKishor2016}.}
@@ -216,7 +218,7 @@ $g$ is usually restricted to have non-zero values only in a window of a certain 
 
 A digitalized image is represented internally as pixel values in the shape of an array $I_{m,n,c}$ with $m=0,\dots ,M-1$ and $n=0,\dots ,N-1$ being the spatial dimensions of the image for an image of size $M\times N$. The additional index $c$ is used in order to represent colour. An image encoded in the RGB colour space will have three channels, where each channel corresponds to the contribution of each colour, red, green, and blue. \\
 
-In image processing discrete convolutions are used in order to find or amplify features in images. These consist of transformed information from the original image containing different information than the original image. One example is the amplification of edges in images. This can be performed using the Sobel operator. It approximates the gradient of the pixel values of an image. Assuming there is an underlying continuous function and an image $I$ is its discretization, the gradients of the image are approximated. Because high gradients correspond to sharp changes in the pixel values of the image, edges will be highlighted. An example of such an edge amplification can be seen in figure \ref{fig:Sobel}.
+In image processing discrete convolutions are used in order to find or amplify features in images. These consist of transformed information from the original image containing different information than the original image. One example is the amplification of edges in images. This can be performed using the Sobel operator \cite{Sobel1968}. It approximates the gradient of the pixel values of an image. Assuming there is an underlying continuous function and an image $I$ is its discretization, the gradients of the image are approximated. Because high gradients correspond to sharp changes in the pixel values of the image, edges will be highlighted. An example of such an edge amplification can be seen in figure \ref{fig:Sobel}.
 
 %, the gradient in horizontal direction can be approximated by $G_x$ corresponding to edges in vertical direction and the derivative in vertical direction by $G_y$ corresponding to edges in horizontal direction. $G_x$ and $G_y$ are given by
 %\begin{align}
@@ -247,19 +249,30 @@ In image processing discrete convolutions are used in order to find or amplify f
 \centering
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{Bike.png}
-  \caption{Original image}
-  \label{fig:sub1}
+  \includegraphics[width=\linewidth]{Cathedral_gray.png}
+  %\caption{Original image gray scale image.}
+  %\label{fig:sub1}
 \end{subfigure}%
 \begin{subfigure}{.5\textwidth}
   \centering
-  \includegraphics[width=\linewidth]{Bike_Sobel.png}
-  \caption{Edge amplified image using Sobel operator.}
-  \label{fig:sub2}
+  \includegraphics[width=\linewidth]{Cathedral_Sobel.png}
+  %\caption{Edge amplified image using Sobel operator.}
+  %\label{fig:sub2}
 \end{subfigure}
-\caption{Edge amplification}
+\caption{Edge amplification using the Sobel operator.}
 \label{fig:Sobel}
 \end{figure}
+
+%\begin{figure}
+%\centering
+%\subcaptionbox{}%
+%  [.3\linewidth]{\includegraphics[width=0.35\linewidth]{In-Situ-Tracking.png}}
+%\centering
+%\subcaptionbox{}
+%  [.67\linewidth]{\includegraphics[width=0.55\linewidth]{CombinedHeatmapSearchWindow.png}}
+%\caption{Edge amplification}
+%\label{fig:Sobel}
+%\end{figure}
 
 \subsection{Incorporation of Convolutions into ANNs}
 \label{sec:CNN}
@@ -369,7 +382,7 @@ The most popular choices for the pooling function are either to return the maxim
 \begin{figure}[H]
 \centering
 \includegraphics[width=1\linewidth]{MaxPooling.pdf}
-\caption{Max pooling}
+\caption{Max pooling.}
 \label{fig:MaxPooling}
 \end{figure}
 
@@ -416,7 +429,7 @@ c_j = \begin{cases}
 -1 & \text{else}
 \end{cases}
 \end{equation}
-Through the usage of such a threshold, the number of correctly classified samples can be increased at the cost of some samples remaining not classified, in this case represented by the class label $-1$. E.g. for a three class problem the output $(0.3,0.3,0.4)$ might indicate that the network is not "confident" in its prediction, while just applying the arg max function a class label will be assigned anyway. When using an additional threshold $\theta$ the network is capable of discarding such a sample as the values lie to close to each other for a clear distinction between the possible classes.
+Through the usage of such a threshold, the number of correctly classified samples can be increased at the cost of some samples remaining not classified, in this case represented by the class label $-1$. E.g. for a three class problem the output $(0.3,0.3,0.4)$ might indicate that the network is not "confident" in its prediction, while just applying the arg max function a class label will be assigned anyway. When using an additional threshold $\theta$ the network is capable of discarding such a sample as the values lie too close to each other for a clear distinction between the possible classes.
 
 % It retains the ordering relation between the outputs of the neurons, falls into the interval $(0,1)$ 
 %
@@ -455,7 +468,7 @@ Through the usage of such a threshold, the number of correctly classified sample
 \subsection{Typical Architecture}
 Giving a detailed plan how to construct a CNN architecture is impossible. As the reason behind the performance of CNNs depending on their hyperparameters is very poorly understood. Choosing a specific architecture is therefore usually performed through heuristic arguments and trail and error, and inspired from well performing CNNs. Nevertheless similarities between CNNs evaluated on standard benchmark tests can be found. \\
 
-On a high level, a CNN can be separated into two parts, feature extraction (convolutional layers) and classification (fully connected network). The feature extraction is performed by a subsequent application of convolutional layers, where a regularization method, either batch normalization or dropout is incorporated into each convolutional layer, is incorporated. In between convolutional layers pooling layers are used. The position of pooling layers varies from network to network.
+On a high level, a CNN can be separated into two parts, feature extraction (convolutional layers) and classification (fully connected network). The feature extraction is performed by a subsequent application of convolutional layers, where a regularization method, either batch normalization or dropout is incorporated into each convolutional layer. In between convolutional layers pooling layers are used. The position of pooling layers varies from network to network.
 %
 %Giving a rule for the construction of a CNN architecture is 
 %
@@ -541,10 +554,11 @@ On a high level, a CNN can be separated into two parts, feature extraction (conv
 %Batch Normalization
 %
 \subsection{Performance Analysis}
+\label{sec:Metrics}
 
 In order to asses how well a classifier performs and generalizes to new data, the dataset available is split into a training dataset and a testing dataset. During training its performance on the training dataset can be investigated. Once the classifier is trained, its predictions on the test dataset are investigated. \\
 
-The testing dataset will be denoted as $\{I_i,y_i\}_{i=1,\dots ,N} $, with $I_i$ being a image with index $i$, $y_i$ being the correct class for image $i$, and $N$ being the size of the testing dataset, and the prediction of the network for $I_i$ will be denoted as $\hat{y}_i$. It is now possible to study the performance of the network in varying degrees of detail, i.e. \textbf{inspection by hand}, \textbf{confusion matrix}, and \textbf{metrics}, that will be discussed in the following.\\
+The testing dataset will be denoted as $\{I_i,y_i\}_{i=1,\dots ,N} $, with $I_i$ being a image with index $i$, $y_i$ being the correct class for image $i$, and $N$ being the size of the test dataset, and the prediction of the network for $I_i$ will be denoted as $\hat{y}_i$. It is now possible to study the performance of the network in varying degrees of detail, i.e. \textbf{inspection by hand}, \textbf{confusion matrix}, and \textbf{metrics}, that will be discussed in the following.\\
 
 % listed in the following with decreasing levels of detail.
 
@@ -599,7 +613,7 @@ The confusion matrix can be used in order to investigate if two classes are ofte
 
 \subsubsection{Metrics}
 
-From the confusion matrix, different metrics can be defined. These are listed in the following
+From the confusion matrix, different metrics can be defined. When a confidence level is used these metrics apply to the samples exceeding the confidence level. 
 \begin{itemize}[label={}]
 \item \textbf{True positive rate}: The true positive rate is the ratio of samples correctly identified as belonging to class $m$ and the number of all samples belonging to this class, i.e.
 \begin{equation}
@@ -616,24 +630,42 @@ The positive predictive value plays an important role for the usage of a classif
 \begin{equation}
 a = \frac{\sum_{m=0}^{k-1} c_{m,m}}{\sum_{m=0}^{k-1} \sum_{n=0}^{k-1} c_{m,n}}
 \end{equation} 
-
 \end{itemize}
 
+Additionally, when confidence levels are used another metric becomes important, the classification rate
+\begin{itemize}[label={}]
+\item \textbf{Classification rate}: The ratio of the number of samples classified and the number of all samples.
+\begin{equation}
+CLA = \frac{N_\theta}{N}
+\end{equation}
+where $N_\theta = |\{\hat{y}_i>\theta | i = 1,\dots, N\}|$ and $N$ is the size of the test dataset.
+\end{itemize}
 
-
-\subsubsection{Purity vs Efficiency}
-When a classifier does not achieve sufficient accuracy, e.g. when the error introduced by the classifier on its predictions is too high therefore preventing an interpretation of its results, it is possible to increase the number of correctly classified objects at the cost of a lower classification rate. This is performed by introducing a threshold $\theta$ and only classify if the confidence of the network, the outputted probability like value, exceeds it. The metrics discussed earlier can then be evaluated only in cases where a classification could be performed, the accuracy on this set will be called purity in the following. In figure \ref{fig:PURvsEFF} purity efficiency curves for a classifier working optimally, a classifier assigning classes at random, and a suboptimal classifier are shown. 
+A networks performance can then be investigated by inspecting the different metrics, plotted against the classification rate, shown for the accuracy of an optimal, a random, and a suboptimal classifier in figure \ref{fig:PURvsEFF}.
 
 \begin{figure}[H]
 \begin{center}
 \includegraphics[width=\linewidth]{ACCvsEFF_example.pdf}
 
 \end{center}
-\caption{PurityEfficiency}
+\caption{The accuracy of an optimal, a random, and a suboptimal classifier plotted against the classification rate.}
 \label{fig:PURvsEFF}
 \end{figure}
 
+%\subsubsection{Purity vs Efficiency}
+%When a classifier does not achieve sufficient accuracy, e.g. when the error introduced by the classifier on its predictions is too high therefore preventing an interpretation of its results, it is possible to increase the number of correctly classified objects at the cost of a lower classification rate. This is performed by introducing a threshold $\theta$ and only classify if the confidence of the network, the outputted probability like value, exceeds it. The metrics discussed earlier can then be evaluated only in cases where a classification could be performed, the accuracy on this set will be called purity in the following. In figure \ref{fig:PURvsEFF} purity efficiency curves for a classifier working optimally, a classifier assigning classes at random, and a suboptimal classifier are shown. 
+%
+%\begin{figure}[H]
+%\begin{center}
+%\includegraphics[width=\linewidth]{ACCvsEFF_example.pdf}
+%
+%\end{center}
+%\caption{PurityEfficiency}
+%\label{fig:PURvsEFF}
+%\end{figure}
+
 \subsubsection{Interpretability}
+\label{sec:LIME}
 CNNs act as "black boxes", in the sense that it is not obvious how a network arrived at a certain decision. Instead of investigating the global behavior of a CNN, e.g. through the visualization of the specific convolutional kernels the network learns, it is possible to study the predictions of singular samples. Riberio et al. developed a tool "Local Interpretable Model-agnostic Explanations (LIME)" \cite{Ribeiro2016} that enables the local interpretation of the prediction of a single instance. Using a linear model, this tool highlights the most decisive regions of an image, for the arrival at a certain class prediction. Given two different classifiers, it might be advantageous to choose a classifier thats predictions can be understood instead of a classifier that achieves higher metrics, e.g. a higher accuracy. 
 
 %While investigating the predictions of a classifier by hand, the "reasoning" of the classifier for arriving at the assigned class is not directly accessible. In order to assist a researcher at understanding the classifiers prediction is the "Local Interpretable Model-agnostic Explanations (LIME)" tool, developed by Ribeiro et al. \cite{Ribeiro2016}. For image classification the region of interest, decisive for the resulting class prediction, is extracted from the image. As discussion exists even for researchers at arriving at the same damage category, a classifier thats prediction can be understood can therefore be preferable over a classifier scoring a higher accuracy, without interpretability. 
@@ -648,11 +680,12 @@ CNNs act as "black boxes", in the sense that it is not obvious how a network arr
 
 \section{Localization}
 
-As the input of the classifier is are portions of a SEM micrograph of a dual-phase steel surface, the exact locations of damage sites are unknown for a classification algorithm. For the localization of objects in images many sophisticated machine learning methods exist, like R-CNNs combining localization with classification. In the case of damage sites, these show as dark regions compared to their surroundings. Candidates for damage sites can therefore easily be found by using a binarization of the image depending on the values of the pixels in the micrograph. These candidates have then to be clustered, in order to find the location and size of the void. Since small dark regions in the micrograph can exist not stemming from damage sites, e.g. through noise, and damage sites show themselves as relatively large clusters of dark pixels, through the selection of clusters of a certain size it is possible to increase the localization accuracy.\\
+As the input of the classifier is are portions of a SEM micrograph of a dual-phase steel surface, the exact locations of damage sites are unknown for a classification algorithm. For the localization of objects in images many sophisticated machine learning methods exist, like R-CNNs \cite{Girshick2013} combining localization with classification. In the case of damage sites, these show as dark regions compared to their surroundings. Candidates for damage sites can therefore easily be found by using a binarization of the image depending on the values of the pixels in the micrograph. These candidates have then to be clustered, in order to find the location and size of the void. Since small dark regions in the micrograph can exist not stemming from damage sites, e.g. through noise, and damage sites show themselves as relatively large clusters of dark pixels, through the selection of clusters of a certain size it is possible to increase the localization accuracy.\\
 
 As the number of damage sites in a SEM micrograph is previously unknown, the clustering algorithm should require minimum domain specific knowledge. Furthermore the damage sites are differently shaped, therefore clusters of different shapes should be recognized by the clustering algorithm. The density-based spatial clustering of applications with noise (DBSCAN) \cite{Ester:1996:DAD:3001460.3001507}, fullfills these requirements while also working efficiently on large datasets. 
 
 \subsection{DBSCAN}
+\label{sec:DBSCAN}
 DBSCAN is a density based clustering algorithm, with two parameters. Firstly, $\epsilon$ defining the notion of a neighborhood, i.e. the neighbourhood of a point $p$ is defined by $N(p) = \{ q \in D | norm(p,q)<\epsilon\}$. Secondly, $M$ defining core points as points with at least $M$ points in their neighbourhood, i.e. a point $p$ is a core point if $|N(p)| \geq M|$. Clustering is now performed by grouping all points that are reachable to some core point, where two points $p,q$ are reachable if a path exists with $p_1=q,p_2,\dots,p_n=p$ with adjacent points being in their neighbourhood, i.e. $p_i\in N(p_{i+1})$. Every other point is considered to be noise. \\
 
 

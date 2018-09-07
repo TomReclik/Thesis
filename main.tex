@@ -1,4 +1,4 @@
-\documentclass[12pt,a4paper]{report}
+\documentclass[12pt,a4paper]{report}%,twoside,openright
 \usepackage[utf8]{inputenc}
 \usepackage[english]{babel}
 \usepackage{amsmath}
@@ -16,6 +16,9 @@
 \usepackage[font={small}]{caption}
 \usepackage{fancyhdr}
 \usepackage{gensymb}
+\usepackage[toc,page]{appendix}
+\usepackage{pdfpages}
+%\usepackage[outer=3cm,inner=4cm]{geometry}
 
 \pagestyle{fancy} %eigener Seitenstil
 \fancyhf{} %alle Kopf- und Fußzeilenfelder bereinigen
@@ -41,7 +44,26 @@
 }
 
 \begin{document}
-\maketitle
+\pagenumbering{gobble}
+%\maketitle
+\includepdf[pages=-]{Titlepage.pdf}
+%\newpage\null\thispagestyle{empty}\newpage
+\includepdf[pages=-]{Formular_Eidesstattliche+Versicherung_neu.pdf}
+%\newpage\null\thispagestyle{empty}\newpage
+%
+%\chapter*{Eidesstattliche Erklärung}
+%
+%Ich erkläre hiermit an Eides statt, dass ich die vorliegende Arbeit ohne Hilfe Dritter und ohne Benutzung anderer als der angegebenen Hilfsmittel angefertigt habe; die aus fremden Quellen direkt oder indirekt übernommenen Gedanken sind als solche kenntlich gemacht. Die Arbeit wurde bisher in gleicher oder ähnlicher Form in keiner anderen Prüfungsbehörde vorgelegt und auch noch nicht veröffentlicht.
+%
+%
+%\vspace{8cm}
+%
+%\hspace{0cm} Ort, Datum \hfill Unterschrift \hspace{2cm}
+%\textbf{Eidesstattliche Versicherung}
+%
+%Ich versichere hiermit an Eides 
+
+
 \begin{abstract}
 To this day, various methods are used in order to reveal the micromechanical mechanisms of damage in materials. Post-mortem analysis at different stages of stress reveals only snapshots of the material, while in-situ methods are spatially limited to observing the evolution of only a few damage events. A limiting factor in all those methods is the amount of work involved in controlling the microscope and the image analysis. \\
 
@@ -57,7 +79,7 @@ In this thesis, a machine learning based algorithm is implemented and evaluated 
 
 %\tab[0.4cm] In this work, we implement different structures and architectures of neural networks for the localization and classification of damages. As a sample material dual-phase steels are chosen, due to the different responses of the ductile ferrite matrix and the brittle martensite islands to stress, resulting in the formation of damage sites belonging to distinct classes at early stages of deformation. \\
 
-The classification algorithm achieves an accuracy of $0.85\pm0.06$, when distinguishing between inclusions, brittle and ductile damages. The developed algorithms can on the one hand be used in order to automate the statistical evaluation of post-mortem micrographs, while on the other hand enabling in-situ experiments to generate statistically relevant data.  Due to the computational nature of this method, a high throughput of data is possible, enabling a more complete understanding of failure mechanisms in many materials.
+The classification algorithm achieves an overall accuracy of $0.80\pm0.06$. The developed algorithms can on the one hand be used in order to automate the statistical evaluation of post-mortem micrographs, while on the other hand enabling in-situ experiments to generate statistically relevant data.  Due to the computational nature of this method, a high throughput of data is possible, enabling a more complete understanding of failure mechanisms in many materials.
 \end{abstract}
 %
 %
@@ -82,9 +104,15 @@ The classification algorithm achieves an accuracy of $0.85\pm0.06$, when disting
 %
 %%Different kinds of damages can emerge in dual phase steel under uniaxial and biaxial tension. Gathering statisticly meaningful data is an important means for understanding its mechanical properties. The process of collecting data to this point is performed either manually or partly assisted by computational means. In this thesis we ask whether it is possible to automatize this process of locating and categorizating damages by means of artificial neural networks. Solving this problem we face to problems. On the one hand a low volume of training data compared to classical categorization problems. Secondly damages are objects mostly defined by their surroundings rather than by their own properties.
 %\end{abstract}
+%\newpage\null\thispagestyle{empty}\newpage
+\pagenumbering{roman}
 \tableofcontents
 \listoffigures
 \listoftables
+\newpage
+\newpage
+\newpage
+\pagenumbering{arabic}
 \include{Chapters/Introduction}
 \include{Chapters/Dual-Phase-Steel}
 \include{Chapters/CNN_neu}
@@ -93,8 +121,9 @@ The classification algorithm achieves an accuracy of $0.85\pm0.06$, when disting
 \include{Chapters/Performance}
 \include{Chapters/Conclusion}
 \include{Chapters/Outlook}
-%\appendix
-%\include{Chapters/Appendix}
+\begin{appendices}
+\include{Chapters/Appendix}
+\end{appendices}
 
 \bibliography{Citations,ImageNetCitation}{}
 \bibliographystyle{plain}

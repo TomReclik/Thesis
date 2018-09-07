@@ -1,25 +1,23 @@
 % Chapter 2
 
-\chapter{Appendix} % Main chapter title
+\chapter{Experimental Details} % Main chapter title
+\label{sec:ExperimentalDetails}
+ % For referencing the chapter elsewhere, use \ref{Chapter1} 
 
-\label{Appendix} % For referencing the chapter elsewhere, use \ref{Chapter1} 
-
-\section{Stress-Strain Curve of Dual-Phase Steel 800}
-
-\begin{figure}[H]
-\centering
-  \includegraphics[width=\linewidth]{StressStrain.pdf}
-  \caption{Dual-phase steel SEM micrograph}
-  \label{fig:DPStressStrain}
-\end{figure}
-
-\section{Experimental Details}
+%%\section{Stress-Strain Curve of Dual-Phase Steel 800}
+%%
+%%\begin{figure}[H]
+%%\centering
+%%  \includegraphics[width=\linewidth]{StressStrain.pdf}
+%%  \caption{Dual-phase steel SEM micrograph}
+%%  \label{fig:DPStressStrain}
+%%\end{figure}
 
 \textbf{Preparation} \\
 Before the experiments were performed, the surface of the dual-phase steel was prepared in order to be able to distinguish the martensite islands from the ferrite matrix, in surface micrographs. The preparation process consists of grinding the surface with up to $4000$ grit sandpaper, polishing it with oxide polishing suspension in steps of $6\mu m$, $3\mu m$, and $1\mu m$, and finally etching it with $1 \%$ nital. \\
 
-\noindent \textbf{Probe Geometry} \\
-The probe geometry was chosen in such a way that the center of the probe experiences almost homogeneous stress. It can be seen in figure \ref{fig:ProbeGeometry}. \\
+%\noindent \textbf{Probe Geometry} \\
+%The probe geometry was chosen in such a way that the center of the probe experiences almost homogeneous stress. It can be seen in figure \ref{fig:ProbeGeometry}. \\
 
 \noindent \textbf{SEM Specifications} \\
 The surface of the material after deformation was recorded using an SEM. Its specifications and settings can be seen in table \ref{tab:SEM}. \\
@@ -40,16 +38,45 @@ The surface of the material after deformation was recorded using an SEM. Its spe
    \label{tab:SEM}
 \end{table}
 
-\section{Wrong Label}
+\chapter{CNN Architecture}
+\label{app:Architecture}
 
-In a first approximation the effect of using different class definitions for labeling or misclassification can be explained as follows. Assuming the network has already been trained to some extent on a correctly labeled dataset, two similar samples, both belonging to class $c_0$ but one of them incorrectly labeled as class $c_1$, will be mapped by the feature extraction to close proximity of each other in the feature space. The fully connected layer in the end of the CNN will then have to learn to map these close points in the feature space to the maximal distance in the output space, requiring large weight corrections, therefore slowing down training. Furthermore, if the two points in the feature space are arbitrarily small to each other the effect of a mislabeled training sample will then nullify the adaptation of the network to a correctly labeled sample. This mapping problem can be seen in figure \ref{fig:featuremapping}.
+The architecture of the second classifier is shown in table \ref{tab:SecondClassifierArchitecture}. It was taken from \cite{Lin2013}. In each convolution step batch normalization is applied before the activation function. As the activation function ELU was chosen.
 
-\begin{figure}[H]
-\centering
-\includegraphics[width=\textwidth]{featuremapping.pdf}
-\caption{The classification of two similar images in the input space to two different classes. Given a feature mapping this will on the one hand lead to a close distance in the feature space, while on the other hand to a desired maximal distance in the output space. The possible outputs are indicated by a dashed line.}
-\label{fig:featuremapping}
-\end{figure}
+\begin{table}[H]
+ \begin{center}
+  \begin{tabular}{@{} *5l @{}} \toprule[2pt]
+   1 & Layer type & \# channels & Window size & Stride \\ \midrule
+   1 & Conv & $192$ & $(5,5)$ & $1$ \\
+   4 & Conv & $160$ & $(1,1)$ & $1$ \\
+   7 & Conv & $96$ & $(1,1)$ & $1$ \\
+   10 & Max Pooling & & $(3,3)$ & $2$ \\
+   11 & Conv & $192$ & $(5,5)$ & $1$ \\
+   14 & Conv & $192$ & $(1,1)$ & $1$ \\
+   17 & Conv & $192$ & $(1,1)$ & $1$  \\
+   20 & Conv & $192$ & $(3,3)$ & $1$ \\
+   23 & Conv & $192$ & $(1,1)$ & $1$ \\
+   26 & Conv & $10$ & $(1,1)$ & $1$ \\
+   29 & Average Pooling & & $(8,8)$ & $1$\\
+   30 & Dense & & & \\
+   31 & Softmax & & &\\ \bottomrule[2pt]
+
+  \end{tabular}
+ \end{center}
+ \caption{Details of the SEM used for the surface micrographs.}
+   \label{tab:SecondClassifierArchitecture}
+\end{table}
+
+%\section{Wrong Label}
+%
+%In a first approximation the effect of using different class definitions for labeling or misclassification can be explained as follows. Assuming the network has already been trained to some extent on a correctly labeled dataset, two similar samples, both belonging to class $c_0$ but one of them incorrectly labeled as class $c_1$, will be mapped by the feature extraction to close proximity of each other in the feature space. The fully connected layer in the end of the CNN will then have to learn to map these close points in the feature space to the maximal distance in the output space, requiring large weight corrections, therefore slowing down training. Furthermore, if the two points in the feature space are arbitrarily small to each other the effect of a mislabeled training sample will then nullify the adaptation of the network to a correctly labeled sample. This mapping problem can be seen in figure \ref{fig:featuremapping}.
+%
+%\begin{figure}[H]
+%\centering
+%\includegraphics[width=\textwidth]{featuremapping.pdf}
+%\caption{The classification of two similar images in the input space to two different classes. Given a feature mapping this will on the one hand lead to a close distance in the feature space, while on the other hand to a desired maximal distance in the output space. The possible outputs are indicated by a dashed line.}
+%\label{fig:featuremapping}
+%\end{figure}
 %
 %\section{Cost Functions}
 %\begin{itemize}

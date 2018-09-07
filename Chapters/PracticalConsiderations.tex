@@ -37,8 +37,9 @@ Buda et. al. performed experiments on three benchmark datasets, in order to inve
 In the following oversampling will therefore be the method of choice when dealing with imbalanced class distributions.
 
 \section{Class Hierarchy}
+\label{sec:Architecture}
 
-In general imaging parameters can change between experiments when using CNNs. Due to the small size of the training dataset, in this work a controlled environment is created, by keeping the resolution in particular constant among experiments, in order to prevent the need for a classifier to adapt to a changing environment while at the same time learning the relevant features, necessary for a distinction between the different damage mechanisms. Size differences between different damage mechanisms will therefore be coherent among the input of a CNN. The most distinct size difference can be seen between inclusions, and the remaining damage mechanisms, as indicated in figure \ref{fig:SizeDifference}. Using a single CNN for the classification of damage mechanisms, would come with the problem that a window size large enough to encompass an inclusion site, would lead to the other damage mechanisms being underrepresented in the input, while a window size on the typical scale of a martensite cracking, an interface decohesion, or a notch effect would not show a typical inclusion site in its entirety. \\
+In general imaging parameters can change between experiments. Due to the small size of the training dataset, in this work a controlled environment is created, by keeping the resolution in particular constant among experiments, in order to prevent the need for a classifier to adapt to a changing environment while at the same time learning the relevant features, necessary for a distinction between the different damage mechanisms. Size differences between different damage mechanisms will therefore be coherent among the input of a CNN. The most distinct size difference can be seen between inclusions, and the remaining damage mechanisms, as indicated in figure \ref{fig:SizeDifference}. Using a single CNN for the classification of damage mechanisms, would come with the problem that a window size large enough to encompass an inclusion site, would lead to the other damage mechanisms being underrepresented in the input, while a window size on the typical scale of a martensite cracking, an interface decohesion, or a notch effect would not show a typical inclusion site in its entirety. \\
 
 \begin{figure}[H]
 \centering
@@ -104,15 +105,17 @@ The available data was split into $80\%$ used for training and $20\%$ used for t
 
 \subsection{Statistical Fluctuations}
 
-Through backpropagation a CNNs final weights depend on its initial weights. Due to the pseudo-random nature of initialization networks initialized with different weights will result in different final weights. In order to estimate the performance of a network multiple networks are initialize, and the final results are given through means and the standard deviation estimation. Another influencing factor on a CNNs fluctuations are the implemented libraries using a GPU. These employ asynchronous atomic reduction methods, that are non-deterministic in their nature. The distribution of the accuracy of a network initialized and trained $10$ times evaluated on a test dataset are shown in figure \ref{fig:AccuracyFluctuation}.
+Through backpropagation a CNNs final weights depend on its initial weights. Due to the pseudo-random nature of initialization networks initialized with different weights will result in different final weights. In order to estimate the performance of a network multiple networks are initialized, and the final results are given through the mean and the standard deviation estimation. Another influencing factor on a CNNs fluctuations are the implemented libraries using the GPU. These employ asynchronous atomic reduction methods, that are non-deterministic in their nature. The distribution of the accuracy of a network initialized and trained $10$ times evaluated on a test dataset are shown in figure \ref{fig:AccuracyFluctuation}.
 
-%\begin{figure}
-%\centering
-%\includegraphics[]{•}
-%\end{figure}
+\begin{figure}[H]
+\centering
+\includegraphics[width=\textwidth]{StatisticalFluctuations.pdf}
+\caption{Different accuracies of a network after training with different initial weights, through the random weight initialization, together with the mean accuracy and standard deviation.}
+\label{fig:AccuracyFluctuation}
+\end{figure}
 
-A CNN's final weights depend on the initial weights. Due to the pseudo-random nature of initialization, a network will converge to a different state.  This effect can partly be suppressed by setting the seeds of the pseudo-random number generator. Another influence is the calculation using a GPU. 
-Depending on the initial state of a network, i.e. the values of the weights after initialization, its weights will converge to different values. This can be suppressed by setting the seed of the pseudo-random number generation. Another source of fluctuations 
+%A CNN's final weights depend on the initial weights. Due to the pseudo-random nature of initialization, a network will converge to a different state.  This effect can partly be suppressed by setting the seeds of the pseudo-random number generator. Another influence is the calculation using a GPU. 
+%Depending on the initial state of a network, i.e. the values of the weights after initialization, its weights will converge to different values. This can be suppressed by setting the seed of the pseudo-random number generation. Another source of fluctuations 
 
 
 
